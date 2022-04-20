@@ -3,7 +3,46 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Lumbar Vertebra
+  - RightHumerus
+  - RHM
+  - LPetella
+  - LU
+  - Cervical Vertebrae
+  - RTibia
+  - Thoracic Vertebrae
+  - Vertebrae
+  - IgnoreWhileTouching
+  - RFP
+  - LHM
+  - LHC
+  - LeftHumerus
+  - LFemur
+  - Thoracic Cage
+  - RPetella
+  - RFT
+  - LHP
+  - RFemur
+  - RHC
+  - LTibia
+  - ARPG
+  - LFM
+  - RHP
+  - RFM
+  - LR
+  - LFibula
+  - ALPG
+  - RR
+  - LFP
+  - Skull
+  - Left Leg
+  - RFibula
+  - RU
+  - Pelvis
+  - LFT
+  - PlayerRightHand
+  - PlayerLeftHand
   layers:
   - Default
   - TransparentFX

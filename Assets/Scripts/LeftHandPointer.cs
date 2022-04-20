@@ -9,9 +9,11 @@ public class LeftHandPointer : MonoBehaviour
     public float lineWidth = 0.1f;
     public float lineMaxLength;
 
+    public Vector3 endPosition;
+
     public bool toggled;
 
-    private float HandLeft = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+    private float handLeft = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
 
     public bool objectHitLeft = false;
 
@@ -28,9 +30,9 @@ public class LeftHandPointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandLeft = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+        handLeft = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
 
-        if (HandLeft > 0.9)
+        if (handLeft > 0.9)
         {
             toggled = true;
             lineRenderer.enabled = true;
@@ -56,7 +58,7 @@ public class LeftHandPointer : MonoBehaviour
 
         Ray lineRendererOut = new Ray(targetPosition, direction);
 
-        Vector3 endPosition = targetPosition + (length * direction);
+        endPosition = targetPosition + (length * direction);
 
         if (Physics.Raycast(lineRendererOut, out hit))
         {
@@ -64,11 +66,11 @@ public class LeftHandPointer : MonoBehaviour
 
             pointObject = hit.collider.gameObject;
 
-            if (pointObject.GetComponent<PointedAt>())
+            if (pointObject.GetComponent<HighlightedObject>())
             {
                 objectHitLeft = true;
 
-                pointObject.GetComponent<PointedAt>().leftHandRay = true;
+                pointObject.GetComponent<HighlightedObject>().leftHandRay = true;
 
                 Debug.Log("Object hit value is: " + objectHitLeft);
             }

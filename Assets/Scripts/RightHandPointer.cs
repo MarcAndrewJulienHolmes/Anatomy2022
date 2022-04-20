@@ -6,12 +6,19 @@ public class RightHandPointer : MonoBehaviour
 {
     public LineRenderer lineRenderer;
 
+    public Material normal, highlighted;
+
     public float lineWidth = 0.1f;
+    public float flexibleLineLength;
     public float lineMaxLength;
+
+    public int layerMask = 1;
+
+    public Vector3 highlightedObjectPostition;
 
     public bool toggled;
 
-    private float HandRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+    private float handRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
 
     public bool objectHitRight = false;
 
@@ -23,18 +30,19 @@ public class RightHandPointer : MonoBehaviour
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
         lineRenderer.SetPositions(startLinePositions);
         lineRenderer.enabled = false;
+        lineRenderer.material = normal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+        handRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
 
-        if (HandRight > 0.9)
+        if (handRight > 0.9)
         {
             toggled = true;
             lineRenderer.enabled = true;
-            Debug.LogError("Right hand trigger detected");
+            //Debug.LogError("Right hand trigger detected");
         }
         else
         {
@@ -61,28 +69,41 @@ public class RightHandPointer : MonoBehaviour
         {
             endPosition = hit.point;
 
+            highlightedObjectPostition = endPosition;
+
+            //flexibleLineLength = 2f;
+
             pointObject = hit.collider.gameObject;
 
-            if (pointObject.GetComponent<PointedAt>())
+            if (pointObject.GetComponent<HighlightedObject>())
             {
                 objectHitRight = true;
 
-                pointObject.GetComponent<PointedAt>().rightHandRay = true;
+                lineRenderer.material = highlighted; 
 
-                Debug.Log("Object hit value is: " + objectHitRight);
+                if (OVRInput.Get(OVRInput.Button.One))
+                {
+                    pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
+                }
+
+                //Debug.Log("Object hit value is: " + objectHitRight);
             }
             else
             {
                 objectHitRight = false;
 
-                Debug.Log("Object hit value is: " + objectHitRight);
+                lineRenderer.material = normal;
+
+                //Debug.Log("Object hit value is: " + objectHitRight);
             }
         }
         else if (objectHitRight)
         {
             objectHitRight = false;
 
-            Debug.Log("Object hit value is: " + objectHitRight);
+            lineRenderer.material = normal;
+
+            //Debug.Log("Object hit value is: " + objectHitRight);
 
         }
 
