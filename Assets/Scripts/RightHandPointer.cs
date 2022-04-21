@@ -12,7 +12,6 @@ public class RightHandPointer : MonoBehaviour
 
     public float lineWidth = 0.1f;
     public float flexibleLineLength;
-    //public float lineMaxLength;
 
     public int layerMask = 1;
 
@@ -20,14 +19,14 @@ public class RightHandPointer : MonoBehaviour
 
     public bool toggled;
 
-    private float handRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
-
     public bool objectHitRight = false;
 
-    private GameObject pointObject;
+    public GameObject pointObject;
+
+
 
     public UnityEvent rightHandSelect;
-    //public UnityEvent rightHandMove;
+    public UnityEvent rightHandMove;
     public UnityEvent rightHandDeselect;
 
 
@@ -44,13 +43,28 @@ public class RightHandPointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        handRight = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
 
-        if (handRight > 0.9)
+        if (OVRInput.Get(OVRInput.Button.Two))
+        {
+            rightHandDeselect.Invoke();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
+        {
+            rightHandMove.Invoke();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+        {
+            Debug.LogError("trigger");
+
+        }
+
+
+        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.9)
         {
             toggled = true;
             lineRenderer.enabled = true;
-            //Debug.LogError("Right hand trigger detected");
         }
         else
         {
@@ -79,8 +93,6 @@ public class RightHandPointer : MonoBehaviour
         {
             endPosition = hit.point;
 
-            //flexibleLineLength = 2f;
-
             pointObject = hit.collider.gameObject;
 
             if (pointObject.GetComponent<HighlightedObject>())
@@ -89,19 +101,11 @@ public class RightHandPointer : MonoBehaviour
 
                 lineRenderer.material = highlighted; 
 
-                //if (OVRInput.Get(OVRInput.Button.One))
-                //{
-                //    pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
-                //    rightHandSelect.Invoke();
-                //}
-
                 if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                 {
                     pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
                     rightHandSelect.Invoke();
                 }
-
-                //Debug.Log("Object hit value is: " + objectHitRight);
             }
             else
             {
@@ -109,9 +113,7 @@ public class RightHandPointer : MonoBehaviour
 
                 lineRenderer.material = normal;
 
-                rightHandDeselect.Invoke();
-
-                //Debug.Log("Object hit value is: " + objectHitRight);
+                //rightHandDeselect.Invoke();
             }
         }
         else if (objectHitRight)
@@ -120,8 +122,7 @@ public class RightHandPointer : MonoBehaviour
 
             lineRenderer.material = normal;
 
-            //Debug.Log("Object hit value is: " + objectHitRight);
-
+            //rightHandDeselect.Invoke();
         }
 
         lineRenderer.SetPosition(0, targetPosition);

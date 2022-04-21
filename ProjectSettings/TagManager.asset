@@ -43,6 +43,7 @@ TagManager:
   - LFT
   - PlayerRightHand
   - PlayerLeftHand
+  - PlayerRightHandAttach
   layers:
   - Default
   - TransparentFX

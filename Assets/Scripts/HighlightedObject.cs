@@ -6,24 +6,24 @@ using UnityEngine.Events;
 
 public class HighlightedObject : MonoBehaviour
 {
-    private RightHandPointer rightHandPointer;
-    private LeftHandPointer leftHandPointer;
+    public RightHandPointer rightHandPointer;
+    public LeftHandPointer leftHandPointer;
     public Outline outline;
 
     public bool leftHandRay;
     public bool rightHandRay;
 
-    private bool buttonTwoPressed;
-    private bool thumbStickDown;
+    //public bool buttonTwoPressed;
+    public bool thumbStickDown;
 
     public float speed;
-   
-    private GameObject rightHand, leftHand;
+
+    public GameObject rightHand, leftHand, rightHandAttach;
 
     public GameObject selectedObject;
     public Vector3 rightOffset, leftOffset, originalRightOffset, originalLeftOffset;
     public Transform hitPoint;
-    public bool offsetSet, beenMoved;
+    public bool offsetSet, beenMoved, atAttachPoint;
 
 
     private void Awake()
@@ -31,6 +31,7 @@ public class HighlightedObject : MonoBehaviour
         outline = GetComponentInChildren<Outline>();
         rightHand = GameObject.FindWithTag("PlayerRightHand");
         leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        //rightHandAttach = GameObject.FindWithTag("PlayerRightHandAttach");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
         leftHandPointer = leftHand.GetComponent<LeftHandPointer>();
@@ -45,50 +46,21 @@ public class HighlightedObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ActivateSelect();
-        rightHandPointer.rightHandSelect.AddListener(RightHandMove);
-        //rightHandPointer.rightHandMove.AddListener(RightHandMove);
+        rightHandPointer.rightHandSelect.AddListener(ActivateSelect);
         rightHandPointer.rightHandDeselect.AddListener(DeactivateSelect);
+        rightHandPointer.rightHandMove.AddListener(MoveTowardsAttach);
     }
 
     // Update is called once per frame
     void Update()
     {
-        buttonTwoPressed = OVRInput.Get(OVRInput.Button.Two);
-        thumbStickDown = OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown);
-
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
-        {
-            rightOffset = new Vector3 (0f, 0f, 0f);
-
-            beenMoved = true;
-
-            //rightHandPointer.ActiveLineRenderer(rightHandPointer.transform.position, rightHandPointer.transform.forward, rightHandPointer.flexibleLineLength - 0.05f);
-
-            //rightHandPointer.flexibleLineLength = rightHandPointer.flexibleLineLength - 0.005f;
-
-
-            //Debug.LogError("Thumb down");
-        }
-
 
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickUp))
         {
-            rightOffset = rightOffset * 1;
+            rightOffset = rightOffset * 0.1f;
 
             beenMoved = true;
 
-
-            //rightHandPointer.ActiveLineRenderer(rightHandPointer.transform.position, rightHandPointer.transform.forward, rightHandPointer.flexibleLineLength + 0.05f);
-
-
-            //rightHandPointer.flexibleLineLength = rightHandPointer.flexibleLineLength + 0.005f;
-
-
-            //var step = speed * Time.deltaTime; // calculate distance to move
-            //var inverse = 
-            //grabPoint.transform.position = Vector3.MoveTowards(grabPoint.transform.position, moveAwayTargetPosition, step);
-            ////Debug.LogError("Thumb up");
         }
 
         if(!OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown) && !OVRInput.Get(OVRInput.Button.SecondaryThumbstickUp) && beenMoved)
@@ -96,40 +68,10 @@ public class HighlightedObject : MonoBehaviour
             ResetOffset();
         }
 
-
-        //rightHandTargetPosition = rightHand.transform;
-        //moveAwayTargetPosition = new Vector3(rightHand.transform.position.x, rightHand.transform.position.y, rightHand.transform.position.z);
-
-        //if (leftHandRay || rightHandRay)
-        //{
-        //    ActivateSelect();
-
-        //    if (rightHandRay)
-        //    {
-        //        SetOffset();
-
-        //        hitPoint.transform.position = rightHandPointer.endPosition;
-
-        //        selectedObject.transform.position = hitPoint.transform.position + rightOffset;
-        //    }
-
-        //if (leftHandRay)
-        //{
-        //    grabPoint.transform.position = leftHandPointer.endPosition;
-
-        //}
-
-
-
-        //}
-        //else
-        //{
-        //    DeactivateSelect();
-        //}
-
-        if (buttonTwoPressed)
+        if (atAttachPoint)
         {
-            DeactivateSelect();
+            selectedObject.transform.position = rightHand.transform.position;
+
         }
     }
 
@@ -164,28 +106,50 @@ public class HighlightedObject : MonoBehaviour
         SetOffset();
     }
 
-    public void RightHandMove()
-    {
-        ActivateSelect();
+    //public void RightHandMove()
+    //{
+    //    ActivateSelect();
 
-        hitPoint.transform.position = rightHandPointer.endPosition;
+    //    hitPoint.transform.position = rightHandPointer.endPosition;
 
-        selectedObject.transform.position = hitPoint.transform.position + rightOffset;
+    //    selectedObject.transform.position = hitPoint.transform.position + rightOffset;
         
-    }
+    //}
 
     public void DeactivateSelect()
     {
         outline.OutlineWidth = 0;
-        rightHandPointer.flexibleLineLength = 2f;
-        //offsetSet = false;
+        rightHandPointer.flexibleLineLength = 3f;
+        offsetSet = false;
+
+        atAttachPoint = false;
 
         leftHandRay = false;
         rightHandRay = false;
     }
 
-    public void MoveTowardsHand()
+    public void MoveTowardsAttach()
     {
+        Vector3 attachLPos = rightHand.transform.position;
+        Vector3 attachWPos = transform.TransformPoint(attachLPos);
 
+
+        Vector3 objectLPos = selectedObject.transform.position;
+        Vector3 objectWPos = transform.TransformPoint(objectLPos);
+
+        if (attachWPos == objectWPos)
+        {
+            ResetOffset();
+            beenMoved = true;
+            atAttachPoint = true;
+            Debug.LogError("At attch point");
+        }
+        else
+        {
+            rightOffset = new Vector3(0f, 0f, 0f);
+            hitPoint.transform.position = rightHandPointer.endPosition;
+            selectedObject.transform.position = hitPoint.transform.position + rightOffset;
+            beenMoved = true;
+        }
     }
 }
