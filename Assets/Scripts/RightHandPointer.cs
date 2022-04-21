@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class RightHandPointer : MonoBehaviour
 {
@@ -10,11 +12,11 @@ public class RightHandPointer : MonoBehaviour
 
     public float lineWidth = 0.1f;
     public float flexibleLineLength;
-    public float lineMaxLength;
+    //public float lineMaxLength;
 
     public int layerMask = 1;
 
-    public Vector3 highlightedObjectPostition;
+    public Vector3 endPosition;
 
     public bool toggled;
 
@@ -23,6 +25,12 @@ public class RightHandPointer : MonoBehaviour
     public bool objectHitRight = false;
 
     private GameObject pointObject;
+
+    public UnityEvent rightHandSelect;
+    //public UnityEvent rightHandMove;
+    public UnityEvent rightHandDeselect;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -53,23 +61,23 @@ public class RightHandPointer : MonoBehaviour
 
         if (toggled)
         {
-            ActiveLineRenderer(transform.position, transform.forward, lineMaxLength);
+            ActiveLineRenderer(transform.position, transform.forward, flexibleLineLength);
         }
     }
 
-    private void ActiveLineRenderer(Vector3 targetPosition, Vector3 direction, float length)
+ 
+
+    public void ActiveLineRenderer(Vector3 targetPosition, Vector3 direction, float length)
     {
         RaycastHit hit;
 
         Ray lineRendererOut = new Ray(targetPosition, direction);
 
-        Vector3 endPosition = targetPosition + (length * direction);
+        endPosition = targetPosition + (length * direction);
 
         if (Physics.Raycast(lineRendererOut, out hit))
         {
             endPosition = hit.point;
-
-            highlightedObjectPostition = endPosition;
 
             //flexibleLineLength = 2f;
 
@@ -81,9 +89,16 @@ public class RightHandPointer : MonoBehaviour
 
                 lineRenderer.material = highlighted; 
 
-                if (OVRInput.Get(OVRInput.Button.One))
+                //if (OVRInput.Get(OVRInput.Button.One))
+                //{
+                //    pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
+                //    rightHandSelect.Invoke();
+                //}
+
+                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                 {
                     pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
+                    rightHandSelect.Invoke();
                 }
 
                 //Debug.Log("Object hit value is: " + objectHitRight);
@@ -93,6 +108,8 @@ public class RightHandPointer : MonoBehaviour
                 objectHitRight = false;
 
                 lineRenderer.material = normal;
+
+                rightHandDeselect.Invoke();
 
                 //Debug.Log("Object hit value is: " + objectHitRight);
             }
