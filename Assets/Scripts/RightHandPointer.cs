@@ -21,9 +21,9 @@ public class RightHandPointer : MonoBehaviour
 
     public bool objectHitRight = false;
 
-    public GameObject pointObject;
+    public GameObject pointObject, currenHighlightedObject;
 
-
+    public string currentHighlightedObjectName;
 
     public UnityEvent rightHandSelect;
     public UnityEvent rightHandMove;
@@ -49,14 +49,34 @@ public class RightHandPointer : MonoBehaviour
             rightHandDeselect.Invoke();
         }
 
+        if (OVRInput.Get(OVRInput.Button.One))
+        {
+            if (currentHighlightedObjectName != null)
+            {
+                currenHighlightedObject.GetComponent<SelectedObject>().ReturnToOrigin();
+            }
+            else
+            {
+                return;
+            }
+        }
+
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
         {
-            rightHandMove.Invoke();
+            if (currentHighlightedObjectName != null)
+            {
+                currenHighlightedObject.GetComponent<SelectedObject>().MoveToAttach();
+                //currenHighlightedObject.GetComponent<HighlightedObject>().MoveTowardsAttach();
+            }
+            else
+            {
+                return;
+            }
         }
 
         if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
         {
-            Debug.LogError("trigger");
+            //Debug.LogError("trigger");
 
         }
 
@@ -95,16 +115,27 @@ public class RightHandPointer : MonoBehaviour
 
             pointObject = hit.collider.gameObject;
 
-            if (pointObject.GetComponent<HighlightedObject>())
+            if (pointObject.GetComponent<SelectedObject>())
+
+            //if (pointObject.GetComponent<HighlightedObject>())
             {
+                currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
+
+                //currentHighlightedObjectName = pointObject.GetComponent<HighlightedObject>().thisGameObjectName;
+
+                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+
                 objectHitRight = true;
 
                 lineRenderer.material = highlighted; 
 
                 if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                 {
-                    pointObject.GetComponent<HighlightedObject>().rightHandRay = true;
-                    rightHandSelect.Invoke();
+                    currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
+                    currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                    
+                    //currenHighlightedObject.GetComponent<HighlightedObject>().rightHandRay = true;
+                    //currenHighlightedObject.GetComponent<HighlightedObject>().ActivateSelect();
                 }
             }
             else
