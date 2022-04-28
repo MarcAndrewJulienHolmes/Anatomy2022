@@ -9,6 +9,8 @@ public class SelectedObject : MonoBehaviour
     public RightHandPointer rightHandPointer;
     public LeftHandPointer leftHandPointer;
     public Outline outline;
+    public BoneConnector boneConnectorScript;
+
 
     public GameObject rightHand, leftHand;
 
@@ -35,6 +37,9 @@ public class SelectedObject : MonoBehaviour
         leftHandPointer = leftHand.GetComponent<LeftHandPointer>();
 
         outline = GetComponentInChildren<Outline>();
+
+        boneConnectorScript = GetComponent<BoneConnector>();
+
 
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.gameObject.name;
@@ -113,14 +118,22 @@ public class SelectedObject : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "PlayerRightHand")
+        if (!boneConnectorScript.isConnected)
         {
-            atAttachPoint = true;
+            if (other.tag == "PlayerRightHand")
+            {
+                atAttachPoint = true;
+            }
+            else
+            {
+                atAttachPoint = false;
+            }
         }
         else
         {
             atAttachPoint = false;
         }
+
 
         if (other.tag == "Origin")
         {

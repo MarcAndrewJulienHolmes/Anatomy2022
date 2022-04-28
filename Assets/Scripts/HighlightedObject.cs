@@ -9,7 +9,7 @@ public class HighlightedObject : MonoBehaviour
     public RightHandPointer rightHandPointer;
     public LeftHandPointer leftHandPointer;
     public Outline outline;
-    public SkeletonAttach skeletonAttachScript;
+    public BoneConnector boneConnectorScript;
 
     public bool leftHandRay;
     public bool rightHandRay;
@@ -44,8 +44,8 @@ public class HighlightedObject : MonoBehaviour
 
         outline = GetComponentInChildren<Outline>();
 
-        skeletonAttachObject = GameObject.FindWithTag("SkeletonAttach");
-        skeletonAttachScript = skeletonAttachObject.GetComponent<SkeletonAttach>();
+        //skeletonAttachObject = GameObject.FindWithTag("SkeletonAttach");
+        boneConnectorScript = GetComponent<BoneConnector>();
 
 
         thisGameObject = transform.gameObject;
@@ -172,9 +172,12 @@ public class HighlightedObject : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "PlayerRightHand")
+        if (!boneConnectorScript.isConnected)
         {
-            atAttachPoint = true;            
+            if (other.tag == "PlayerRightHand")
+            {
+                atAttachPoint = true;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ public class BoneConnector : MonoBehaviour
     {
         if (isConnected)
         {
-            MoveDownstreamToConnectPoint();
+            //MoveDownstreamToConnectPoint();
         }
     }
 
