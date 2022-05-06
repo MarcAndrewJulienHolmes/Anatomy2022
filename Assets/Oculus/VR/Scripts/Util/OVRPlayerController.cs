@@ -19,6 +19,9 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class OVRPlayerController : MonoBehaviour
 {
+	public Transform ForwardTransform;
+
+
 	/// <summary>
 	/// The rate acceleration during movement.
 	/// </summary>
