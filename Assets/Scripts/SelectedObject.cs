@@ -9,7 +9,9 @@ public class SelectedObject : MonoBehaviour
     public RightHandPointer rightHandPointer;
     public LeftHandPointer leftHandPointer;
     public Outline outline;
-    public SkeletonAttach skeletonAttach;
+    public BoneToSkeletonAttach boneToSkeletonAttach;
+    
+    //public SkeletonAttach skeletonAttach;
 
     //public BoneConnector boneConnectorScript;
 
@@ -40,7 +42,9 @@ public class SelectedObject : MonoBehaviour
 
         outline = GetComponentInChildren<Outline>();
 
-        skeletonAttach = GetComponent<SkeletonAttach>();
+        boneToSkeletonAttach = GetComponent<BoneToSkeletonAttach>();
+
+        //skeletonAttach = GetComponent<SkeletonAttach>();
 
         //boneConnectorScript = GetComponent<BoneConnector>();
 
@@ -50,7 +54,7 @@ public class SelectedObject : MonoBehaviour
         thisGameObjectTag = transform.gameObject.tag;
         hitPoint = thisGameObject.transform;
 
-        outline = thisGameObject.GetComponent<Outline>();
+        outline = thisGameObject.GetComponentInChildren<Outline>();
 
         origin = GameObject.Find(thisGameObjectName + " Origin").transform.position;
 
@@ -87,13 +91,11 @@ public class SelectedObject : MonoBehaviour
     public void ActivateSelect()
     {
         outline.OutlineWidth = 5;
-        //SetOffset();
     }
 
     public void DeactivateSelect()
     {
         outline.OutlineWidth = 0;
-        //offsetSet = false;
         atAttachPoint = false;
         leftHandRay = false;
         rightHandRay = false;
@@ -122,36 +124,15 @@ public class SelectedObject : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        //if (!boneConnectorScript.isConnected)
-        //{
-        //    if (other.tag == "PlayerRightHand")
-        //    {
-        //        atAttachPoint = true;
-        //    }
-        //    else
-        //    {
-        //        atAttachPoint = false;
-        //    }
-        //}
-        //else
-        //{
-        //    atAttachPoint = false;
-        //}
-
-        if (!skeletonAttach.isConnected)
+        if (other.tag == "PlayerRightHand")
         {
-            if (other.tag == "PlayerRightHand")
-            {
-                atAttachPoint = true;
-            }
-            else
-            {
-                atAttachPoint = false;
-            }
+            atAttachPoint = true;
         }
-
-
-
+        else
+        {
+            atAttachPoint = false;
+        }
+       
         if (other.tag == "Origin")
         {
             atOriginPoint = true;
