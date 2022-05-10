@@ -10,14 +10,8 @@ public class SelectedObject : MonoBehaviour
     public LeftHandPointer leftHandPointer;
     public Outline outline;
     public BoneToSkeletonAttach boneToSkeletonAttach;
-    
-    //public SkeletonAttach skeletonAttach;
-
-    //public BoneConnector boneConnectorScript;
-
 
     public GameObject rightHand, leftHand;
-
     public GameObject thisGameObject;
 
     public bool leftHandRay;
@@ -43,11 +37,6 @@ public class SelectedObject : MonoBehaviour
         outline = GetComponentInChildren<Outline>();
 
         boneToSkeletonAttach = GetComponent<BoneToSkeletonAttach>();
-
-        //skeletonAttach = GetComponent<SkeletonAttach>();
-
-        //boneConnectorScript = GetComponent<BoneConnector>();
-
 
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.gameObject.name;
@@ -99,6 +88,7 @@ public class SelectedObject : MonoBehaviour
         atAttachPoint = false;
         leftHandRay = false;
         rightHandRay = false;
+        rightHandPointer.holdingObject = false;
     }
 
 
@@ -116,22 +106,21 @@ public class SelectedObject : MonoBehaviour
 
     public void ReturnToOrigin()
     {
-        if (!atOriginPoint)
+        if (!atOriginPoint && rightHandRay)
         {
+            atAttachPoint = false;
+
             thisGameObject.transform.position = origin;
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "PlayerRightHand")
+        if (other.tag == "PlayerRightHand" && rightHandRay)
         {
             atAttachPoint = true;
         }
-        else
-        {
-            atAttachPoint = false;
-        }
+
        
         if (other.tag == "Origin")
         {

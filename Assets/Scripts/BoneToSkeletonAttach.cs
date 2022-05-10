@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BoneToSkeletonAttach : MonoBehaviour
 {
+    public RightHandPointer rightHandPointer;
+
+    public GameObject rightHand;
+
     public GameObject thisGameObject;
 
     public string thisGameObjectName;
@@ -12,6 +16,12 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public GameObject skeletonReplaceObject;
 
+    public GameObject skeletonInvalidObject;
+
+    public GameObject[] nextInSequenceSkeletonTurnOn;
+
+    public GameObject[] nextInSequenceSkeletonTurnOff;
+
     public string skeletonAttachObjectName;
 
     public AudioSource audioSource;
@@ -19,6 +29,10 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     private void Awake()
     {
+        rightHand = GameObject.FindWithTag("PlayerRightHand");
+
+        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+
         thisGameObject = transform.gameObject;
 
         thisGameObjectName = transform.name;
@@ -27,11 +41,29 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
         skeletonReplaceObject = GameObject.Find(thisGameObjectName + " Replace");
 
+        skeletonInvalidObject = GameObject.Find(thisGameObjectName + " Invalid");
+
         skeletonAttachObjectName = skeletonAttachObject.name;
 
         audioSource = skeletonReplaceObject.GetComponent<AudioSource>();
 
         skeletonReplaceObject.SetActive(false);
+    }
+
+    public void Start()
+    {
+        if(thisGameObjectName == "Skull")
+        {
+            skeletonAttachObject.SetActive(true);
+            skeletonReplaceObject.SetActive(false);
+            skeletonInvalidObject.SetActive(false);
+        }
+        else
+        {
+            skeletonAttachObject.SetActive(false);
+            skeletonReplaceObject.SetActive(false);
+            skeletonInvalidObject.SetActive(true);
+        }
     }
 
 
@@ -40,6 +72,7 @@ public class BoneToSkeletonAttach : MonoBehaviour
     {        
         if (other.name == skeletonAttachObject.name)
         {
+            rightHandPointer.holdingObject = false;
 
             thisGameObject.SetActive(false);
 
@@ -49,6 +82,15 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
             audioSource.Play();
 
+            for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
+            {
+                nextInSequenceSkeletonTurnOff[i].SetActive(false);
+            }
+
+            for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
+            {
+                nextInSequenceSkeletonTurnOn[i].SetActive(true);
+            }
         }
         else        
         {        

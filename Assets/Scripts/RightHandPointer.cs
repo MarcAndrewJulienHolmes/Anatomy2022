@@ -21,6 +21,8 @@ public class RightHandPointer : MonoBehaviour
 
     public bool objectHitRight = false;
 
+    public bool holdingObject;
+
     public GameObject pointObject, currenHighlightedObject;
 
     public string currentHighlightedObjectName;
@@ -121,9 +123,13 @@ public class RightHandPointer : MonoBehaviour
             {
                 currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
 
+                Debug.LogError("current highlight object is " + currentHighlightedObjectName);
+
                 //currentHighlightedObjectName = pointObject.GetComponent<HighlightedObject>().thisGameObjectName;
 
                 currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+
+                Debug.LogError("game object selected is " + currenHighlightedObject.name);
 
                 objectHitRight = true;
 
@@ -131,11 +137,22 @@ public class RightHandPointer : MonoBehaviour
 
                 if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                 {
-                    currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
-                    currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
-                    
-                    //currenHighlightedObject.GetComponent<HighlightedObject>().rightHandRay = true;
-                    //currenHighlightedObject.GetComponent<HighlightedObject>().ActivateSelect();
+                    if (!holdingObject)
+                    {
+                        Debug.LogError("button presseed");
+
+                        currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
+                        Debug.LogError("ray is true");
+
+                        currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                        Debug.LogError("activate select");
+
+                        holdingObject = true;
+                        Debug.LogError("holding object is true");
+
+                        //currenHighlightedObject.GetComponent<HighlightedObject>().rightHandRay = true;
+                        //currenHighlightedObject.GetComponent<HighlightedObject>().ActivateSelect();
+                    }
                 }
             }
             else
