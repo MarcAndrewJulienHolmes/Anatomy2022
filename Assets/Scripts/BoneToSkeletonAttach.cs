@@ -6,6 +6,8 @@ public class BoneToSkeletonAttach : MonoBehaviour
 {
     public RightHandPointer rightHandPointer;
 
+    public BoneNameQuiz boneNameQuiz;
+
     public GameObject rightHand;
 
     public GameObject thisGameObject;
@@ -32,6 +34,8 @@ public class BoneToSkeletonAttach : MonoBehaviour
         rightHand = GameObject.FindWithTag("PlayerRightHand");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+
+        boneNameQuiz = FindObjectOfType<BoneNameQuiz>();
 
         thisGameObject = transform.gameObject;
 
@@ -72,29 +76,38 @@ public class BoneToSkeletonAttach : MonoBehaviour
     {        
         if (other.name == skeletonAttachObject.name)
         {
-            rightHandPointer.holdingObject = false;
-
-            thisGameObject.SetActive(false);
-
-            skeletonAttachObject.SetActive(false);
-
-            skeletonReplaceObject.SetActive(true);
-
-            audioSource.Play();
-
-            for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
-            {
-                nextInSequenceSkeletonTurnOff[i].SetActive(false);
-            }
-
-            for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
-            {
-                nextInSequenceSkeletonTurnOn[i].SetActive(true);
-            }
+            ConnectBoneToSkeleton();
         }
         else        
         {        
             return;          
+        }
+    }
+
+    public void ConnectBoneToSkeleton()
+    {
+        rightHandPointer.holdingObject = false;
+
+        thisGameObject.SetActive(false);
+
+        skeletonAttachObject.SetActive(false);
+
+        skeletonReplaceObject.SetActive(true);
+
+        audioSource.Play();
+
+        boneNameQuiz.lastBoneConnected = thisGameObjectName;
+
+        boneNameQuiz.GenerateQuiz();
+
+        for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
+        {
+            nextInSequenceSkeletonTurnOff[i].SetActive(false);
+        }
+
+        for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
+        {
+            nextInSequenceSkeletonTurnOn[i].SetActive(true);
         }
     }
 }

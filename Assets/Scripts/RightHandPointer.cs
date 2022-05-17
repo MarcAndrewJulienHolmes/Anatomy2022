@@ -118,45 +118,43 @@ public class RightHandPointer : MonoBehaviour
             pointObject = hit.collider.gameObject;
 
             if (pointObject.GetComponent<SelectedObject>())
-
-            //if (pointObject.GetComponent<HighlightedObject>())
             {
                 currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
-
-                Debug.LogError("current highlight object is " + currentHighlightedObjectName);
-
-                //currentHighlightedObjectName = pointObject.GetComponent<HighlightedObject>().thisGameObjectName;
-
                 currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-
-                Debug.LogError("game object selected is " + currenHighlightedObject.name);
-
                 objectHitRight = true;
-
                 lineRenderer.material = highlighted; 
 
                 if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                 {
                     if (!holdingObject)
                     {
-                        Debug.LogError("button presseed");
-
                         currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
-                        Debug.LogError("ray is true");
-
                         currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
-                        Debug.LogError("activate select");
-
                         holdingObject = true;
-                        Debug.LogError("holding object is true");
-
-                        //currenHighlightedObject.GetComponent<HighlightedObject>().rightHandRay = true;
-                        //currenHighlightedObject.GetComponent<HighlightedObject>().ActivateSelect();
                     }
                 }
             }
+
+            if (pointObject.GetComponent<QuizButton>())
+            {
+                currentHighlightedObjectName = pointObject.GetComponent<QuizButton>().thisGameObjectName;
+                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+                objectHitRight = true;
+                lineRenderer.material = highlighted;
+
+                pointObject.GetComponent<QuizButton>().HighlightedColour();
+
+
+                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                {
+                    pointObject.GetComponent<QuizButton>().ButtonSelect();
+                }
+            }
+
             else
             {
+
+
                 objectHitRight = false;
 
                 lineRenderer.material = normal;
