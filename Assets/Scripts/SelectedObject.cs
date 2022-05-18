@@ -6,12 +6,12 @@ using UnityEngine.Events;
 
 public class SelectedObject : MonoBehaviour
 {
-    public RightHandPointer rightHandPointer;
-    public LeftHandPointer leftHandPointer;
-    public Outline outline;
-    public BoneToSkeletonAttach boneToSkeletonAttach;
+    private RightHandPointer rightHandPointer;
+    private LeftHandPointer leftHandPointer;
+    private Outline outline;
+    private BoneToSkeletonAttach boneToSkeletonAttach;
 
-    public GameObject rightHand, leftHand;
+    private GameObject rightHand, leftHand;
     public GameObject thisGameObject;
 
     public bool leftHandRay;

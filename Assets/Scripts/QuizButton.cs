@@ -5,13 +5,31 @@ using TMPro;
 
 public class QuizButton : MonoBehaviour
 {
+    public RightHandPointer rightHandPointer;
+
+    public GameObject rightHand;
+
+    public BoneNameQuiz boneNameQuiz;
+
     public string thisGameObjectName;
 
     public string thisButtonAnswer;
 
     public Animator thisButtonAnimator;
 
-    
+    public TMP_Text thisQuizButtonText;
+
+    public bool rightHandRay;
+
+    private void Awake()
+    {
+        rightHand = GameObject.FindWithTag("PlayerRightHand");
+        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+
+        thisButtonAnimator.Play("Start");
+
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,12 +40,29 @@ public class QuizButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (rightHandRay && boneNameQuiz.quizAvailable)
+        {
+            HighlightedColour();
+        }
+        else if (!rightHandRay && boneNameQuiz.quizAvailable)
+        {
+            NormalColour();
+        }
     }
 
     public void ButtonSelect()
     {
-        Debug.Log(thisGameObjectName + " was selected");
+        if (thisQuizButtonText != null)
+        {
+            boneNameQuiz.answerSelected = thisButtonAnswer;
+            boneNameQuiz.CheckAnswer();
+            Debug.Log(thisButtonAnswer + " was selected");
+
+        }
+        else
+        {
+            Debug.LogError("Answer not applied to button!!!");
+        }
     }
 
     public void NormalColour()
@@ -40,6 +75,13 @@ public class QuizButton : MonoBehaviour
         thisButtonAnimator.Play("Highlighted");
     }
 
+    public void FadeOut()
+    {
+        thisButtonAnimator.Play("FadeOut");
+    }
 
-
+    public void FadeIn()
+    {
+        thisButtonAnimator.Play("FadeIn");
+    }
 }

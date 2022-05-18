@@ -7,9 +7,13 @@ public class BoneNameQuiz : MonoBehaviour
 {
     public GameObject[] allBones;
 
+    public QuizButton[] quizButton;
+
     public static List<string> allBonesNames = new List<string>();
 
-    public TMP_Text quizSpace1, quizSpace2, quizSpace3, quizSpace4;
+    public TMP_Text quizQuestionTextMeshPro;
+
+    public TMP_Text[] quizAnswerTextMeshPro;
 
     public string [] quizEntries;
 
@@ -17,17 +21,23 @@ public class BoneNameQuiz : MonoBehaviour
 
     public string lastBoneConnected;
 
+    public string answerSelected;
+
     public static string lastBoneConnectedStatic;
 
-
-
     public bool generateQuizBool;
+
+    public bool quizAvailable;
+
+    public int boneScore, maxScore;
 
 
     // Start is called before the first frame update
     void Start()
     {
         SetAllBonesList();
+        quizQuestionTextMeshPro.text = "Pick up and attach your first bone to the skeleton.";
+        maxScore = allBones.Length;
     }
 
     // Update is called once per frame
@@ -40,10 +50,37 @@ public class BoneNameQuiz : MonoBehaviour
         }
     }
 
+    public void CheckAnswer()
+    {
+        var correctAnswer = lastBoneConnected;
 
+        if(answerSelected == correctAnswer)
+        {
+            quizQuestionTextMeshPro.text = "Excellent, that's the correct answer.";
+            boneScore++;
+            quizAvailable = false;
+            for (int i = 0; i < quizButton.Length; i++)
+            {
+                quizButton[i].FadeOut();
+            }
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Unfortunately, that is not the correct answer.";
+            quizAvailable = false;
+            for (int i = 0; i < quizButton.Length; i++)
+            {
+                quizButton[i].FadeOut();
+            }
+        }
+    }
 
     public void GenerateQuiz()
     {
+        quizQuestionTextMeshPro.text = "Select the correct bone name from the options below.";
+
+        quizAvailable = true;
+
         SetAllBonesList();
         ResetQuizEntries();
         lastBoneConnectedStatic = lastBoneConnected;
@@ -63,11 +100,16 @@ public class BoneNameQuiz : MonoBehaviour
 
             if(i == quizEntries.Length - 1)
             {
-                quizSpace1.text = quizEntries[0];
-                quizSpace2.text = quizEntries[1];
-                quizSpace3.text = quizEntries[2];
-                quizSpace4.text = quizEntries[3];
+                for (int n = 0; n < quizAnswerTextMeshPro.Length; n++)
+                {
+                    quizAnswerTextMeshPro[n].text = quizEntries[n];
+                    quizButton[n].thisButtonAnswer = quizEntries[n];
+                }
             }
+        }
+        for (int i = 0; i < quizButton.Length; i++)
+        {
+            quizButton[i].FadeIn();
         }
     }
 
@@ -102,5 +144,12 @@ public class BoneNameQuiz : MonoBehaviour
         {
             quizEntries[i] = "";
         }
+
+        for (int i = 0; i < quizAnswerTextMeshPro.Length; i++)
+        {
+            quizAnswerTextMeshPro[i].text = "";
+        }
+
+
     }
 }
