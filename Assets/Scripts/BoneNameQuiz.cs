@@ -66,7 +66,7 @@ public class BoneNameQuiz : MonoBehaviour
         }
         else
         {
-            quizQuestionTextMeshPro.text = "Unfortunately, that is not the correct answer.";
+            quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
             quizAvailable = false;
             for (int i = 0; i < quizButton.Length; i++)
             {

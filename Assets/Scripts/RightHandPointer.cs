@@ -8,11 +8,13 @@ public class RightHandPointer : MonoBehaviour
 {
     public LineRenderer lineRenderer;
 
+    public BoneNameQuiz boneNameQuiz;
+
     public QuizButton[] quizButton;
 
     public Material normal, highlighted;
 
-    private float lineWidth = 0.1f;
+    //private float lineWidth = 0.1f;
     private float flexibleLineLength;
 
     public int layerMask = 1;
@@ -57,7 +59,7 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.One))
         {
-            if (currentHighlightedObjectName != null)
+            if (currentHighlightedObjectName != null)// && currenHighlightedObject.GetComponent<SelectedObject>())
             {
                 currenHighlightedObject.GetComponent<SelectedObject>().ReturnToOrigin();
             }
@@ -69,7 +71,7 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
         {
-            if (currentHighlightedObjectName != null)
+            if (currentHighlightedObjectName != null)// && currenHighlightedObject.GetComponent<SelectedObject>())
             {
                 currenHighlightedObject.GetComponent<SelectedObject>().MoveToAttach();
                 //currenHighlightedObject.GetComponent<HighlightedObject>().MoveTowardsAttach();
@@ -130,18 +132,21 @@ public class RightHandPointer : MonoBehaviour
 
             if (pointObject.GetComponent<SelectedObject>())
             {
-                currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
-                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                objectHitRight = true;
-                lineRenderer.material = highlighted; 
-
-                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                if (!boneNameQuiz.quizAvailable)
                 {
-                    if (!holdingObject)
+                    currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
+                    currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+                    objectHitRight = true;
+                    lineRenderer.material = highlighted;
+
+                    if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
                     {
-                        currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
-                        currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
-                        holdingObject = true;
+                        if (!holdingObject)
+                        {
+                            currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
+                            currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                            holdingObject = true;
+                        }
                     }
                 }
             }
@@ -173,7 +178,7 @@ public class RightHandPointer : MonoBehaviour
                     quizButton[i].rightHandRay = false;
                 }            
 
-                currentHighlightedObjectName = "";
+                currentHighlightedObjectName = null;
 
                 objectHitRight = false;
 

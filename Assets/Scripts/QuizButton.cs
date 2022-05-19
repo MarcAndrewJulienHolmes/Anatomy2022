@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class QuizButton : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class QuizButton : MonoBehaviour
 
     public bool rightHandRay;
 
+    public Collider thisCollider;
+
     private void Awake()
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
@@ -28,13 +31,14 @@ public class QuizButton : MonoBehaviour
 
         thisButtonAnimator.Play("Start");
 
-
+        thisCollider = GetComponent<Collider>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         thisGameObjectName = transform.gameObject.name;
+        thisCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -78,10 +82,12 @@ public class QuizButton : MonoBehaviour
     public void FadeOut()
     {
         thisButtonAnimator.Play("FadeOut");
+        thisCollider.enabled = false;
     }
 
     public void FadeIn()
     {
         thisButtonAnimator.Play("FadeIn");
+        thisCollider.enabled = true;
     }
 }

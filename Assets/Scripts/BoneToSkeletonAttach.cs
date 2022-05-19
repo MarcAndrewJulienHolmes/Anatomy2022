@@ -28,6 +28,8 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public bool startOfSequence, endOfSequence;
+
 
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public void Start()
     {
-        if(thisGameObjectName == "Skull")
+        if(startOfSequence)
         {
             skeletonAttachObject.SetActive(true);
             skeletonReplaceObject.SetActive(false);
@@ -100,14 +102,17 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
         boneNameQuiz.GenerateQuiz();
 
-        for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
+        if (!endOfSequence)
         {
-            nextInSequenceSkeletonTurnOff[i].SetActive(false);
-        }
+            for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
+            {
+                nextInSequenceSkeletonTurnOff[i].SetActive(false);
+            }
 
-        for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
-        {
-            nextInSequenceSkeletonTurnOn[i].SetActive(true);
+            for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
+            {
+                nextInSequenceSkeletonTurnOn[i].SetActive(true);
+            }
         }
     }
 }
