@@ -9,9 +9,13 @@ public class BoneNameQuiz : MonoBehaviour
 
     public QuizButton[] quizButton;
 
+    public Animator quizBoardAnimator;
+
+    public AudioSource negativeTone, positiveTone;
+
     public static List<string> allBonesNames = new List<string>();
 
-    public TMP_Text quizQuestionTextMeshPro;
+    public TMP_Text quizQuestionTextMeshPro, quizScoreFeedbackTextMeshPro;
 
     public TMP_Text[] quizAnswerTextMeshPro;
 
@@ -21,7 +25,7 @@ public class BoneNameQuiz : MonoBehaviour
 
     public string lastBoneConnected;
 
-    public string answerSelected;
+    public string answerSelected, correctAnswer;
 
     public static string lastBoneConnectedStatic;
 
@@ -29,7 +33,7 @@ public class BoneNameQuiz : MonoBehaviour
 
     public bool quizAvailable;
 
-    public int boneScore, maxScore;
+    public float currentQuizScore, maxScore, runningMaxScore, scorePercent;
 
 
     // Start is called before the first frame update
@@ -52,26 +56,48 @@ public class BoneNameQuiz : MonoBehaviour
 
     public void CheckAnswer()
     {
-        var correctAnswer = lastBoneConnected;
+        correctAnswer = lastBoneConnected;
+
+        runningMaxScore++;
 
         if(answerSelected == correctAnswer)
         {
-            quizQuestionTextMeshPro.text = "Excellent, that's the correct answer.";
-            boneScore++;
-            quizAvailable = false;
-            for (int i = 0; i < quizButton.Length; i++)
-            {
-                quizButton[i].FadeOut();
-            }
+            CorrectAnswer();
         }
         else
         {
-            quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
-            quizAvailable = false;
-            for (int i = 0; i < quizButton.Length; i++)
-            {
-                quizButton[i].FadeOut();
-            }
+            IncorrectAnswer();
+        }
+    }
+
+    public void CorrectAnswer()
+    {
+        currentQuizScore++;
+        positiveTone.Play();
+        quizBoardAnimator.Play("CorrectAnswer");
+        quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer.";
+        scorePercent = currentQuizScore / runningMaxScore * 100;
+        var scorePercentRounded = System.Math.Round(scorePercent, 1);
+        quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+        quizAvailable = false;
+        for (int i = 0; i < quizButton.Length; i++)
+        {
+            quizButton[i].FadeOut();
+        }
+    }
+
+    public void IncorrectAnswer()
+    {
+        negativeTone.Play();
+        quizBoardAnimator.Play("IncorrectAnswer");
+        quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
+        scorePercent = currentQuizScore / runningMaxScore * 100;
+        var scorePercentRounded = System.Math.Round(scorePercent, 1);
+        quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+        quizAvailable = false;
+        for (int i = 0; i < quizButton.Length; i++)
+        {
+            quizButton[i].FadeOut();
         }
     }
 

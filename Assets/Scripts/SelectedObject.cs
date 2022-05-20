@@ -10,6 +10,7 @@ public class SelectedObject : MonoBehaviour
     private LeftHandPointer leftHandPointer;
     private Outline outline;
     private BoneToSkeletonAttach boneToSkeletonAttach;
+    private OriginRandomiser originRandomiser;
 
     private GameObject rightHand, leftHand;
     public GameObject thisGameObject;
@@ -29,14 +30,15 @@ public class SelectedObject : MonoBehaviour
     private void Awake()
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
-        leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        //leftHand = GameObject.FindWithTag("PlayerLeftHand");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
-        leftHandPointer = leftHand.GetComponent<LeftHandPointer>();
+        //leftHandPointer = leftHand.GetComponent<LeftHandPointer>();
 
         outline = GetComponentInChildren<Outline>();
 
         boneToSkeletonAttach = GetComponent<BoneToSkeletonAttach>();
+        originRandomiser = GetComponent<OriginRandomiser>();
 
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.gameObject.name;
@@ -45,7 +47,7 @@ public class SelectedObject : MonoBehaviour
 
         outline = thisGameObject.GetComponentInChildren<Outline>();
 
-        origin = GameObject.Find(thisGameObjectName + " Origin").transform.position;
+        //origin = GameObject.Find(thisGameObjectName + " Origin").transform.position;
 
     }
 
@@ -55,7 +57,7 @@ public class SelectedObject : MonoBehaviour
     {
         rightHandPointer.rightHandDeselect.AddListener(DeactivateSelect);
 
-        thisGameObject.transform.position = origin;
+        //thisGameObject.transform.position = origin;
 
         SetUpOutline();
     }

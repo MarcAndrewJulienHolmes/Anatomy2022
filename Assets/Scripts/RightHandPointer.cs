@@ -59,7 +59,7 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.One))
         {
-            if (currentHighlightedObjectName != null)// && currenHighlightedObject.GetComponent<SelectedObject>())
+            if (currenHighlightedObject.GetComponent<SelectedObject>())
             {
                 currenHighlightedObject.GetComponent<SelectedObject>().ReturnToOrigin();
             }
@@ -71,7 +71,7 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
         {
-            if (currentHighlightedObjectName != null)// && currenHighlightedObject.GetComponent<SelectedObject>())
+            if (currenHighlightedObject != null && currenHighlightedObject.GetComponent<SelectedObject>())
             {
                 currenHighlightedObject.GetComponent<SelectedObject>().MoveToAttach();
                 //currenHighlightedObject.GetComponent<HighlightedObject>().MoveTowardsAttach();
