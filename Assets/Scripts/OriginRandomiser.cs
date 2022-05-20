@@ -37,6 +37,7 @@ public class OriginRandomiser : MonoBehaviour
                     GameObject originToSet = GameObject.Find(originToSetString);
                     //originToSet.transform.position = origins[a].transform.position;
                     looseBones[a].transform.position = originToSet.transform.position;
+                    looseBones[a].GetComponent<SelectedObject>().origin = originToSet.transform.position;
                     originToSetString = null;
                 }
             }
