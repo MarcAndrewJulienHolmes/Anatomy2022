@@ -9,8 +9,11 @@ public class SelectedObject : MonoBehaviour
     private RightHandPointer rightHandPointer;
     private LeftHandPointer leftHandPointer;
     private Outline outline;
+    private SFXManager sfxManager;
+
 
     private GameObject rightHand, leftHand;
+    private GameObject SFXHolder;
     public GameObject thisGameObject;
 
     public bool leftHandRay;
@@ -30,6 +33,9 @@ public class SelectedObject : MonoBehaviour
         rightHand = GameObject.FindWithTag("PlayerRightHand");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+
+        SFXHolder = GameObject.Find("--- AUDIO ---");
+        sfxManager = SFXHolder.GetComponent<SFXManager>();
 
         outline = GetComponentInChildren<Outline>();
 
@@ -71,6 +77,7 @@ public class SelectedObject : MonoBehaviour
     public void ActivateSelect()
     {
         outline.OutlineWidth = 5;
+        sfxManager.PlaySelectTone();
     }
 
     public void DeactivateSelect()
@@ -80,6 +87,7 @@ public class SelectedObject : MonoBehaviour
         leftHandRay = false;
         rightHandRay = false;
         rightHandPointer.holdingObject = false;
+        sfxManager.PlayReturnTone();
     }
 
 
@@ -101,6 +109,7 @@ public class SelectedObject : MonoBehaviour
         {
             atAttachPoint = false;
             thisGameObject.transform.position = origin;
+            sfxManager.PlayReturnTone();
         }
     }
 
