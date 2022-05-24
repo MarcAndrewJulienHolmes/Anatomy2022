@@ -18,24 +18,28 @@ public class OriginRandomiser : MonoBehaviour
 
     private void Awake()
     {
+        
+    }
+
+    public void SetBonesPositions()
+    {
         if (randomiseOrigins)
         {
             for (int i = 0; i < origins.Length; i++)
             {
-                allOriginPointList.Add(origins[i].name);                
+                allOriginPointList.Add(origins[i].name);
             }
 
             for (int a = 0; a < origins.Length; a++)
             {
                 GenerateRandomOrigin();
-                if(originToSetString == null)
+                if (originToSetString == null)
                 {
                     a--;
                 }
                 else
                 {
                     GameObject originToSet = GameObject.Find(originToSetString);
-                    //originToSet.transform.position = origins[a].transform.position;
                     looseBones[a].transform.position = originToSet.transform.position;
                     looseBones[a].GetComponent<SelectedObject>().origin = originToSet.transform.position;
                     originToSetString = null;

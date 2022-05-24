@@ -12,6 +12,8 @@ public class RightHandPointer : MonoBehaviour
 
     public QuizButton[] quizButton;
 
+    public OnboardingButton[] onboardingButton;
+
     public Material normal, highlighted;
 
     //private float lineWidth = 0.1f;
@@ -111,6 +113,11 @@ public class RightHandPointer : MonoBehaviour
             {
                 quizButton[i].rightHandRay = false;
             }
+
+            for (int i = 0; i < onboardingButton.Length; i++)
+            {
+                onboardingButton[i].rightHandRay = false;
+            }
         }
     }
 
@@ -171,12 +178,37 @@ public class RightHandPointer : MonoBehaviour
                 }
             }
 
-            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>())
+            else if (pointObject.GetComponent<OnboardingButton>())
+            {
+                currentHighlightedObjectName = pointObject.GetComponent<OnboardingButton>().thisGameObjectName;
+                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+                lineRenderer.material = highlighted;
+
+                for (int i = 0; i < onboardingButton.Length; i++)
+                {
+                    if (onboardingButton[i].name == currentHighlightedObjectName)
+                    {
+                        onboardingButton[i].rightHandRay = true;
+                    }
+                }
+
+                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                {
+                    pointObject.GetComponent<OnboardingButton>().ButtonSelect();
+                }
+            }
+
+            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<OnboardingButton>())
             {
                 for (int i = 0; i < quizButton.Length; i++)
                 {
                     quizButton[i].rightHandRay = false;
-                }            
+                }
+
+                for (int i = 0; i < onboardingButton.Length; i++)
+                {
+                    onboardingButton[i].rightHandRay = false;                    
+                }
 
                 currentHighlightedObjectName = null;
 
@@ -196,6 +228,11 @@ public class RightHandPointer : MonoBehaviour
             for (int i = 0; i < quizButton.Length; i++)
             {
                 quizButton[i].rightHandRay = false;
+            }
+
+            for (int i = 0; i < onboardingButton.Length; i++)
+            {
+                onboardingButton[i].rightHandRay = false;
             }
 
             //rightHandDeselect.Invoke();
