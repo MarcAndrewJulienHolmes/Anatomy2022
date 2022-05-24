@@ -18,7 +18,7 @@ public class OriginRandomiser : MonoBehaviour
 
     private void Awake()
     {
-        
+        SetBonesPositions();
     }
 
     public void SetBonesPositions()

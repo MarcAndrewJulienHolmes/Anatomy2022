@@ -45,8 +45,11 @@ public class RightHandPointer : MonoBehaviour
     {
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
         lineRenderer.SetPositions(startLinePositions);
-        lineRenderer.enabled = false;
+        //lineRenderer.enabled = false;
         lineRenderer.material = normal;
+
+        toggled = true;
+        lineRenderer.enabled = true;
     }
 
     // Update is called once per frame
@@ -91,17 +94,20 @@ public class RightHandPointer : MonoBehaviour
         }
 
 
-        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.9)
-        {
-            toggled = true;
-            lineRenderer.enabled = true;
-        }
-        else
-        {
-            lineRenderer.enabled = false;
-            toggled = false;
-            objectHitRight = false;
-        }
+        //if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.9)
+        //{
+        //    toggled = true;
+        //    lineRenderer.enabled = true;
+        //}
+        //else
+        //{
+        //    lineRenderer.enabled = false;
+        //    toggled = false;
+        //    objectHitRight = false;
+        //}
+
+        //ActiveLineRenderer(transform.position, transform.forward, flexibleLineLength);
+
 
         if (toggled)
         {
@@ -146,7 +152,10 @@ public class RightHandPointer : MonoBehaviour
                     objectHitRight = true;
                     lineRenderer.material = highlighted;
 
-                    if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+
+                    //if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                    if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+
                     {
                         if (!holdingObject)
                         {
@@ -171,8 +180,9 @@ public class RightHandPointer : MonoBehaviour
                         quizButton[i].rightHandRay = true;
                     }
                 }
-                
-                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+
+                //if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
                 {
                     pointObject.GetComponent<QuizButton>().ButtonSelect();
                 }
@@ -192,7 +202,8 @@ public class RightHandPointer : MonoBehaviour
                     }
                 }
 
-                if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                //if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
                 {
                     pointObject.GetComponent<OnboardingButton>().ButtonSelect();
                 }
