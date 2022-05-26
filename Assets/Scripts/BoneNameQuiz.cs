@@ -1,7 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class BoneNameQuiz : MonoBehaviour
 {
@@ -35,13 +37,33 @@ public class BoneNameQuiz : MonoBehaviour
 
     public float currentQuizScore, maxScore, runningMaxScore, scorePercent;
 
+    public bool welshLanguage;
+
 
     // Start is called before the first frame update
     void Start()
     {
         SetAllBonesList();
-        quizQuestionTextMeshPro.text = "Pick up and attach your first bone to the skeleton.";
+        //quizQuestionTextMeshPro.text = "Pick up and attach your first bone to the skeleton.";
         maxScore = allBones.Length;
+        if(SceneManager.GetActiveScene().name == "Urdd_WelshVersion")
+        {
+            welshLanguage = true;
+        }
+        else
+        {
+            welshLanguage = false;
+        }
+
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Dewch o hyd i’r asgwrn rydych chi’n gallu ei weld mewn lliw glas ar y sgerbwd, a’i ychwanegu at y model i ddatgloi’r asgwrn nesaf.";
+
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Find the bone that you can see is highlighted in blue on the skeleton, and add it to the model to unlock the next bone in the sequence.";
+        }
     }
 
     // Update is called once per frame
@@ -75,10 +97,20 @@ public class BoneNameQuiz : MonoBehaviour
         currentQuizScore++;
         positiveTone.Play();
         quizBoardAnimator.Play("CorrectAnswer");
-        quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer.";
         scorePercent = currentQuizScore / runningMaxScore * 100;
         var scorePercentRounded = System.Math.Round(scorePercent, 1);
-        quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Gwych, " + correctAnswer + " yw’r ateb cywir.";
+            quizScoreFeedbackTextMeshPro.text = "Eich sgȏr ar hyn o bryd yw " + scorePercentRounded + "%.";
+
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer.";
+            quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+        }
+
         quizAvailable = false;
         for (int i = 0; i < quizButton.Length; i++)
         {
@@ -90,10 +122,20 @@ public class BoneNameQuiz : MonoBehaviour
     {
         negativeTone.Play();
         quizBoardAnimator.Play("IncorrectAnswer");
-        quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
         scorePercent = currentQuizScore / runningMaxScore * 100;
         var scorePercentRounded = System.Math.Round(scorePercent, 1);
-        quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Yn anffodus, nid dyna’r ateb cywir. Yr ateb cywir yw " + correctAnswer + ".";
+            quizScoreFeedbackTextMeshPro.text = "Eich sgȏr ar hyn o bryd yw " + scorePercentRounded + "%.";
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
+            quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+
+        }
+
         quizAvailable = false;
         for (int i = 0; i < quizButton.Length; i++)
         {
@@ -103,7 +145,15 @@ public class BoneNameQuiz : MonoBehaviour
 
     public void GenerateQuiz()
     {
-        quizQuestionTextMeshPro.text = "Select the correct bone name from the options below.";
+
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Dewiswch yr enw asgwrn cywir o'r opsiynau isod.";
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Select the correct bone name from the options below.";
+        }
 
         quizAvailable = true;
 
