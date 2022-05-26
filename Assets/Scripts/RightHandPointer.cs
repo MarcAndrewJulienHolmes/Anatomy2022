@@ -14,6 +14,8 @@ public class RightHandPointer : MonoBehaviour
 
     public OnboardingButton[] onboardingButton;
 
+    public LanguageButton[] languageButton;
+
     public Material normal, highlighted;
 
     //private float lineWidth = 0.1f;
@@ -210,7 +212,28 @@ public class RightHandPointer : MonoBehaviour
                 }
             }
 
-            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<OnboardingButton>())
+            else if (pointObject.GetComponent<LanguageButton>())
+            {
+                currentHighlightedObjectName = pointObject.GetComponent<LanguageButton>().thisGameObjectName;
+                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+                lineRenderer.material = highlighted;
+
+                for (int i = 0; i < languageButton.Length; i++)
+                {
+                    if (languageButton[i].name == currentHighlightedObjectName)
+                    {
+                        languageButton[i].rightHandRay = true;
+                    }
+                }
+
+                //if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
+                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+                {
+                    pointObject.GetComponent<LanguageButton>().ButtonSelect();
+                }
+            }
+
+            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<OnboardingButton>() && !pointObject.GetComponent<LanguageButton>())
             {
                 for (int i = 0; i < quizButton.Length; i++)
                 {

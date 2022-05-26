@@ -12,8 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MedicalRoom.unity
     guid: 3356bf00ea697ce4dbc91083a5f870a5
   - enabled: 1
+    path: Assets/Scenes/Urdd_LanguageSelect.unity
+    guid: ad91b0b9910f91c42b2184f90ae3881d
+  - enabled: 1
     path: Assets/Scenes/Urdd_WelshVersion.unity
     guid: 4ac871cecd64865458e82a1551a0633a
+  - enabled: 1
+    path: Assets/Scenes/Urdd_EnglishVersion.unity
+    guid: d7df27b32daa4974a91198ff381f9ad6
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ea3cfb22f9711ab429c03e4f4f17ed0c, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 48eab392cf2a78445b1bb45ab62b3419, type: 2}
