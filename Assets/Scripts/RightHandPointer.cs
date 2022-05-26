@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+
 
 
 public class RightHandPointer : MonoBehaviour
@@ -20,6 +22,8 @@ public class RightHandPointer : MonoBehaviour
 
     //private float lineWidth = 0.1f;
     private float flexibleLineLength;
+        
+    public float countdownTimer;
 
     public int layerMask = 1;
 
@@ -45,6 +49,7 @@ public class RightHandPointer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        countdownTimer = 3f;
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
         lineRenderer.SetPositions(startLinePositions);
         //lineRenderer.enabled = false;
@@ -86,6 +91,19 @@ public class RightHandPointer : MonoBehaviour
             {
                 return;
             }
+        }
+
+        if (OVRInput.Get(OVRInput.Button.Start))
+        {
+            countdownTimer -= Time.deltaTime;
+            if (countdownTimer < 0)
+            {
+                SceneManager.LoadScene("Urdd_LanguageSelect");
+            }
+        }
+        else
+        {
+            countdownTimer = 3f;
         }
 
         if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))

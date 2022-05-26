@@ -39,7 +39,11 @@ public class BoneNameQuiz : MonoBehaviour
 
     public bool welshLanguage;
 
-    public ParticleSystem confeti1, confetti2;
+    public ParticleSystem[] confetti;
+
+    public AudioSource[] celebrateSFX;
+
+    public OVRScreenFade ovrScreenFade;
 
 
     // Start is called before the first frame update
@@ -244,9 +248,22 @@ public class BoneNameQuiz : MonoBehaviour
 
     public IEnumerator QuizComplete()
     {
-        confeti1.Play();
-        confetti2.Play();
+        for (int i = 0; i < celebrateSFX.Length; i++)
+        {
+            celebrateSFX[i].Play();
+        }
+
+        for (int i = 0; i < confetti.Length; i++)
+        {
+            confetti[i].Play();
+        }
+
         yield return new WaitForSeconds(5f);
+
+        ovrScreenFade.FadeOut();
+
+        yield return new WaitForSeconds(1f);
+
         SceneManager.LoadScene("Urdd_LanguageSelect");
     }
 }
