@@ -49,7 +49,6 @@ public class RightHandPointer : MonoBehaviour
         lineRenderer.material = normal;
 
         toggled = true;
-        lineRenderer.enabled = true;
     }
 
     // Update is called once per frame
@@ -111,10 +110,12 @@ public class RightHandPointer : MonoBehaviour
 
         if (toggled)
         {
+            lineRenderer.enabled = true;
             ActiveLineRenderer(transform.position, transform.forward, flexibleLineLength);
         }
         else
         {
+            lineRenderer.enabled = false;
             for (int i = 0; i < quizButton.Length; i++)
             {
                 quizButton[i].rightHandRay = false;
