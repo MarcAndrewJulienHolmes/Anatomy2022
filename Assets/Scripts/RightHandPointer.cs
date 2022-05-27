@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class RightHandPointer : MonoBehaviour
 {
+    public OVRScreenFade ovrScreenFade;
+
     public LineRenderer lineRenderer;
 
     public BoneNameQuiz boneNameQuiz;
@@ -33,7 +35,7 @@ public class RightHandPointer : MonoBehaviour
 
     public bool objectHitRight = false;
 
-    public bool holdingObject;
+    public bool holdingObject, coroutineRunning;
 
     public GameObject pointObject, currenHighlightedObject;
 
@@ -96,9 +98,10 @@ public class RightHandPointer : MonoBehaviour
         if (OVRInput.Get(OVRInput.Button.Start))
         {
             countdownTimer -= Time.deltaTime;
-            if (countdownTimer < 0)
+            if (countdownTimer < 0 && !coroutineRunning)
             {
-                SceneManager.LoadScene("Urdd_LanguageSelect");
+                StartCoroutine(RestartApp());
+                
             }
         }
         else
@@ -293,5 +296,13 @@ public class RightHandPointer : MonoBehaviour
 
         lineRenderer.SetPosition(0, targetPosition);
         lineRenderer.SetPosition(1, endPosition);
+    }
+
+    public IEnumerator RestartApp()
+    {
+        coroutineRunning = true;
+        ovrScreenFade.FadeOut();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Urdd_LanguageSelect");
     }
 }

@@ -10,21 +10,21 @@ public class LanguageSelect : MonoBehaviour
 
     public string languageToSelect;
 
-    public bool activate;
+    public bool activate, coroutineRunning;
 
 
     // Update is called once per frame
     void Update()
     {
-        if (activate == true)
+        if (activate == true && !coroutineRunning)
         {
-
             StartCoroutine(SceneChange());
         }
     }
 
     public IEnumerator SceneChange()
     {
+        coroutineRunning = true;
         ovrScreenFade.FadeOut();
         yield return new WaitForSeconds(2f);
         if(languageToSelect == "Welsh")

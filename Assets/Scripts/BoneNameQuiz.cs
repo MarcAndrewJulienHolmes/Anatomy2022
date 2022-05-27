@@ -248,6 +248,17 @@ public class BoneNameQuiz : MonoBehaviour
 
     public IEnumerator QuizComplete()
     {
+        yield return new WaitForSeconds(1f);
+
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Da iawn, eich sgȏr yw " + scorePercent + " %!!!";
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Well done, overall you scored " + scorePercent + " %!!";
+        }
+
         for (int i = 0; i < celebrateSFX.Length; i++)
         {
             celebrateSFX[i].Play();
@@ -258,11 +269,11 @@ public class BoneNameQuiz : MonoBehaviour
             confetti[i].Play();
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
 
         ovrScreenFade.FadeOut();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene("Urdd_LanguageSelect");
     }
