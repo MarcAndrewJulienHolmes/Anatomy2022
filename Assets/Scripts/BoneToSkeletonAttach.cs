@@ -30,6 +30,9 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public bool startOfSequence, endOfSequence;
 
+    public OnboardingManager onboardingManager;
+    public GameObject onboardingHolder;
+
 
     private void Awake()
     {
@@ -54,6 +57,9 @@ public class BoneToSkeletonAttach : MonoBehaviour
         audioSource = skeletonReplaceObject.GetComponent<AudioSource>();
 
         skeletonReplaceObject.SetActive(false);
+
+        onboardingHolder = GameObject.Find("---ONBOARDING ---");
+        onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
     }
 
     public void Start()
@@ -101,6 +107,9 @@ public class BoneToSkeletonAttach : MonoBehaviour
         boneNameQuiz.lastBoneConnected = thisGameObjectName;
 
         boneNameQuiz.GenerateQuiz();
+
+        onboardingManager.attachBone = true;
+        onboardingManager.UpdateChecklist();
 
         if (!endOfSequence)
         {

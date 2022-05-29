@@ -12,6 +12,10 @@ public class SelectedObject : MonoBehaviour
     private SFXManager sfxManager;
 
 
+    public OnboardingManager onboardingManager;
+    public GameObject onboardingHolder;
+
+
     private GameObject rightHand, leftHand;
     private GameObject SFXHolder;
     public GameObject thisGameObject;
@@ -25,6 +29,8 @@ public class SelectedObject : MonoBehaviour
     public Transform hitPoint;
     public bool atAttachPoint, atOriginPoint;
 
+    public bool selected;
+
     public Vector3 origin;
 
 
@@ -36,6 +42,9 @@ public class SelectedObject : MonoBehaviour
 
         SFXHolder = GameObject.Find("--- AUDIO ---");
         sfxManager = SFXHolder.GetComponent<SFXManager>();
+
+        onboardingHolder = GameObject.Find("---ONBOARDING ---");
+        onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
 
         outline = GetComponentInChildren<Outline>();
 
@@ -53,6 +62,10 @@ public class SelectedObject : MonoBehaviour
     void Start()
     {
         rightHandPointer.rightHandDeselect.AddListener(DeactivateSelect);
+
+        rightHandPointer.rightHandReturnOrigin.AddListener(ReturnToOrigin);
+
+        rightHandPointer.rightHandMoveTowards.AddListener(MoveToAttach);
 
         SetUpOutline();
     }
@@ -78,24 +91,30 @@ public class SelectedObject : MonoBehaviour
     {
         outline.OutlineWidth = 5;
         sfxManager.PlaySelectTone();
+        selected = true;
     }
 
     public void DeactivateSelect()
     {
+        onboardingManager.deselectBone = true;
+        onboardingManager.UpdateChecklist();
         outline.OutlineWidth = 0;
         atAttachPoint = false;
         leftHandRay = false;
         rightHandRay = false;
         rightHandPointer.holdingObject = false;
         sfxManager.PlayReturnTone();
+        selected = false;
     }
 
 
     public void MoveToAttach()
     {
-        if (!atAttachPoint && rightHandRay)
+        if (!atAttachPoint && selected)
         {
             thisGameObject.transform.position = rightHand.transform.position;
+            onboardingManager.moveBone = true;
+            onboardingManager.UpdateChecklist();
         }
         else
         {
@@ -105,11 +124,13 @@ public class SelectedObject : MonoBehaviour
 
     public void ReturnToOrigin()
     {
-        if (!atOriginPoint && rightHandRay)
+        if (!atOriginPoint && selected)
         {
             atAttachPoint = false;
             thisGameObject.transform.position = origin;
             sfxManager.PlayReturnTone();
+            onboardingManager.returnBoneToOrigin = true;
+            onboardingManager.UpdateChecklist();
         }
     }
 

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class RightHandPointer : MonoBehaviour
 {
+    public OnboardingManager onboardingManager;
+
     public OVRScreenFade ovrScreenFade;
 
     public LineRenderer lineRenderer;
@@ -15,8 +17,6 @@ public class RightHandPointer : MonoBehaviour
     public BoneNameQuiz boneNameQuiz;
 
     public QuizButton[] quizButton;
-
-    public OnboardingButton[] onboardingButton;
 
     public LanguageButton[] languageButton;
 
@@ -43,8 +43,9 @@ public class RightHandPointer : MonoBehaviour
 
 
     public UnityEvent rightHandSelect;
-    public UnityEvent rightHandMove;
+    public UnityEvent rightHandMoveTowards;
     public UnityEvent rightHandDeselect;
+    public UnityEvent rightHandReturnOrigin;
 
     
 
@@ -72,27 +73,71 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.One))
         {
-            if (currenHighlightedObject.GetComponent<SelectedObject>())
-            {
-                currenHighlightedObject.GetComponent<SelectedObject>().ReturnToOrigin();
-            }
-            else
-            {
-                return;
-            }
+            rightHandReturnOrigin.Invoke();
+
+            //if (currenHighlightedObject.GetComponent<SelectedObject>())
+            //{
+            //    currenHighlightedObject.GetComponent<SelectedObject>().ReturnToOrigin();
+            //}
+            //else
+            //{
+            //    return;
+            //}
         }
+
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp))
+        {
+            onboardingManager.leftThumbstickMove = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown))
+        {
+            onboardingManager.leftThumbstickMove = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickLeft))
+        {
+            onboardingManager.leftThumbstickMove = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight))
+        {
+            onboardingManager.leftThumbstickMove = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickLeft))
+        {
+            onboardingManager.rightThumbstickTurn = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickRight))             
+        {
+            onboardingManager.rightThumbstickTurn = true;
+            onboardingManager.UpdateChecklist();
+        }
+
+
 
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
         {
-            if (currenHighlightedObject != null && currenHighlightedObject.GetComponent<SelectedObject>())
-            {
-                currenHighlightedObject.GetComponent<SelectedObject>().MoveToAttach();
-                //currenHighlightedObject.GetComponent<HighlightedObject>().MoveTowardsAttach();
-            }
-            else
-            {
-                return;
-            }
+            rightHandMoveTowards.Invoke();
+
+            //if (currenHighlightedObject != null && currenHighlightedObject.GetComponent<SelectedObject>())
+            //{
+            //    currenHighlightedObject.GetComponent<SelectedObject>().MoveToAttach();
+
+
+            //    //currenHighlightedObject.GetComponent<HighlightedObject>().MoveTowardsAttach();
+            //}
+            //else
+            //{
+            //    return;
+            //}
         }
 
         if (OVRInput.Get(OVRInput.Button.Start))
@@ -143,11 +188,6 @@ public class RightHandPointer : MonoBehaviour
             {
                 quizButton[i].rightHandRay = false;
             }
-
-            for (int i = 0; i < onboardingButton.Length; i++)
-            {
-                onboardingButton[i].rightHandRay = false;
-            }
         }
     }
 
@@ -185,6 +225,8 @@ public class RightHandPointer : MonoBehaviour
                         {
                             currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
                             currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                            onboardingManager.selectBone = true;
+                            onboardingManager.UpdateChecklist();
                             holdingObject = true;
                         }
                     }
@@ -212,26 +254,6 @@ public class RightHandPointer : MonoBehaviour
                 }
             }
 
-            else if (pointObject.GetComponent<OnboardingButton>())
-            {
-                currentHighlightedObjectName = pointObject.GetComponent<OnboardingButton>().thisGameObjectName;
-                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                lineRenderer.material = highlighted;
-
-                for (int i = 0; i < onboardingButton.Length; i++)
-                {
-                    if (onboardingButton[i].name == currentHighlightedObjectName)
-                    {
-                        onboardingButton[i].rightHandRay = true;
-                    }
-                }
-
-                //if (OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
-                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
-                {
-                    pointObject.GetComponent<OnboardingButton>().ButtonSelect();
-                }
-            }
 
             else if (pointObject.GetComponent<LanguageButton>())
             {
@@ -254,16 +276,11 @@ public class RightHandPointer : MonoBehaviour
                 }
             }
 
-            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<OnboardingButton>() && !pointObject.GetComponent<LanguageButton>())
+            else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<LanguageButton>())
             {
                 for (int i = 0; i < quizButton.Length; i++)
                 {
                     quizButton[i].rightHandRay = false;
-                }
-
-                for (int i = 0; i < onboardingButton.Length; i++)
-                {
-                    onboardingButton[i].rightHandRay = false;                    
                 }
 
                 currentHighlightedObjectName = null;
@@ -284,11 +301,6 @@ public class RightHandPointer : MonoBehaviour
             for (int i = 0; i < quizButton.Length; i++)
             {
                 quizButton[i].rightHandRay = false;
-            }
-
-            for (int i = 0; i < onboardingButton.Length; i++)
-            {
-                onboardingButton[i].rightHandRay = false;
             }
 
             //rightHandDeselect.Invoke();
