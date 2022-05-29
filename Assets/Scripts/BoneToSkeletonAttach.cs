@@ -96,6 +96,8 @@ public class BoneToSkeletonAttach : MonoBehaviour
     {
         rightHandPointer.holdingObject = false;
 
+        rightHandPointer.linePointerOn = true;
+
         thisGameObject.SetActive(false);
 
         skeletonAttachObject.SetActive(false);

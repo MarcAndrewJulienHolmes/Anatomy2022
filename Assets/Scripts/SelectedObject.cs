@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class SelectedObject : MonoBehaviour
 {
     private RightHandPointer rightHandPointer;
-    private LeftHandPointer leftHandPointer;
+    //private LeftHandPointer leftHandPointer;
     private Outline outline;
     private SFXManager sfxManager;
 
@@ -89,9 +89,15 @@ public class SelectedObject : MonoBehaviour
 
     public void ActivateSelect()
     {
+        if (!onboardingManager.selectBone)
+        {
+            onboardingManager.selectBone = true;
+            onboardingManager.UpdateChecklist();
+        }
         outline.OutlineWidth = 5;
         sfxManager.PlaySelectTone();
         selected = true;
+        rightHandPointer.linePointerOn = false;
     }
 
     public void DeactivateSelect()
@@ -105,6 +111,8 @@ public class SelectedObject : MonoBehaviour
         rightHandPointer.holdingObject = false;
         sfxManager.PlayReturnTone();
         selected = false;
+        rightHandPointer.linePointerOn = true;
+
     }
 
 
@@ -115,6 +123,7 @@ public class SelectedObject : MonoBehaviour
             thisGameObject.transform.position = rightHand.transform.position;
             onboardingManager.moveBone = true;
             onboardingManager.UpdateChecklist();
+
         }
         else
         {

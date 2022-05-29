@@ -54,9 +54,7 @@ public class BoneNameQuiz : MonoBehaviour
     {
         onboardingHolder = GameObject.Find("---ONBOARDING ---");
         onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
-
         SetAllBonesList();
-        //quizQuestionTextMeshPro.text = "Pick up and attach your first bone to the skeleton.";
         maxScore = allBones.Length;
         if(SceneManager.GetActiveScene().name == "Urdd_WelshVersion")
         {
@@ -78,15 +76,6 @@ public class BoneNameQuiz : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (generateQuizBool)
-        {
-            GenerateQuiz();
-            generateQuizBool = false;
-        }
-    }
 
     public void CheckAnswer()
     {
@@ -116,13 +105,13 @@ public class BoneNameQuiz : MonoBehaviour
         var scorePercentRounded = System.Math.Round(scorePercent, 1);
         if (welshLanguage)
         {
-            quizQuestionTextMeshPro.text = "Gwych, " + correctAnswer + " yw’r ateb cywir. \n Darganfyddwch ac ychwanegwch yr asgwrn nesaf yn y dilyniant";
+            quizQuestionTextMeshPro.text = "Gwych, " + correctAnswer + " yw’r ateb cywir. \n \n Darganfyddwch ac ychwanegwch yr asgwrn nesaf yn y dilyniant";
             quizScoreFeedbackTextMeshPro.text = "Eich sgȏr ar hyn o bryd yw " + scorePercentRounded + "%.";
 
         }
         else
         {
-            quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer. \n Find and add the next bone in the sequence.";
+            quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer. \n \n Find and add the next bone in the sequence.";
             quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
         }
 

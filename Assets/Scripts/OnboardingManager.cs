@@ -20,14 +20,17 @@ public class OnboardingManager : MonoBehaviour
 
     public void UpdateChecklist()
     {
-
+        if(completeCounter == 8)
+        {
+            return;
+        }
+        else
+        {
             if (leftThumbstickMove && !leftThumbstickMoveDone)
             {
                 leftThumbstickMoveAni.Play("Complete");
                 leftThumbstickMoveDone = true;
                 completeCounter++;
-
-
             }
 
             if (rightThumbstickTurn && !rightThumbstickTurnDone)
@@ -79,12 +82,10 @@ public class OnboardingManager : MonoBehaviour
                 completeCounter++;
             }
 
-        if (completeCounter == 8 && !canvasHasFaded)
-        {
-            fadeOutCanvas.Play("fadeOutCanvas");
+            if (completeCounter == 8 && !canvasHasFaded)
+            {
+                fadeOutCanvas.Play("fadeOutCanvas");
+            }
         }
-
     }
-
-
-    }
+}

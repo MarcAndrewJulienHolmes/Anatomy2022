@@ -39,14 +39,6 @@ public class SkeletonAttach : MonoBehaviour
 
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (isConnected)
-    //    {
-    //        MoveToConnectPoint();
-    //    }
-    //}
 
     public void OnTriggerEnter(Collider other)
     {
