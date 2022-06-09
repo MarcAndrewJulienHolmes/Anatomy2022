@@ -26,6 +26,8 @@ public class SelectedObject : MonoBehaviour
     public string thisGameObjectName, thisGameObjectTag;
 
     public Vector3 rightOffset, originalRightOffset;
+    public Quaternion originalRotation;
+
     public Transform hitPoint;
     public bool atAttachPoint, atOriginPoint;
 
@@ -55,6 +57,8 @@ public class SelectedObject : MonoBehaviour
 
         outline = thisGameObject.GetComponentInChildren<Outline>();
 
+        originalRotation = thisGameObject.transform.rotation;
+
     }
 
 
@@ -76,6 +80,8 @@ public class SelectedObject : MonoBehaviour
         if (atAttachPoint)
         {
             thisGameObject.transform.position = rightHand.transform.position;
+
+            thisGameObject.transform.rotation = rightHand.transform.rotation ;
         }
     }
 
@@ -137,6 +143,7 @@ public class SelectedObject : MonoBehaviour
         {
             atAttachPoint = false;
             thisGameObject.transform.position = origin;
+            thisGameObject.transform.rotation = originalRotation;
             sfxManager.PlayReturnTone();
             onboardingManager.returnBoneToOrigin = true;
             onboardingManager.UpdateChecklist();
