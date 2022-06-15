@@ -5,6 +5,8 @@ using TMPro;
 
 public class OnboardingManager : MonoBehaviour
 {
+    public bool sceneOne;
+
     public bool leftThumbstickMove, rightThumbstickTurn, selectBone, moveBone, returnBoneToOrigin, deselectBone, attachBone, answerQuiz;
 
     public bool leftThumbstickMoveDone, rightThumbstickTurnDone, selectBoneDone, moveBoneDone, returnBoneToOriginDone, deselectBoneDone, attachBoneDone, answerQuizDone;
@@ -20,72 +22,82 @@ public class OnboardingManager : MonoBehaviour
 
     public void UpdateChecklist()
     {
-        if(completeCounter == 8)
+        if (sceneOne)
         {
-            return;
+            if (completeCounter == 8)
+            {
+                return;
+            }
+
+            else
+            {
+                if (leftThumbstickMove && !leftThumbstickMoveDone)
+                {
+                    leftThumbstickMoveAni.Play("Complete");
+                    leftThumbstickMoveDone = true;
+                    completeCounter++;
+                }
+
+                if (rightThumbstickTurn && !rightThumbstickTurnDone)
+                {
+                    rightThumbstickTurnAni.Play("Complete");
+                    rightThumbstickTurnDone = true;
+                    completeCounter++;
+                }
+
+                if (selectBone && !selectBoneDone)
+                {
+                    selectBoneAni.Play("Complete");
+                    selectBoneDone = true;
+                    completeCounter++;
+                }
+
+                if (moveBone && !moveBoneDone)
+                {
+                    moveBoneAni.Play("Complete");
+                    moveBoneDone = true;
+                    completeCounter++;
+                }
+
+                if (returnBoneToOrigin && !returnBoneToOriginDone)
+                {
+                    returnBoneToOriginAni.Play("Complete");
+                    returnBoneToOriginDone = true;
+                    completeCounter++;
+                }
+
+                if (deselectBone && !deselectBoneDone)
+                {
+                    deselectBoneAni.Play("Complete");
+                    deselectBoneDone = true;
+                    completeCounter++;
+                }
+
+                if (attachBone && !attachBoneDone)
+                {
+                    attachBoneAni.Play("Complete");
+                    attachBoneDone = true;
+                    completeCounter++;
+                }
+
+                if (answerQuiz && !answerQuizDone)
+                {
+                    answerQuizAni.Play("Complete");
+                    answerQuizDone = true;
+                    completeCounter++;
+                }
+
+                if (completeCounter == 8 && !canvasHasFaded)
+                {
+                    fadeOutCanvas.Play("fadeOutCanvas");
+                }
+            }
         }
         else
         {
-            if (leftThumbstickMove && !leftThumbstickMoveDone)
-            {
-                leftThumbstickMoveAni.Play("Complete");
-                leftThumbstickMoveDone = true;
-                completeCounter++;
-            }
 
-            if (rightThumbstickTurn && !rightThumbstickTurnDone)
-            {
-                rightThumbstickTurnAni.Play("Complete");
-                rightThumbstickTurnDone = true;
-                completeCounter++;
-            }
-
-            if (selectBone && !selectBoneDone)
-            {
-                selectBoneAni.Play("Complete");
-                selectBoneDone = true;
-                completeCounter++;
-            }
-
-            if (moveBone && !moveBoneDone)
-            {
-                moveBoneAni.Play("Complete");
-                moveBoneDone = true;
-                completeCounter++;
-            }
-
-            if (returnBoneToOrigin && !returnBoneToOriginDone)
-            {
-                returnBoneToOriginAni.Play("Complete");
-                returnBoneToOriginDone = true;
-                completeCounter++;
-            }
-
-            if (deselectBone && !deselectBoneDone)
-            {
-                deselectBoneAni.Play("Complete");
-                deselectBoneDone = true;
-                completeCounter++;
-            }
-
-            if (attachBone && !attachBoneDone)
-            {
-                attachBoneAni.Play("Complete");
-                attachBoneDone = true;
-                completeCounter++;
-            }
-
-            if (answerQuiz && !answerQuizDone)
-            {
-                answerQuizAni.Play("Complete");
-                answerQuizDone = true;
-                completeCounter++;
-            }
-
-            if (completeCounter == 8 && !canvasHasFaded)
-            {
-                fadeOutCanvas.Play("fadeOutCanvas");
-            }
         }
+
+
     }
 }

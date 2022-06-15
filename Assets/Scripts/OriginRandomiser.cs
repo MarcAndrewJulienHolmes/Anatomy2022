@@ -6,7 +6,7 @@ public class OriginRandomiser : MonoBehaviour
 {
     public GameObject[] origins;
 
-    public GameObject[] looseBones;
+    public GameObject[] looseObjects;
 
     public List<string> allOriginPointList = new List<string>();
 
@@ -40,19 +40,19 @@ public class OriginRandomiser : MonoBehaviour
                 else
                 {
                     GameObject originToSet = GameObject.Find(originToSetString);
-                    looseBones[a].transform.position = originToSet.transform.position;
-                    looseBones[a].GetComponent<SelectedObject>().origin = originToSet.transform.position;
+                    looseObjects[a].transform.position = originToSet.transform.position;
+                    looseObjects[a].GetComponent<SelectedObject>().origin = originToSet.transform.position;
                     originToSetString = null;
                 }
             }
         }
         else
         {
-            for (int b = 0; b < looseBones.Length; b++)
+            for (int b = 0; b < looseObjects.Length; b++)
             {
-                var looseBoneName = looseBones[b].name;
+                var looseBoneName = looseObjects[b].name;
                 GameObject looseBoneOrigin = GameObject.Find(looseBoneName + " Origin");
-                looseBones[b].transform.position = looseBoneOrigin.transform.position;
+                looseObjects[b].transform.position = looseBoneOrigin.transform.position;
 
             }
         }
