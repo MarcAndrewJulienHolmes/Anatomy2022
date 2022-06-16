@@ -4895,6 +4895,36 @@ Transform:
   m_Father: {fileID: 906306107}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &338386668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338386669}
+  m_Layer: 0
+  m_Name: Right Hand Attach Sphere
+  m_TagString: PlayerRightHand
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &338386669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338386668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_Children: []
+  m_Father: {fileID: 1706020360}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &338726346
 GameObject:
   m_ObjectHideFlags: 0
@@ -9254,7 +9284,7 @@ GameObject:
   - component: {fileID: 609268143}
   - component: {fileID: 609268142}
   m_Layer: 0
-  m_Name: Right Hand Attach Sphere
+  m_Name: Right Hand Line Renderer Sphere
   m_TagString: PlayerRightHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9286,6 +9316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534344c4936ae6b429cf99b3d04d4e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onboardingManager: {fileID: 0}
   ovrScreenFade: {fileID: 1876306065}
   lineRenderer: {fileID: 609268146}
   boneNameQuiz: {fileID: 0}
@@ -9294,9 +9325,6 @@ MonoBehaviour:
   - {fileID: 769063196}
   - {fileID: 673238195}
   - {fileID: 1153720455}
-  onboardingButton:
-  - {fileID: 98252799}
-  - {fileID: 43025152}
   languageButton:
   - {fileID: 1286540679}
   - {fileID: 986009006}
@@ -9305,20 +9333,23 @@ MonoBehaviour:
   countdownTimer: 0
   layerMask: 1
   endPosition: {x: 0, y: 0, z: 0}
-  toggled: 0
   objectHitRight: 0
   holdingObject: 0
   coroutineRunning: 0
+  linePointerOn: 0
   pointObject: {fileID: 0}
   currenHighlightedObject: {fileID: 0}
   currentHighlightedObjectName: 
   rightHandSelect:
     m_PersistentCalls:
       m_Calls: []
-  rightHandMove:
+  rightHandMoveTowards:
     m_PersistentCalls:
       m_Calls: []
   rightHandDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+  rightHandReturnOrigin:
     m_PersistentCalls:
       m_Calls: []
 --- !u!54 &609268143
@@ -25130,6 +25161,7 @@ Transform:
   - {fileID: 1895698374}
   - {fileID: 1487577150}
   - {fileID: 609268141}
+  - {fileID: 338386669}
   m_Father: {fileID: 185041935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

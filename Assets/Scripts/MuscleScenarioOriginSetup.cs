@@ -58,6 +58,7 @@ public class MuscleScenarioOriginSetup : MonoBehaviour
                 usedMuscleGroupsIntList.Add(randomNum);
                 usedMuscleGroupsStringList.Add(muscleGroup[randomNum].name);
                 muscleGroup[randomNum].SetActive(true);
+                muscleGroup[randomNum].GetComponent<SelectedObject>().origin = muscleOrigin[muscleOriginCounter].transform.position;
                 muscleGroup[randomNum].transform.position = muscleOrigin[muscleOriginCounter].transform.position;
                 muscleOriginCounter++;
                 ApplyRandomMuscleGroupToOrigin();

@@ -72,6 +72,7 @@ public class RightHandPointer : MonoBehaviour
         if (OVRInput.Get(OVRInput.Button.One))
         {
             rightHandReturnOrigin.Invoke();
+            rightHandDeselect.Invoke();
 
         }
 
@@ -132,11 +133,11 @@ public class RightHandPointer : MonoBehaviour
             }
         }
 
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
-        {
-            rightHandMoveTowards.Invoke();
+        //if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
+        //{
+        //    rightHandMoveTowards.Invoke();
 
-        }
+        //}
 
         if (OVRInput.Get(OVRInput.Button.Start))
         {
@@ -194,6 +195,8 @@ public class RightHandPointer : MonoBehaviour
                             currenHighlightedObject.GetComponent<SelectedObject>().rightHandRay = true;
                             currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
                             holdingObject = true;
+                            rightHandMoveTowards.Invoke();
+
                         }
                     }
                 }

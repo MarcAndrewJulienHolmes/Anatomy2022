@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class SelectedObject : MonoBehaviour
 {
+    public string sceneName;
+
     private RightHandPointer rightHandPointer;
     //private LeftHandPointer leftHandPointer;
     private Outline outline;
@@ -16,7 +18,7 @@ public class SelectedObject : MonoBehaviour
     public GameObject onboardingHolder;
 
 
-    private GameObject rightHand, leftHand;
+    private GameObject rightHand, rightHandAttach;
     private GameObject SFXHolder;
     public GameObject thisGameObject;
 
@@ -34,11 +36,16 @@ public class SelectedObject : MonoBehaviour
     public bool selected;
 
     public Vector3 origin;
+        
 
 
     private void Awake()
     {
+
+
         rightHand = GameObject.FindWithTag("PlayerRightHand");
+
+        rightHandAttach = GameObject.FindWithTag("PlayerRightHandAttach");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
 
@@ -81,7 +88,7 @@ public class SelectedObject : MonoBehaviour
         {
             thisGameObject.transform.position = rightHand.transform.position;
 
-            thisGameObject.transform.rotation = rightHand.transform.rotation ;
+            thisGameObject.transform.rotation = rightHandAttach.transform.rotation;
         }
     }
 
