@@ -11,7 +11,7 @@ public class OnboardingManager : MonoBehaviour
 
     public bool leftThumbstickMoveDone, rightThumbstickTurnDone, selectBoneDone, moveBoneDone, returnBoneToOriginDone, deselectBoneDone, attachBoneDone, answerQuizDone;
 
-    public Animator leftThumbstickMoveAni, rightThumbstickTurnAni, selectBoneAni, moveBoneAni, returnBoneToOriginAni, deselectBoneAni, attachBoneAni, answerQuizAni;
+    public Animator leftThumbstickMoveAni, rightThumbstickTurnAni, selectBoneAni,  returnBoneToOriginAni, deselectBoneAni, attachBoneAni, answerQuizAni;
 
     public Animator fadeOutCanvas;
 
@@ -24,7 +24,7 @@ public class OnboardingManager : MonoBehaviour
     {
         if (sceneOne)
         {
-            if (completeCounter == 8)
+            if (completeCounter == 7)
             {
                 return;
             }
@@ -52,12 +52,12 @@ public class OnboardingManager : MonoBehaviour
                     completeCounter++;
                 }
 
-                if (moveBone && !moveBoneDone)
-                {
-                    moveBoneAni.Play("Complete");
-                    moveBoneDone = true;
-                    completeCounter++;
-                }
+                //if (moveBone && !moveBoneDone)
+                //{
+                //    moveBoneAni.Play("Complete");
+                //    moveBoneDone = true;
+                //    completeCounter++;
+                //}
 
                 if (returnBoneToOrigin && !returnBoneToOriginDone)
                 {
@@ -87,7 +87,7 @@ public class OnboardingManager : MonoBehaviour
                     completeCounter++;
                 }
 
-                if (completeCounter == 8 && !canvasHasFaded)
+                if (completeCounter == 7 && !canvasHasFaded)
                 {
                     fadeOutCanvas.Play("fadeOutCanvas");
                 }

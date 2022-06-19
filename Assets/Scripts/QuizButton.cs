@@ -48,7 +48,7 @@ public class QuizButton : MonoBehaviour
         {
             HighlightedColour();
         }
-        else if (!rightHandRay && boneNameQuiz.quizAvailable)
+        else if (!rightHandRay && boneNameQuiz.quizAvailable && !boneNameQuiz.timeRunOut)
         {
             NormalColour();
         }

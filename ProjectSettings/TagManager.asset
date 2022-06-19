@@ -45,6 +45,7 @@ TagManager:
   - PlayerLeftHand
   - PlayerRightHandAttach
   - SkeletonAttach
+  - AttachSFX
   layers:
   - Default
   - TransparentFX

@@ -26,6 +26,7 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public string skeletonAttachObjectName;
 
+    public GameObject audiosourceHolder;
     public AudioSource audioSource;
 
     public bool startOfSequence, endOfSequence;
@@ -54,7 +55,8 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
         skeletonAttachObjectName = skeletonAttachObject.name;
 
-        audioSource = skeletonReplaceObject.GetComponent<AudioSource>();
+        audiosourceHolder = GameObject.FindGameObjectWithTag("AttachSFX");
+        audioSource = audiosourceHolder.GetComponent<AudioSource>();
 
         skeletonReplaceObject.SetActive(false);
 
