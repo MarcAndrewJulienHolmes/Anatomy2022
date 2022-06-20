@@ -46,6 +46,8 @@ TagManager:
   - PlayerRightHandAttach
   - SkeletonAttach
   - AttachSFX
+  - SceneAndScoreManager
+  - Scriptholder
   layers:
   - Default
   - TransparentFX

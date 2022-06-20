@@ -7,55 +7,40 @@ using UnityEngine.SceneManagement;
 
 public class BoneNameQuiz : MonoBehaviour
 {
+    [Header("Scripts")]
+    public SceneAndScoreManager sceneAndScoreManager;
     public Timer timer;
-
-    public GameObject[] allBones;
-
-    public QuizButton[] quizButton;
-
-    public Animator quizBoardAnimator;
-
-    public AudioSource negativeTone, positiveTone;
-
-    public static List<string> allBonesNames = new List<string>();
-
-    public TMP_Text quizQuestionTextMeshPro, quizScoreFeedbackTextMeshPro, introTextMeshPro;
-
-    public TMP_Text[] quizAnswerTextMeshPro;
-
-    public string [] quizEntries;
-
-    public static string quizEntriesStatic;
-
-    public string lastBoneConnected;
-
-    public string answerSelected, correctAnswer;
-
-    public static string lastBoneConnectedStatic;
-
-    public bool generateQuizBool;
-
-    public bool quizAvailable;
-
-    public float currentQuizScore, maxScore, runningMaxScore, scorePercent, timeTaken;
-
-    public ParticleSystem[] confetti;
-
-    public AudioSource[] celebrateSFX;
-
+    public OnboardingManager onboardingManager;
     public OVRScreenFade ovrScreenFade;
 
-    public OnboardingManager onboardingManager;
-    public GameObject onboardingHolder;
+    [Header("Celebration")]
+    public ParticleSystem[] confetti;
+    public AudioSource[] celebrateSFX;
 
+    [Header("Quiz Canvas Elements")]
+    public QuizButton[] quizButton;
+    public Animator quizBoardAnimator;
+    public AudioSource negativeTone, positiveTone;
+    public TMP_Text quizQuestionTextMeshPro, quizScoreFeedbackTextMeshPro, introTextMeshPro;
+    public TMP_Text[] quizAnswerTextMeshPro;
+    public string answerSelected, correctAnswer;
+
+    [Header("Quiz Logic")]
+    public GameObject[] allBones;
+    public static List<string> allBonesNames = new List<string>();
+    public string [] quizEntries;
+    public static string quizEntriesStatic;
+    public string lastBoneConnected;
+    public static string lastBoneConnectedStatic;
+    public bool generateQuizBool;
+    public bool quizAvailable;
+    private float currentQuizScore, maxScore, runningMaxScore, scorePercent;
     public bool timeRunOut = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        onboardingHolder = GameObject.Find("---ONBOARDING ---");
-        onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
         SetAllBonesList();
         maxScore = allBones.Length;
 
@@ -67,11 +52,8 @@ public class BoneNameQuiz : MonoBehaviour
         {
             onboardingManager.answerQuiz = true;
             onboardingManager.UpdateChecklist();
-
             correctAnswer = lastBoneConnected;
-
             runningMaxScore++;
-
             if (answerSelected == correctAnswer)
             {
                 CorrectAnswer();
@@ -226,6 +208,32 @@ public class BoneNameQuiz : MonoBehaviour
 
     }
 
+    public void Celebration()
+    {
+        scorePercent = currentQuizScore / maxScore * 100;
+        var scorePercentRounded = System.Math.Round(scorePercent, 1);
+
+        quizQuestionTextMeshPro.text = "Well done, overall you scored " + scorePercentRounded + " %!!";
+        quizScoreFeedbackTextMeshPro.text = "Well done, you got " + currentQuizScore + " out of " + maxScore + " correct.";
+
+        for (int i = 0; i < celebrateSFX.Length; i++)
+        {
+            celebrateSFX[i].Play();
+        }
+
+        for (int i = 0; i < confetti.Length; i++)
+        {
+            confetti[i].Play();
+        }
+    }
+
+    public void SetMasterScore()
+    {
+        sceneAndScoreManager.boneSceneScore = currentQuizScore;
+        sceneAndScoreManager.boneSceneMaxScore = maxScore;
+        sceneAndScoreManager.boneSceneTime = timer.currentTime;
+    }
+
     public IEnumerator QuizComplete()
     {
         timer.StopTimer();
@@ -240,35 +248,21 @@ public class BoneNameQuiz : MonoBehaviour
         else
         {
             quizAvailable = true;
-
         }
-
-        timeTaken = timer.currentTime;
 
         yield return new WaitForSeconds(0.5f);
 
-        scorePercent = currentQuizScore / maxScore * 100;
-        var scorePercentRounded = System.Math.Round(scorePercent, 1);
+        Celebration();
 
-        quizQuestionTextMeshPro.text = "Well done, overall you scored " + scorePercentRounded + " %!!";
-
-        quizScoreFeedbackTextMeshPro.text = "Well done, you got " + currentQuizScore + " out of " + maxScore + " correct.";
-
-        for (int i = 0; i < celebrateSFX.Length; i++)
-        {
-            celebrateSFX[i].Play();
-        }
-
-        for (int i = 0; i < confetti.Length; i++)
-        {
-            confetti[i].Play();
-        }
+        SetMasterScore();
 
         yield return new WaitForSeconds(10f);
 
         ovrScreenFade.FadeOut();
 
         yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("SportScienceMuscleLearning_EnglishVersion");
 
     }
 }

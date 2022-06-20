@@ -5,16 +5,12 @@ using UnityEngine;
 public class OriginRandomiser : MonoBehaviour
 {
     public GameObject[] origins;
-
     public GameObject[] looseObjects;
-
-    public List<string> allOriginPointList = new List<string>();
-
-    public List<int> originsUsed = new List<int>();
-
-    public string originToSetString;
-
+    private List<string> allOriginPointList = new List<string>();
+    private List<int> originsUsed = new List<int>();
+    private string originToSetString;
     public bool randomiseOrigins;
+
 
     private void Awake()
     {

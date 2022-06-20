@@ -6,51 +6,40 @@ using UnityEngine.Events;
 
 public class SelectedObject : MonoBehaviour
 {
+    [Header("Scene Specific")]
     public string sceneName;
 
+    [Header("Scripts")]
     private RightHandPointer rightHandPointer;
-    //private LeftHandPointer leftHandPointer;
     private Outline outline;
-    private SFXManager sfxManager;
-
-
     public OnboardingManager onboardingManager;
     public GameObject onboardingHolder;
 
-
-    private GameObject rightHand, rightHandAttach;
-    private GameObject SFXHolder;
+    [Header("This Game Object")]
     public GameObject thisGameObject;
+    public string thisGameObjectName;
+
+    [Header("Attach Specific")]
+    public GameObject rightHand; 
+    public GameObject rightHandAttach;
+    public Quaternion originalRotation;
+    public Vector3 origin;
+
 
     public bool leftHandRay;
     public bool rightHandRay;
-
-    public string thisGameObjectName, thisGameObjectTag;
-
-    public Vector3 rightOffset, originalRightOffset;
-    public Quaternion originalRotation;
-
-    public Transform hitPoint;
     public bool atAttachPoint, atOriginPoint;
-
     public bool selected;
 
-    public Vector3 origin;
         
 
 
     private void Awake()
     {
-
-
         rightHand = GameObject.FindWithTag("PlayerRightHand");
-
         rightHandAttach = GameObject.FindWithTag("PlayerRightHandAttach");
 
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
-
-        SFXHolder = GameObject.Find("--- AUDIO ---");
-        sfxManager = SFXHolder.GetComponent<SFXManager>();
 
         onboardingHolder = GameObject.Find("---ONBOARDING ---");
         onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
@@ -59,8 +48,7 @@ public class SelectedObject : MonoBehaviour
 
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.gameObject.name;
-        thisGameObjectTag = transform.gameObject.tag;
-        hitPoint = thisGameObject.transform;
+
 
         outline = thisGameObject.GetComponentInChildren<Outline>();
 
@@ -108,7 +96,6 @@ public class SelectedObject : MonoBehaviour
             onboardingManager.UpdateChecklist();
         }
         outline.OutlineWidth = 5;
-        sfxManager.PlaySelectTone();
         selected = true;
         rightHandPointer.linePointerOn = false;
     }
@@ -122,7 +109,6 @@ public class SelectedObject : MonoBehaviour
         leftHandRay = false;
         rightHandRay = false;
         rightHandPointer.holdingObject = false;
-        sfxManager.PlayReturnTone();
         selected = false;
         rightHandPointer.linePointerOn = true;
 
@@ -151,7 +137,6 @@ public class SelectedObject : MonoBehaviour
             atAttachPoint = false;
             thisGameObject.transform.position = origin;
             thisGameObject.transform.rotation = originalRotation;
-            sfxManager.PlayReturnTone();
             onboardingManager.returnBoneToOrigin = true;
             onboardingManager.UpdateChecklist();
         }

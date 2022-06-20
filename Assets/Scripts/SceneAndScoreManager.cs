@@ -4,33 +4,20 @@ using UnityEngine;
 
 public class SceneAndScoreManager : MonoBehaviour
 {
-    public BoneNameQuiz boneNameQuiz;
+    public float boneSceneScore, boneSceneMaxScore;
 
-    public static float boneSceneScore, boneSceneMaxScore;
+    public float boneSceneTime;
 
-    public static float boneSceneTime;
+    public int muscleLearningCount;
 
-    public static float muscleLearningTime;
+    public float muscleLearningTime;
+
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        DontDestroyOnLoad(transform.gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void SetBoneSceneScores()
-    {
-        boneSceneMaxScore = boneNameQuiz.maxScore;
-        boneSceneScore = boneNameQuiz.currentQuizScore;
-       
-    }
-
 }
