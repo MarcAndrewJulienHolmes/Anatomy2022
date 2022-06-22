@@ -14,6 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleLearning_EnglishVersion.unity
     guid: 1e0463ab01001ec4a9f2d21b8be6ed0e
+  - enabled: 1
+    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleTesting_EnglishVersion.unity
+    guid: df3016e295879754a81ae3703c028706
+  - enabled: 1
+    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceScoreFeedback_EnglishVersion.unity
+    guid: 51fc2a59bb51a064fb27c81c3ac0a90d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ea3cfb22f9711ab429c03e4f4f17ed0c, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 48eab392cf2a78445b1bb45ab62b3419, type: 2}

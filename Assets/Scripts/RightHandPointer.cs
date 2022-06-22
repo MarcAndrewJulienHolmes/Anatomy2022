@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class RightHandPointer : MonoBehaviour
 {
+    public SceneAndScoreManager sceneAndScoreManager;
+
     public OnboardingManager onboardingManager;
 
     public OVRScreenFade ovrScreenFade;
@@ -51,11 +53,13 @@ public class RightHandPointer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         countdownTimer = 3f;
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
         lineRenderer.SetPositions(startLinePositions);
         lineRenderer.material = normal;
         linePointerOn = true;
+        coroutineRunning = false;
 
     }
 
@@ -265,7 +269,8 @@ public class RightHandPointer : MonoBehaviour
     {
         coroutineRunning = true;
         ovrScreenFade.FadeOut();
+        sceneAndScoreManager.ResetMasterScores();
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Urdd_LanguageSelect");
+        SceneManager.LoadScene("SportScienceSkeletal_EnglishVersion");
     }
 }

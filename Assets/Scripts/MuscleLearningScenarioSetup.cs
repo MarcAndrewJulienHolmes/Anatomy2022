@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class MuscleLearningScenarioSetup : MonoBehaviour
 {
     [Header("Scripts")]
-    //public SceneAndScoreManager sceneAndScoreManager;
+    public SceneAndScoreManager sceneAndScoreManager;
     public Timer timer;
     public OVRScreenFade ovrScreenFade;
 
@@ -20,7 +21,9 @@ public class MuscleLearningScenarioSetup : MonoBehaviour
     public int muscleOriginCounter;
 
     [Header("Scoring")]
-    public int muscleLearningCount;
+    public int muscleLearningMaxScore;
+    public int muscleLearningScore;
+    public TMP_Text scoringText;
 
     [Header("Celebration")]
     public ParticleSystem[] confetti;
@@ -37,8 +40,10 @@ public class MuscleLearningScenarioSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         ApplyRandomMuscleGroupToOrigin();
+        muscleLearningMaxScore = muscleOrigin.Length;
+        scoringText.text = "Place the first muscle group to the model to begin the timer and scoring.";
     }
 
 
@@ -80,8 +85,10 @@ public class MuscleLearningScenarioSetup : MonoBehaviour
 
     public void LearningMuscleCount()
     {
-        muscleLearningCount++;
-        if(muscleLearningCount == muscleOrigin.Length)
+        timer.StartTimer();
+        muscleLearningScore++;
+        scoringText.text = "You have placed " + muscleLearningScore + " of " + muscleLearningMaxScore + " muscle groups.";
+        if (muscleLearningScore == muscleOrigin.Length)
         {
             AllMusclesAdded();
         }
@@ -90,6 +97,7 @@ public class MuscleLearningScenarioSetup : MonoBehaviour
     public void AllMusclesAdded()
     {
         StartCoroutine(QuizComplete());
+
     }
 
 
@@ -121,7 +129,8 @@ public class MuscleLearningScenarioSetup : MonoBehaviour
 
     public void SetMasterScore()
     {
-        //sceneAndScoreManager.muscleLearningCount = muscleLearningCount;
-        //sceneAndScoreManager.muscleLearningTime = timer.currentTime;
+        sceneAndScoreManager.muscleLearningMaxScore = muscleLearningMaxScore;
+        sceneAndScoreManager.muscleLearningScore = muscleLearningScore;
+        sceneAndScoreManager.muscleLearningTime = timer.currentTime;
     }
 }

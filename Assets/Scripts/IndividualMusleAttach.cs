@@ -7,8 +7,7 @@ public class IndividualMusleAttach : MonoBehaviour
     [Header("Scripts")]
     public RightHandPointer rightHandPointer;
     public GameObject rightHand;
-    public Timer timer;
-    //public MuscleLearningScenarioSetup muscleLearningScenarioSetup;
+    public MuscleLearningScenarioSetup muscleLearningScenarioSetup;
 
     [Header("This Game Object")]
     public GameObject thisGameObject;
@@ -30,9 +29,7 @@ public class IndividualMusleAttach : MonoBehaviour
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
         rightHandPointer = rightHand.GetComponent<RightHandPointer>();
-        //muscleLearningScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleLearningScenarioSetup>();
-
-        timer = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<Timer>();
+        muscleLearningScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleLearningScenarioSetup>();
 
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.name;
@@ -49,7 +46,6 @@ public class IndividualMusleAttach : MonoBehaviour
         if (other.name == attachObjectName)
         {
             ConnectIndividualMuscleToMainModel();
-            timer.StartTimer();
         }
         else
         {
@@ -59,7 +55,7 @@ public class IndividualMusleAttach : MonoBehaviour
 
     public void ConnectIndividualMuscleToMainModel()
     {
-        //muscleLearningScenarioSetup.LearningMuscleCount();
+        muscleLearningScenarioSetup.LearningMuscleCount();
         rightHandPointer.holdingObject = false;
         rightHandPointer.linePointerOn = true;
         thisGameObject.SetActive(false);
