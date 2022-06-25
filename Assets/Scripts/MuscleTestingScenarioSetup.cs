@@ -32,7 +32,7 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
 
     private void Awake()
     {
-        muscleOriginCounter = 0;
+        //muscleOriginCounter = 0;
         GatherAllMuscleGroups();
         timer = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<Timer>();
     }
@@ -42,8 +42,8 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         ApplyRandomMuscleGroupToOrigin();
-        muscleTestingMaxScore = muscleOrigin.Length;
-        scoringText.text = "Place the first muscle group to the model to begin the timer and scoring.";
+        muscleTestingMaxScore = muscleOrigin.Length * 5;
+        //scoringText.text = "Place the first muscle group to the model to begin the timer and scoring.";
     }
 
 
@@ -83,15 +83,14 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
         }
     }
 
-    public void LearningMuscleCount()
+    public void TestingMuscleTimerStart()
     {
         timer.StartTimer();
-        muscleTestingScore++;
-        scoringText.text = "You have placed " + muscleTestingScore + " of " + muscleTestingMaxScore + " muscle groups.";
-        if (muscleTestingScore == muscleOrigin.Length)
-        {
-            AllMusclesAdded();
-        }
+        //scoringText.text = "You have placed " + muscleTestingScore + " of " + muscleTestingMaxScore + " muscle groups.";
+        //if (muscleTestingScore == muscleOrigin.Length)
+        //{
+        //    AllMusclesAdded();
+        //}
     }
 
     public void AllMusclesAdded()
