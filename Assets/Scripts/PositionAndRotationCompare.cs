@@ -21,12 +21,26 @@ public class PositionAndRotationCompare : MonoBehaviour
     public GameObject attachObject;
 
     [Header("Position And Rotation Compare Logic")]
-    public Vector3 thisGameObjectRotation;
-    public Vector3 thisGameObjectPosition;
-    public Vector3 attachObjectRotation;
-    public Vector3 attachObjectPosition;
-    public Vector3 refAttachCubePosition;
-    public Vector3 refAttachCubeRotation;
+    //public Vector3 thisGameObjectRotation;
+    //public Vector3 thisGameObjectPosition;
+
+    private Vector3 attachObjectPosition;
+    private Vector3 attachObjectRotation;
+
+    private Vector3 refAttachCubePosition;
+    private Vector3 refAttachCubeRotation;
+
+    private float roundedAttachObjectPosX, roundedAttachObjectPosY, roundedAttachObjectPosZ;
+    private float roundedRefAttachCubePosX, roundedRefAttachCubePosY, roundedRefAttachCubePosZ;
+
+    private float roundedAttachObjectRotX, roundedAttachObjectRotY, roundedAttachObjectRotZ;
+    private float roundedRefAttachCubeRotX, roundedRefAttachCubeRotY, roundedRefAttachCubeRotZ;
+
+    public Vector3 roundedAttachObjectPosition;
+    public Vector3 roundedAttachObjectRotation;
+    
+    public Vector3 roundedRefAttachCubePosition;
+    public Vector3 roundedRefAttachCubeRotation;
 
 
     [Header("Audio Feedback")]
@@ -51,74 +65,96 @@ public class PositionAndRotationCompare : MonoBehaviour
         audiosourceHolder = GameObject.FindGameObjectWithTag("AttachSFX");
         audioSource = audiosourceHolder.GetComponent<AudioSource>();
 
-        attachObjectRotation = attachObject.transform.eulerAngles;
-        attachObjectPosition = attachObject.transform.position;
+        GetDestinationObjectValues();
 
         thisGameObject.transform.parent = attachObject.transform;
     }
 
     private void Update()
     {
-        thisGameObjectPosition = thisGameObject.transform.position;
-        thisGameObjectRotation = thisGameObject.transform.eulerAngles;
+        GetRefAttachObjectValues();
+        //ComparePositionAndRotation();
+    }
 
+    public void ComparePositionAndRotation()
+    {
+        Debug.LogError(thisGameObjectName + " position + rotation check done");
+
+        if(roundedRefAttachCubePosX > roundedAttachObjectPosX - 0.05f && roundedRefAttachCubePosX < roundedAttachObjectPosX + 0.05f)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+           //Debug.Log("Object X position within bounds");
+        }
+
+        if (roundedRefAttachCubePosY > roundedAttachObjectPosY - 0.05f && roundedRefAttachCubePosY < roundedAttachObjectPosY + 0.05f)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+            //Debug.Log("Object Y position within bounds");
+        }
+
+        if (roundedRefAttachCubePosZ > roundedAttachObjectPosZ - 0.05f && roundedRefAttachCubePosZ < roundedAttachObjectPosZ + 0.05f)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+            //Debug.Log("Object Z position within bounds");
+        }
+
+        if (roundedRefAttachCubeRotX > roundedAttachObjectRotX - 5 && roundedRefAttachCubeRotX < roundedAttachObjectRotX + 5)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+            //Debug.Log("Object X rotation within bounds");
+        }
+
+        if (roundedRefAttachCubeRotY > roundedAttachObjectRotY - 5 && roundedRefAttachCubeRotY < roundedAttachObjectRotY + 5)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+            //Debug.Log("Object Y rotation within bounds");
+        }
+
+        if (roundedRefAttachCubeRotZ > roundedAttachObjectRotZ - 5 && roundedRefAttachCubeRotZ < roundedAttachObjectRotZ + 5)
+        {
+            muscleTestingScenarioSetup.muscleTestingScore++;
+            //Debug.Log("Object Z rotation within bounds");
+        }
+    }
+
+    public void GetDestinationObjectValues()
+    {
+        attachObjectRotation = attachObject.transform.eulerAngles;
+        attachObjectPosition = attachObject.transform.position;
+
+        roundedAttachObjectPosX = attachObjectPosition.x;
+        roundedAttachObjectPosY = attachObjectPosition.y;
+        roundedAttachObjectPosZ = attachObjectPosition.z;
+
+        roundedAttachObjectPosX = Mathf.Round(roundedAttachObjectPosX * 100) * 0.01f;
+        roundedAttachObjectPosY = Mathf.Round(roundedAttachObjectPosY * 100) * 0.01f;
+        roundedAttachObjectPosZ = Mathf.Round(roundedAttachObjectPosZ * 100) * 0.01f;
+        roundedAttachObjectPosition = new Vector3(roundedAttachObjectPosX, roundedAttachObjectPosY, roundedAttachObjectPosZ);
+
+        roundedAttachObjectRotX = Mathf.Round(attachObjectRotation.x);
+        roundedAttachObjectRotY = Mathf.Round(attachObjectRotation.y);
+        roundedAttachObjectRotZ = Mathf.Round(attachObjectRotation.z);
+        roundedAttachObjectRotation = new Vector3(roundedAttachObjectRotX, roundedAttachObjectRotY, roundedAttachObjectRotZ);
+
+    }
+
+    public void GetRefAttachObjectValues()
+    {
         refAttachCubePosition = refAttachCube.transform.position;
         refAttachCubeRotation = refAttachCube.transform.eulerAngles;
 
-        if(refAttachCubePosition == attachObjectPosition && refAttachCubeRotation == attachObjectRotation)
-        {
-            audioSource.Play();
-            Debug.LogError(thisGameObjectName + " Position + Rotation Achieved");
-        }
+        roundedRefAttachCubePosX = refAttachCubePosition.x;
+        roundedRefAttachCubePosY = refAttachCubePosition.y;
+        roundedRefAttachCubePosZ = refAttachCubePosition.z;
 
-        MusclePositionAndRotationCompareToMainModel();
-    }
+        roundedRefAttachCubePosX = Mathf.Round(roundedRefAttachCubePosX * 100) * 0.01f;
+        roundedRefAttachCubePosY = Mathf.Round(roundedRefAttachCubePosY * 100) * 0.01f;
+        roundedRefAttachCubePosZ = Mathf.Round(roundedRefAttachCubePosZ * 100) * 0.01f;
+        roundedRefAttachCubePosition = new Vector3(roundedRefAttachCubePosX, roundedRefAttachCubePosY, roundedRefAttachCubePosZ);
 
-
-
-    public void MusclePositionAndRotationCompareToMainModel()
-    {
-        //Debug.LogError(thisGameObjectName + Vector3.Distance(thisGameObjectPosition, attachObjectPosition));
-
-        //if (Vector3.Distance(thisGameObjectPosition.x, attachObjectPosition.x) > 1)
-        //{
-
-        //}
-
-        //if(thisGameObjectPosition.x == attachObjectPosition.x) // || thisGameObjectPosition.x - 10 >= attachObjectPosition.x)
-        //{
-        //    Debug.LogError(thisGameObjectName + " x position within 10 above points");
-        //}
-
-        //if(thisGameObjectPosition.x - 10 >= attachObjectPosition.x)
-        //{
-        //    Debug.LogError(thisGameObjectName + " x position within 10 below points");
-        //}
-
-        //if (thisGameObjectPosition.y + 10 <= attachObjectPosition.y || thisGameObjectPosition.y - 10 >= attachObjectPosition.y)
-        //{
-        //    Debug.LogError(thisGameObjectName + " y position within 10 points");
-        //}
-
-        //if (thisGameObjectPosition.z + 10 <= attachObjectPosition.z || thisGameObjectPosition.z - 10 >= attachObjectPosition.z)
-        //{
-        //    Debug.LogError(thisGameObjectName + " z position within 10 points");
-        //}
-
-        //if (thisGameObjectRotation.x + 10 <= attachObjectRotation.x || thisGameObjectRotation.x - 10 >= attachObjectRotation.x)
-        //{
-        //    Debug.LogError(thisGameObjectName + " x rotation within 10 degrees");
-        //}
-
-        //if (thisGameObjectRotation.y + 10 <= attachObjectRotation.y || thisGameObjectRotation.y - 10 >= attachObjectRotation.y)
-        //{
-        //    Debug.LogError(thisGameObjectName + " y rotation within 10 degrees");
-        //}
-
-        //if (thisGameObjectRotation.z + 10 <= attachObjectRotation.z || thisGameObjectRotation.z - 10 >= attachObjectRotation.z)
-        //{
-        //    Debug.LogError(thisGameObjectName + " z rotation within 10 degrees");
-        //}
-
+        roundedRefAttachCubeRotX = Mathf.Round(refAttachCubeRotation.x);
+        roundedRefAttachCubeRotY = Mathf.Round(refAttachCubeRotation.y);
+        roundedRefAttachCubeRotZ = Mathf.Round(refAttachCubeRotation.z);
+        roundedRefAttachCubeRotation = new Vector3(roundedRefAttachCubeRotX, roundedRefAttachCubeRotY, roundedRefAttachCubeRotZ);
     }
 }

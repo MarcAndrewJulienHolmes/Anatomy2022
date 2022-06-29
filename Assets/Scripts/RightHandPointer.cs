@@ -69,13 +69,13 @@ public class RightHandPointer : MonoBehaviour
 
         if (OVRInput.Get(OVRInput.Button.Two))
         {
+            rightHandReturnOrigin.Invoke();
             rightHandDeselect.Invoke();
         }
 
 
         if (OVRInput.Get(OVRInput.Button.One))
         {
-            rightHandReturnOrigin.Invoke();
             rightHandDeselect.Invoke();
 
         }

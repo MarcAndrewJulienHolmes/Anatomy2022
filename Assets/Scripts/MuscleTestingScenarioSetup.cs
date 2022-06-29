@@ -42,7 +42,7 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         ApplyRandomMuscleGroupToOrigin();
-        muscleTestingMaxScore = muscleOrigin.Length * 5;
+        muscleTestingMaxScore = muscleOrigin.Length * 6;
         //scoringText.text = "Place the first muscle group to the model to begin the timer and scoring.";
     }
 
@@ -83,17 +83,13 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
         }
     }
 
+
     public void TestingMuscleTimerStart()
     {
         timer.StartTimer();
-        //scoringText.text = "You have placed " + muscleTestingScore + " of " + muscleTestingMaxScore + " muscle groups.";
-        //if (muscleTestingScore == muscleOrigin.Length)
-        //{
-        //    AllMusclesAdded();
-        //}
     }
 
-    public void AllMusclesAdded()
+    public void GatherScores()
     {
         StartCoroutine(QuizComplete());
     }
@@ -101,8 +97,14 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
 
     public IEnumerator QuizComplete()
     {
-
         timer.StopTimer();
+
+        for(int i = 0; i < usedMuscleGroupsStringList.Count; i++)
+        {
+            GameObject temp = GameObject.Find(usedMuscleGroupsStringList[i]);
+            temp.GetComponent<PositionAndRotationCompare>().ComparePositionAndRotation(); 
+        }
+
         yield return new WaitForSeconds(0.5f);
         Celebration();
         SetMasterScore();
