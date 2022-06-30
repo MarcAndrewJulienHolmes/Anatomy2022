@@ -55,9 +55,9 @@ public class ToTextSave : MonoBehaviour
         string CSVDocumentName = Application.persistentDataPath + "/Score_Records/All_Score_Records.csv";
 
         TextWriter tw = new StreamWriter(CSVDocumentName, true);
-        tw.WriteLine(sceneAndScoreManager.boneSceneScore.ToString() + ",- bone score., " + sceneAndScoreManager.boneSceneMaxScore.ToString() + ",- bone max score.," + sceneAndScoreManager.boneSceneTime.ToString() + ",- seconds remaining.," +
-                        sceneAndScoreManager.muscleLearningScore.ToString() + ",- muscle learning score.," + sceneAndScoreManager.muscleLearningMaxScore.ToString() + ",- muscle learning max score.," + sceneAndScoreManager.muscleLearningTime.ToString() + ",- seconds remaining.," +
-                        sceneAndScoreManager.muscleTestingScore.ToString() + ",- muscle testing score.," + sceneAndScoreManager.muscleTestingMaxScore.ToString() + ",- muscle testing max score.," + sceneAndScoreManager.muscleTestingTime.ToString() + ",- time remaining.");
+        tw.WriteLine(dateTime + "," + sceneAndScoreManager.boneSceneScore.ToString() + "," + "bone score." + "," + sceneAndScoreManager.boneSceneMaxScore.ToString() + "," + "bone max score." + "," + sceneAndScoreManager.boneSceneTime.ToString() + "," + "seconds remaining." + "," +
+                        sceneAndScoreManager.muscleLearningScore.ToString() + "," + "muscle learning score." + "," + sceneAndScoreManager.muscleLearningMaxScore.ToString() + "," + "muscle learning max score." + "," + sceneAndScoreManager.muscleLearningTime.ToString() + "," + "seconds remaining." + "," +
+                        sceneAndScoreManager.muscleTestingScore.ToString() + "," + "muscle testing score." + "," + sceneAndScoreManager.muscleTestingMaxScore.ToString() + "," + "muscle testing max score." + "," + sceneAndScoreManager.muscleTestingTime.ToString() + "," + "time remaining.");
         tw.Close();
 
     }

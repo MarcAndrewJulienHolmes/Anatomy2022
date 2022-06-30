@@ -78,7 +78,7 @@ public class PositionAndRotationCompare : MonoBehaviour
 
     public void ComparePositionAndRotation()
     {
-        Debug.LogError(thisGameObjectName + " position + rotation check done");
+        //Debug.LogError(thisGameObjectName + " position + rotation check done");
 
         if(roundedRefAttachCubePosX > roundedAttachObjectPosX - 0.05f && roundedRefAttachCubePosX < roundedAttachObjectPosX + 0.05f)
         {

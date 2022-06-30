@@ -45,9 +45,9 @@ public class FeedbackSceneControl : MonoBehaviour
             sceneAndScoreManager.muscleTestingTime = 0;
         }
 
-        sceneAndScoreManager.boneSceneTime = Mathf.Round(sceneAndScoreManager.boneSceneTime * 100) * 0.1f;
-        sceneAndScoreManager.muscleLearningTime = Mathf.Round(sceneAndScoreManager.muscleLearningTime * 100) * 0.1f;
-        sceneAndScoreManager.muscleTestingTime = Mathf.Round(sceneAndScoreManager.muscleTestingTime * 100) * 0.1f;
+        sceneAndScoreManager.boneSceneTime = Mathf.Round(sceneAndScoreManager.boneSceneTime * 100) * 0.01f;
+        sceneAndScoreManager.muscleLearningTime = Mathf.Round(sceneAndScoreManager.muscleLearningTime * 100) * 0.01f;
+        sceneAndScoreManager.muscleTestingTime = Mathf.Round(sceneAndScoreManager.muscleTestingTime * 100) * 0.01f;
 
     }
 
