@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class QuizButton : MonoBehaviour
 {
-    public RightHandPointer rightHandPointer;
+    private CustomPointer rightCustomPointer, leftCustomPointer;
 
-    public GameObject rightHand;
+    public GameObject rightHand, leftHand;
 
     public BoneNameQuiz boneNameQuiz;
 
@@ -20,14 +20,17 @@ public class QuizButton : MonoBehaviour
 
     public TMP_Text thisQuizButtonText;
 
-    public bool rightHandRay;
+    public bool rightHandSelect, leftHandSelect;
 
     public Collider thisCollider;
 
     private void Awake()
     {
-        rightHand = GameObject.FindWithTag("PlayerRightHand");
-        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+        //rightHand = GameObject.FindWithTag("PlayerRightHand");
+        //rightCustomPointer = rightHand.GetComponent<CustomPointer>();
+
+        //leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        //leftCustomPointer = leftHand.GetComponent<CustomPointer>();
 
         thisButtonAnimator.Play("Start");
 
@@ -44,11 +47,11 @@ public class QuizButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rightHandRay && boneNameQuiz.quizAvailable)
+        if ((rightHandSelect || leftHandSelect) && boneNameQuiz.quizAvailable)
         {
             HighlightedColour();
         }
-        else if (!rightHandRay && boneNameQuiz.quizAvailable && !boneNameQuiz.timeRunOut)
+        else if ((!rightHandSelect || leftHandSelect) && boneNameQuiz.quizAvailable && !boneNameQuiz.timeRunOut)
         {
             NormalColour();
         }

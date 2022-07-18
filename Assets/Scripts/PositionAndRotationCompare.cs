@@ -7,7 +7,7 @@ using System;
 public class PositionAndRotationCompare : MonoBehaviour
 {
     [Header("Scripts")]
-    public RightHandPointer rightHandPointer;
+    public CustomPointer rightHandPointer;
     public GameObject rightHand;
     public MuscleTestingScenarioSetup muscleTestingScenarioSetup;
 
@@ -52,7 +52,7 @@ public class PositionAndRotationCompare : MonoBehaviour
     private void Awake()
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
-        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+        rightHandPointer = rightHand.GetComponent<CustomPointer>();
         muscleTestingScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleTestingScenarioSetup>();
 
         thisGameObject = transform.gameObject;

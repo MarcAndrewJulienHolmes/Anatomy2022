@@ -39,8 +39,6 @@ TagManager:
   - Left Leg
   - RFibula
   - RU
-  - Pelvis
-  - LFT
   - PlayerRightHand
   - PlayerLeftHand
   - PlayerRightHandAttach
@@ -48,6 +46,7 @@ TagManager:
   - AttachSFX
   - SceneAndScoreManager
   - Scriptholder
+  - PlayerLeftHandAttach
   layers:
   - Default
   - TransparentFX

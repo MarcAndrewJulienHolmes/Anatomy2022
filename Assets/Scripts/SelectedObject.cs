@@ -10,7 +10,7 @@ public class SelectedObject : MonoBehaviour
     public string sceneName;
 
     [Header("Scripts")]
-    private RightHandPointer rightHandPointer;
+    private CustomPointer rightCustomPointer, leftCustomPointer;
     private Outline outline;
     public OnboardingManager onboardingManager;
     public GameObject onboardingHolder;
@@ -22,16 +22,17 @@ public class SelectedObject : MonoBehaviour
     [Header("Attach Specific")]
     public GameObject rightHand; 
     public GameObject rightHandAttach;
+    public GameObject leftHand;
+    public GameObject leftHandAttach;
+    public bool leftHandSelect;
+    public bool rightHandSelect;
+
     public Quaternion originalRotation;
     public Vector3 origin;
 
-
-    public bool leftHandRay;
-    public bool rightHandRay;
     public bool atAttachPoint, atOriginPoint;
     public bool selected;
-
-        
+         
 
 
     private void Awake()
@@ -39,7 +40,11 @@ public class SelectedObject : MonoBehaviour
         rightHand = GameObject.FindWithTag("PlayerRightHand");
         rightHandAttach = GameObject.FindWithTag("PlayerRightHandAttach");
 
-        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+        leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        leftHandAttach = GameObject.FindWithTag("PlayerLeftHandAttach");
+
+        rightCustomPointer = rightHand.GetComponent<CustomPointer>();
+        leftCustomPointer = leftHand.GetComponent<CustomPointer>();
 
         onboardingHolder = GameObject.Find("---ONBOARDING ---");
         onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
@@ -60,11 +65,13 @@ public class SelectedObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rightHandPointer.rightHandDeselect.AddListener(DeactivateSelect);
-
-        rightHandPointer.rightHandReturnOrigin.AddListener(ReturnToOrigin);
-
-        rightHandPointer.rightHandMoveTowards.AddListener(MoveToAttach);
+        rightCustomPointer.handDeselect.AddListener(DeactivateSelect);
+        rightCustomPointer.handReturnOrigin.AddListener(ReturnToOrigin);
+        rightCustomPointer.handMoveTowards.AddListener(MoveToAttach);
+        
+        leftCustomPointer.handDeselect.AddListener(DeactivateSelect);
+        leftCustomPointer.handReturnOrigin.AddListener(ReturnToOrigin);
+        leftCustomPointer.handMoveTowards.AddListener(MoveToAttach);
 
         SetUpOutline();
     }
@@ -74,9 +81,17 @@ public class SelectedObject : MonoBehaviour
     {
         if (atAttachPoint)
         {
-            thisGameObject.transform.position = rightHand.transform.position;
+            if (rightHandSelect)
+            {
+                thisGameObject.transform.position = rightHand.transform.position;
+                thisGameObject.transform.rotation = rightHandAttach.transform.rotation;
+            }
+            else if(leftHandSelect)
+            {
+                thisGameObject.transform.position = leftHand.transform.position;
+                thisGameObject.transform.rotation = leftHandAttach.transform.rotation;
+            }
 
-            thisGameObject.transform.rotation = rightHandAttach.transform.rotation;
         }
     }
 
@@ -97,7 +112,8 @@ public class SelectedObject : MonoBehaviour
         }
         outline.OutlineWidth = 5;
         selected = true;
-        rightHandPointer.linePointerOn = false;
+        rightCustomPointer.linePointerOn = false;
+        leftCustomPointer.linePointerOn = false;
     }
 
     public void DeactivateSelect()
@@ -106,12 +122,13 @@ public class SelectedObject : MonoBehaviour
         onboardingManager.UpdateChecklist();
         outline.OutlineWidth = 0;
         atAttachPoint = false;
-        leftHandRay = false;
-        rightHandRay = false;
-        rightHandPointer.holdingObject = false;
+        leftHandSelect = false;
+        rightHandSelect = false;
+        rightCustomPointer.holdingObject = false;
+        leftCustomPointer.holdingObject = false;
         selected = false;
-        rightHandPointer.linePointerOn = true;
-
+        rightCustomPointer.linePointerOn = true;
+        leftCustomPointer.linePointerOn = true;
     }
 
 
@@ -119,9 +136,19 @@ public class SelectedObject : MonoBehaviour
     {
         if (!atAttachPoint && selected)
         {
-            thisGameObject.transform.position = rightHand.transform.position;
-            onboardingManager.moveBone = true;
-            onboardingManager.UpdateChecklist();
+            if (rightHandSelect)
+            {
+                thisGameObject.transform.position = rightHand.transform.position;
+                onboardingManager.moveBone = true;
+                onboardingManager.UpdateChecklist();
+            }
+            else if (leftHandSelect)
+            {
+                thisGameObject.transform.position = leftHand.transform.position;
+                onboardingManager.moveBone = true;
+                onboardingManager.UpdateChecklist();
+            }
+
 
         }
         else
@@ -144,7 +171,12 @@ public class SelectedObject : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "PlayerRightHand" && rightHandRay)
+        if (other.tag == "PlayerRightHand" && rightHandSelect)
+        {
+            atAttachPoint = true;
+        }
+
+        if(other.tag == "PlayerLeftHand" && leftHandSelect)
         {
             atAttachPoint = true;
         }

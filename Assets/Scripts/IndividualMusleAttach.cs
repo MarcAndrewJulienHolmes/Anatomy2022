@@ -5,7 +5,7 @@ using UnityEngine;
 public class IndividualMusleAttach : MonoBehaviour
 {
     [Header("Scripts")]
-    public RightHandPointer rightHandPointer;
+    public CustomPointer rightHandPointer;
     public GameObject rightHand;
     public MuscleLearningScenarioSetup muscleLearningScenarioSetup;
 
@@ -28,7 +28,7 @@ public class IndividualMusleAttach : MonoBehaviour
     private void Awake()
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
-        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+        rightHandPointer = rightHand.GetComponent<CustomPointer>();
         muscleLearningScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleLearningScenarioSetup>();
 
         thisGameObject = transform.gameObject;

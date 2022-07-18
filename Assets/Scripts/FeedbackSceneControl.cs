@@ -7,6 +7,7 @@ public class FeedbackSceneControl : MonoBehaviour
 {
     public SceneAndScoreManager sceneAndScoreManager;
     public ToTextSave toTextSave;
+    public AirtableRecord airtableRecord;
 
 
     public TMP_Text boneSceneFeedbackText;
@@ -17,6 +18,8 @@ public class FeedbackSceneControl : MonoBehaviour
     void Awake()
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
+        toTextSave = GetComponent<ToTextSave>();
+        airtableRecord = GetComponent<AirtableRecord>();
 
         RoundTimeValues();       
     }
@@ -67,6 +70,8 @@ public class FeedbackSceneControl : MonoBehaviour
 
         toTextSave.CreateTextFile();
         toTextSave.CreateCSVFile();
+
+        airtableRecord.SendToAirtable();
     }
 
 

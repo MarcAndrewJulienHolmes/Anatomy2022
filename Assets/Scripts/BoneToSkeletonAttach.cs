@@ -5,8 +5,9 @@ using UnityEngine;
 public class BoneToSkeletonAttach : MonoBehaviour
 {
     [Header("Scripts")]
-    public RightHandPointer rightHandPointer;
+    public CustomPointer rightCustomPointer, leftCustomPointer;
     public GameObject rightHand;
+    public GameObject leftHand;
     public BoneNameQuiz boneNameQuiz;
     public OnboardingManager onboardingManager;
     public GameObject onboardingHolder;
@@ -22,7 +23,6 @@ public class BoneToSkeletonAttach : MonoBehaviour
     public GameObject skeletonInvalidObject;
     public GameObject[] nextInSequenceSkeletonTurnOn;
     public GameObject[] nextInSequenceSkeletonTurnOff;
-    //public string skeletonAttachObjectName;
 
     [Header("Audio Feedback")]
     public GameObject audiosourceHolder;
@@ -35,7 +35,9 @@ public class BoneToSkeletonAttach : MonoBehaviour
     private void Awake()
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
-        rightHandPointer = rightHand.GetComponent<RightHandPointer>();
+        leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        rightCustomPointer = rightHand.GetComponent<CustomPointer>();
+        leftCustomPointer = leftHand.GetComponent <CustomPointer>();
         onboardingHolder = GameObject.Find("---ONBOARDING ---");
         onboardingManager = onboardingHolder.GetComponent<OnboardingManager>();
         boneNameQuiz = FindObjectOfType<BoneNameQuiz>();
@@ -48,8 +50,6 @@ public class BoneToSkeletonAttach : MonoBehaviour
         skeletonInvalidObject = GameObject.Find(thisGameObjectName + " Invalid");
 
         skeletonReplaceObject.SetActive(false);
-
-        //skeletonAttachObjectName = skeletonAttachObject.name;
 
         audiosourceHolder = GameObject.FindGameObjectWithTag("AttachSFX");
         audioSource = audiosourceHolder.GetComponent<AudioSource>();
@@ -87,8 +87,12 @@ public class BoneToSkeletonAttach : MonoBehaviour
 
     public void ConnectBoneToSkeleton()
     {
-        rightHandPointer.holdingObject = false;
-        rightHandPointer.linePointerOn = true;
+        rightCustomPointer.holdingObject = false;
+        rightCustomPointer.linePointerOn = true;
+
+        leftCustomPointer.holdingObject = false;
+        leftCustomPointer.linePointerOn = true;
+
         thisGameObject.SetActive(false);
         skeletonAttachObject.SetActive(false);
         skeletonReplaceObject.SetActive(true);
