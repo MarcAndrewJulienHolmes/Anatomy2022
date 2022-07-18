@@ -7,43 +7,35 @@ using UnityEngine.SceneManagement;
 
 public class CustomPointer : MonoBehaviour
 {
+    [Header ("Hand Option")]
     public bool leftHand;
 
+    [Header ("Scripts")]
     public SceneAndScoreManager sceneAndScoreManager;
-
     public OnboardingManager onboardingManager;
-
     public OVRScreenFade ovrScreenFade;
-
-    public LineRenderer lineRenderer;
-
     public BoneNameQuiz boneNameQuiz;
 
-    public QuizButton[] quizButton;
-
-    public LanguageButton[] languageButton;
-
+    [Header ("Pointer Specific")]
+    public LineRenderer lineRenderer;
     public Material normal, highlighted;
-
     private float flexibleLineLength;
-        
-    public float countdownTimer;
-
-    public int layerMask = 1;
-
+    public bool linePointerOn;
+    public bool objectHit = false;
+    public bool holdingObject;
+    public GameObject pointObject;
+    public GameObject currenHighlightedObject;
+    public string currentHighlightedObjectName;
     public Vector3 endPosition;
 
-    public bool objectHit = false;
 
-    public bool holdingObject, coroutineRunning;
+    [Header ("Buttons, Quiz and Timer")]
+    public QuizButton[] quizButton;
+    public LanguageButton[] languageButton;        
+    public float countdownTimer;
+    public bool coroutineRunning;
 
-    public bool linePointerOn;
-
-    public GameObject pointObject, currenHighlightedObject;
-
-    public string currentHighlightedObjectName;
-
-
+    [Header ("Events")]
     public UnityEvent handSelect;
     public UnityEvent handMoveTowards;
     public UnityEvent handDeselect;
@@ -137,12 +129,6 @@ public class CustomPointer : MonoBehaviour
                 onboardingManager.UpdateChecklist();
             }
         }
-
-        //if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown))
-        //{
-        //    rightHandMoveTowards.Invoke();
-
-        //}
 
         if (OVRInput.Get(OVRInput.Button.Start))
         {
@@ -295,6 +281,26 @@ public class CustomPointer : MonoBehaviour
                 if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
                 {
                     pointObject.GetComponent<LanguageButton>().ButtonSelect();
+                }
+            }
+
+            else if (pointObject.GetComponent<InfoEnterButton>())
+            {
+                currentHighlightedObjectName = pointObject.GetComponent<InfoEnterButton>().thisGameObjectName;
+                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+                lineRenderer.material = highlighted;
+
+                for (int i = 0; i < languageButton.Length; i++)
+                {
+                    if (languageButton[i].name == currentHighlightedObjectName)
+                    {
+                        languageButton[i].rightHandRay = true;
+                    }
+                }
+
+                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+                {
+                    pointObject.GetComponent<InfoEnterButton>().ButtonSelect();
                 }
             }
 

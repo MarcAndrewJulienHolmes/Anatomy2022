@@ -47,6 +47,7 @@ TagManager:
   - SceneAndScoreManager
   - Scriptholder
   - PlayerLeftHandAttach
+  - VRGazeInteractable
   layers:
   - Default
   - TransparentFX
@@ -83,4 +84,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 1
+    uniqueID: 3249086731
     locked: 0

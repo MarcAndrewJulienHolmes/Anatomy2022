@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class QuizButton : MonoBehaviour
 {
-    private CustomPointer rightCustomPointer, leftCustomPointer;
-
     public GameObject rightHand, leftHand;
 
     public BoneNameQuiz boneNameQuiz;
@@ -26,14 +24,7 @@ public class QuizButton : MonoBehaviour
 
     private void Awake()
     {
-        //rightHand = GameObject.FindWithTag("PlayerRightHand");
-        //rightCustomPointer = rightHand.GetComponent<CustomPointer>();
-
-        //leftHand = GameObject.FindWithTag("PlayerLeftHand");
-        //leftCustomPointer = leftHand.GetComponent<CustomPointer>();
-
         thisButtonAnimator.Play("Start");
-
         thisCollider = GetComponent<Collider>();
     }
 
