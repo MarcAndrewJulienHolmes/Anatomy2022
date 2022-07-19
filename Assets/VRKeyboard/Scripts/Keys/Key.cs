@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 namespace VRKeyboard.Utils
 {
     public class Key : MonoBehaviour
     {
-        protected Text key;
+        protected TMP_Text key;
 
         public delegate void OnKeyClickedHandler(string key);
 
@@ -14,7 +16,7 @@ namespace VRKeyboard.Utils
 
         public virtual void Awake()
         {
-            key = transform.Find("Text").GetComponent<Text>();
+            key = transform.Find("Text").GetComponent<TMP_Text>();
             GetComponent<Button>().onClick.AddListener(() =>
             {
 

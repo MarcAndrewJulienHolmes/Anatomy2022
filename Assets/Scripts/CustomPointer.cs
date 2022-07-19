@@ -284,26 +284,6 @@ public class CustomPointer : MonoBehaviour
                 }
             }
 
-            else if (pointObject.GetComponent<InfoEnterButton>())
-            {
-                currentHighlightedObjectName = pointObject.GetComponent<InfoEnterButton>().thisGameObjectName;
-                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                lineRenderer.material = highlighted;
-
-                for (int i = 0; i < languageButton.Length; i++)
-                {
-                    if (languageButton[i].name == currentHighlightedObjectName)
-                    {
-                        languageButton[i].rightHandRay = true;
-                    }
-                }
-
-                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
-                {
-                    pointObject.GetComponent<InfoEnterButton>().ButtonSelect();
-                }
-            }
-
             else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<LanguageButton>())
             {
                 for (int i = 0; i < quizButton.Length; i++)

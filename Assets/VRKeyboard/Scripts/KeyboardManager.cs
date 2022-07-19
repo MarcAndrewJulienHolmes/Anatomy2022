@@ -23,14 +23,18 @@ namespace VRKeyboard.Utils
 
         [Header("Essentials")]
         public Transform keys;
+
         #endregion
 
         #region Private Variables
-        private string Input
+        public string Input
         {
             get { return inputText.text; }
             set { inputText.text = value; }
         }
+
+        //public string inputCopy;
+
         private Key[] keyList;
         private bool capslockFlag;
         #endregion
@@ -92,6 +96,8 @@ namespace VRKeyboard.Utils
                 }
             }
         }
+
+
 
         public void GenerateInput(string s)
         {

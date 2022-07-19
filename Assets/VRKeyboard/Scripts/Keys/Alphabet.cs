@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
+using TMPro;
+
 
 namespace VRKeyboard.Utils
 {
     public class Alphabet : Key
     {
+        //public TMP_Text key;
+
         public override void CapsLock(bool isUppercase)
         {
             if (isUppercase)

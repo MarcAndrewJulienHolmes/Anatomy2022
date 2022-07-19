@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRKeys;
 using TMPro;
+using VRKeyboard.Utils;
 
 
 public class KeyboardTest : MonoBehaviour
 {
-    public Keyboard keyboard;
-
-    public string buttonToActivate;
+    public KeyboardManager keyboardManager;
+    public GameObject keyboardObject;
 
     public bool activateKeyboard;
-    public string aPIKeyString;
-    public string appKeyString;
-    public string tableNameString;
 
-    public TMP_Text aPIKeyTMP = null;
-    public TMP_Text appKeyTMP = null;
-    public TMP_Text tableNameTMP = null;
+    public bool apiActive, appKeyActive, tableNameActive;
+
+    public TMP_Text aPIKeyTMP;
+    public TMP_Text appKeyTMP;
+    public TMP_Text tableNameTMP;
 
 
 
@@ -31,42 +30,47 @@ public class KeyboardTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        aPIKeyTMP.text = aPIKeyString;
-        appKeyTMP.text = appKeyString;
-        tableNameTMP.text = tableNameString;
+        if (apiActive)
+        {
+            aPIKeyTMP.text = keyboardManager.Input;
+        }
+        if (appKeyActive)
+        {
+            appKeyTMP.text = keyboardManager.Input; 
+        }
+        if (tableNameActive)
+        {
+            tableNameTMP.text = keyboardManager.Input; 
+        }
     }
 
-    public void ActivateButton()
-    {
-        if(buttonToActivate == "APIKeyBTN")
-        {
-            EnterAPIKey();
-        }
-        else if(buttonToActivate == "AppKeyBTN")
-        {
-            EnterAppKey();
-        }
-        else if(buttonToActivate == "TableNameBTN")
-        {
-            EnterTableName();
-        }                 
-    }
 
     public void EnterAPIKey()
     {
-        keyboard.Enable();
-        aPIKeyString = keyboard.text;
+        keyboardManager.Input = "";
+        apiActive = true;
+        appKeyActive = false;
+        tableNameActive = false;
+        Debug.LogError("Entering APIKey");
     }
 
     public void EnterAppKey()
     {
-        keyboard.Enable();
-        appKeyString = keyboard.text;
+        keyboardManager.Input = "";
+        apiActive = false;
+        appKeyActive = true;
+        tableNameActive = false;
+        Debug.LogError("Entering APPKey");
+
     }
 
     public void EnterTableName()
     {
-        keyboard.Enable();
-        tableNameString = keyboard.text;
+        keyboardManager.Input = "";
+        apiActive = false;
+        appKeyActive = false;
+        tableNameActive = true;
+        Debug.LogError("Entering TableName");
+
     }
 }
