@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using VRKeyboard.Utils;
-using AirtableUnity.PX;
 
 
-public class KeyboardTest : MonoBehaviour
+public class KeyboardController : MonoBehaviour
 {
     public KeyboardManager keyboardManager;
     public SetEnvironment setEnvironment;
     public CreateRecord createRecord;
-    public GameObject keyboardObject;
-
-    public bool activateKeyboard;
+    public AnatomyKeyPrefs anatomyKeyPrefs;
 
     public bool apiActive, appKeyActive, tableNameActive;
 
@@ -22,7 +19,25 @@ public class KeyboardTest : MonoBehaviour
     public TMP_Text tableNameTMP;
     public TMP_Text airTableResponseTMP;
 
+    private void Awake()
+    {
+        anatomyKeyPrefs = GetComponent<AnatomyKeyPrefs>();
+        anatomyKeyPrefs.RetrieveAppKeys();
+        if(anatomyKeyPrefs.aPIKeyStringPrevious == "" && anatomyKeyPrefs.appKeyStringPrevious == "" && anatomyKeyPrefs.tableNameStringPrevious == "")
+        {
 
+        }
+        else
+        {
+            aPIKeyTMP.text = anatomyKeyPrefs.aPIKeyStringPrevious;
+            appKeyTMP.text = anatomyKeyPrefs.appKeyStringPrevious;
+            tableNameTMP.text = anatomyKeyPrefs.tableNameStringPrevious;
+
+            setEnvironment.ApiKey = anatomyKeyPrefs.aPIKeyStringPrevious;
+            setEnvironment.AppKey = anatomyKeyPrefs.appKeyStringPrevious;
+            createRecord.TableName = anatomyKeyPrefs.tableNameStringPrevious;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -37,20 +52,22 @@ public class KeyboardTest : MonoBehaviour
         {
             aPIKeyTMP.text = keyboardManager.Input;
             setEnvironment.ApiKey = keyboardManager.Input;
+            anatomyKeyPrefs.aPIKeyString = keyboardManager.Input;
         }
         if (appKeyActive)
         {
             appKeyTMP.text = keyboardManager.Input;
             setEnvironment.AppKey = keyboardManager.Input;
+            anatomyKeyPrefs.appKeyString = keyboardManager.Input;
         }
         if (tableNameActive)
         {
             tableNameTMP.text = keyboardManager.Input;
             createRecord.TableName = keyboardManager.Input;
+            anatomyKeyPrefs.tableNameString = keyboardManager.Input;
         }
 
         airTableResponseTMP.text = AirtableUnity.PX.Proxy.responseMessage;
-
     }
 
 
@@ -60,7 +77,7 @@ public class KeyboardTest : MonoBehaviour
         apiActive = true;
         appKeyActive = false;
         tableNameActive = false;
-        Debug.LogError("Entering APIKey");
+        //Debug.LogError("Entering APIKey");
     }
 
     public void EnterAppKey()
@@ -69,8 +86,7 @@ public class KeyboardTest : MonoBehaviour
         apiActive = false;
         appKeyActive = true;
         tableNameActive = false;
-        Debug.LogError("Entering APPKey");
-
+        //Debug.LogError("Entering APPKey");
     }
 
     public void EnterTableName()
@@ -79,7 +95,14 @@ public class KeyboardTest : MonoBehaviour
         apiActive = false;
         appKeyActive = false;
         tableNameActive = true;
-        Debug.LogError("Entering TableName");
+        //Debug.LogError("Entering TableName");
+    }
 
+    public void ProceedToApp()
+    {
+        anatomyKeyPrefs.aPIKeyString = setEnvironment.ApiKey;
+        anatomyKeyPrefs.appKeyString = setEnvironment.AppKey;
+        anatomyKeyPrefs.tableNameString = createRecord.TableName;
+        anatomyKeyPrefs.SetAppKeys();
     }
 }
