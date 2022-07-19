@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using VRKeys;
 using TMPro;
 using VRKeyboard.Utils;
+using AirtableUnity.PX;
 
 
 public class KeyboardTest : MonoBehaviour
 {
     public KeyboardManager keyboardManager;
+    public SetEnvironment setEnvironment;
+    public CreateRecord createRecord;
     public GameObject keyboardObject;
 
     public bool activateKeyboard;
@@ -18,6 +20,7 @@ public class KeyboardTest : MonoBehaviour
     public TMP_Text aPIKeyTMP;
     public TMP_Text appKeyTMP;
     public TMP_Text tableNameTMP;
+    public TMP_Text airTableResponseTMP;
 
 
 
@@ -33,15 +36,21 @@ public class KeyboardTest : MonoBehaviour
         if (apiActive)
         {
             aPIKeyTMP.text = keyboardManager.Input;
+            setEnvironment.ApiKey = keyboardManager.Input;
         }
         if (appKeyActive)
         {
-            appKeyTMP.text = keyboardManager.Input; 
+            appKeyTMP.text = keyboardManager.Input;
+            setEnvironment.AppKey = keyboardManager.Input;
         }
         if (tableNameActive)
         {
-            tableNameTMP.text = keyboardManager.Input; 
+            tableNameTMP.text = keyboardManager.Input;
+            createRecord.TableName = keyboardManager.Input;
         }
+
+        airTableResponseTMP.text = AirtableUnity.PX.Proxy.responseMessage;
+
     }
 
 

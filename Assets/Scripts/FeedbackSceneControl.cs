@@ -19,7 +19,7 @@ public class FeedbackSceneControl : MonoBehaviour
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         toTextSave = GetComponent<ToTextSave>();
-        airtableRecord = GetComponent<AirtableRecord>();
+        airtableRecord = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<AirtableRecord>();
 
         RoundTimeValues();       
     }

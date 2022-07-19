@@ -8,9 +8,13 @@ using UnityEngine;
 
 namespace AirtableUnity.PX
 {
+    
+
     [Serializable]
     public class Response
     {
+        public KeyboardTest keyboardTest;
+
         public bool Success;
 
         public string Message;

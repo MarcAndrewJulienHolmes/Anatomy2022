@@ -15,24 +15,32 @@ namespace AirtableUnity.PX
         private static string ApiVersion;
         private static string AppKey;
         private static string ApiKey;
+        public static string responseMessage;
+        public static bool connectionSuccess = false;
+
 
         #region Environment
         public static void SetEnvironment(string apiVersion, string appKey, string apiKey)
         {
+            
+
             if(string.IsNullOrEmpty(apiVersion))
                 Debug.LogError("Airtable Unity - Api Version informed is null or empty");
-            
-            if(string.IsNullOrEmpty(appKey))
+
+            if (string.IsNullOrEmpty(appKey))
+                //responseMessage = "App Key informed is null or empty";
                 Debug.LogError("Airtable Unity - App Key informed is null or empty");
                 
             if(string.IsNullOrEmpty(apiKey))
+                //responseMessage = "Api Key informed is null or empty";
                 Debug.LogError("Airtable Unity - Api Key informed is null or empty");
                 
             ApiVersion = apiVersion;
             AppKey = appKey;
             ApiKey = apiKey;
-            
-            if(!string.IsNullOrEmpty(apiVersion) && !string.IsNullOrEmpty(AppKey) && !string.IsNullOrEmpty(ApiKey))
+
+            if (!string.IsNullOrEmpty(apiVersion) && !string.IsNullOrEmpty(AppKey) && !string.IsNullOrEmpty(ApiKey))
+                //responseMessage = "Environment prepared successfully";
                 Debug.Log("Airtable Unity - Environment prepared successfully");
         }
         #endregion
@@ -117,6 +125,8 @@ namespace AirtableUnity.PX
                     {
                         response.Success = false;
                         response.Message += "\n" + response.Err;
+                        responseMessage = "Test connect failed - Recheck your Air Table information.";
+                        Debug.LogError(responseMessage);
                         Debug.LogError(response.Message + "\n" + request.url);
                     }
 
@@ -222,7 +232,11 @@ namespace AirtableUnity.PX
 
                     if (recordFound != null)
                         recordToReturn = recordFound;
+                    responseMessage = "Test record success.";
+                    connectionSuccess = true;
+                    Debug.LogError(responseMessage);
                 });
+
 
             outputActionRecords?.Invoke(recordToReturn);
         }

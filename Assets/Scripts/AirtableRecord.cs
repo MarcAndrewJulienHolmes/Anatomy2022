@@ -6,10 +6,8 @@ using UnityEngine;
 public class AirtableRecord : MonoBehaviour
 {
     public SceneAndScoreManager sceneAndScoreManager;
-
+    public SetEnvironment setEnvironment;
     public CreateRecord createRecord;
-
-    public string JSONRequest;
 
     public bool recordData;
 
@@ -19,17 +17,18 @@ public class AirtableRecord : MonoBehaviour
 
     private void Awake()
     {
-        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
-
+        sceneAndScoreManager = GetComponent<SceneAndScoreManager>();
+        setEnvironment = GetComponent<SetEnvironment>();
+        createRecord = GetComponent<CreateRecord>();
     }
 
     private void Start()
     {
 
-        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
-
     }
 
+#if UNITY_EDITOR
+    
     public void Update()
     {
         if (recordData)
@@ -41,10 +40,24 @@ public class AirtableRecord : MonoBehaviour
             }
         }
     }
+#endif
+
+    public void AttemptConnect()
+    {
+        StartCoroutine(AttemptConnectCoroutine());
+    }
+
+    public IEnumerator AttemptConnectCoroutine()
+    {
+        setEnvironment.PrepareEnvironment();
+        yield return new WaitForSeconds(1f);
+        createRecord.CreateAirtableRecord();
+    }
 
     public void SendToAirtable()
     {
-        //StartCoroutine(SendToAirtable());
+        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
+
         JSONString = "{\"fields\": {" +
                                     "\"Date and Time\":\"" + dateTime + "\", " +
                                     "\"Bone Scene Time\":\"" + sceneAndScoreManager.boneSceneTime + "\", " +
@@ -59,8 +72,6 @@ public class AirtableRecord : MonoBehaviour
                                     "}}";
         createRecord.NewRecordJson = JSONString;
         createRecord.CreateAirtableRecord();
-
-
     }
 }
 
