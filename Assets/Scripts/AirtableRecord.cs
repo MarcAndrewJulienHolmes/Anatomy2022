@@ -60,13 +60,13 @@ public class AirtableRecord : MonoBehaviour
 
         JSONString = "{\"fields\": {" +
                                     "\"Date and Time\":\"" + dateTime + "\", " +
-                                    "\"Bone Scene Time\":\"" + sceneAndScoreManager.boneSceneTime + "\", " +
+                                    "\"Bone Scene Time Remaining\":\"" + sceneAndScoreManager.boneSceneTime + "\", " +
                                     "\"Bone Scene Score\":\"" + sceneAndScoreManager.boneSceneScore + "\", " +
                                     "\"Bone Scene Max Score\":\"" + sceneAndScoreManager.boneSceneMaxScore + "\", " +
-                                    "\"Muscle Learning Time\":\"" + sceneAndScoreManager.muscleLearningTime + "\", " +
+                                    "\"Muscle Learning Time Remaining\":\"" + sceneAndScoreManager.muscleLearningTime + "\", " +
                                     "\"Muscle Learning Score\":\"" + sceneAndScoreManager.muscleLearningScore + "\", " +
                                     "\"Muscle Learning Max Score\":\"" + sceneAndScoreManager.muscleLearningMaxScore + "\", " +
-                                    "\"Muscle Testing Time\":\"" + sceneAndScoreManager.muscleTestingTime + "\", " +
+                                    "\"Muscle Testing Time Remaining\":\"" + sceneAndScoreManager.muscleTestingTime + "\", " +
                                     "\"Muscle Testing Score\":\"" + sceneAndScoreManager.muscleTestingScore + "\", " +
                                     "\"Muscle Testing Max Score\":\"" + sceneAndScoreManager.muscleTestingMaxScore + "\"" +
                                     "}}";

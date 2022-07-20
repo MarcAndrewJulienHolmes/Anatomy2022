@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Test Scenes/MuscleTest.unity
     guid: 60161a6f2d09216439b63ca47f36acd1
   - enabled: 1
+    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceTrainerSetup_EnglishVersion.unity
+    guid: e21ac7721167b3d498c5ff62f213daec
+  - enabled: 1
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceSkeletal_EnglishVersion.unity
     guid: 1f5a5c9fede245f43a2f237d4bf56bd8
   - enabled: 1

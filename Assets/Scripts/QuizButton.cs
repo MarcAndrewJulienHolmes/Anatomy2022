@@ -22,16 +22,20 @@ public class QuizButton : MonoBehaviour
 
     public Collider thisCollider;
 
+    public Button thisButton;
+
     private void Awake()
     {
-        thisButtonAnimator.Play("Start");
+        //thisButtonAnimator.Play("Start");
         thisCollider = GetComponent<Collider>();
+        thisButton = GetComponent<Button>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         thisGameObjectName = transform.gameObject.name;
+        thisButton.interactable = false;
         thisCollider.enabled = false;
     }
 
@@ -65,23 +69,27 @@ public class QuizButton : MonoBehaviour
 
     public void NormalColour()
     {
-        thisButtonAnimator.Play("Normal");
+        //thisButtonAnimator.Play("Normal");
     }
 
     public void HighlightedColour()
     {
-        thisButtonAnimator.Play("Highlighted");
+        //thisButtonAnimator.Play("Highlighted");
     }
 
     public void FadeOut()
     {
         thisButtonAnimator.Play("FadeOut");
         thisCollider.enabled = false;
+        thisButton.interactable = false;
+
     }
 
     public void FadeIn()
     {
         thisButtonAnimator.Play("FadeIn");
         thisCollider.enabled = true;
+        thisButton.interactable = true;
+
     }
 }

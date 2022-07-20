@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 
 public class CustomPointer : MonoBehaviour
@@ -15,10 +16,11 @@ public class CustomPointer : MonoBehaviour
     public OnboardingManager onboardingManager;
     public OVRScreenFade ovrScreenFade;
     public BoneNameQuiz boneNameQuiz;
+    public XRInteractorLineVisual xRInteractorLineVisual;
 
     [Header ("Pointer Specific")]
     public LineRenderer lineRenderer;
-    public Material normal, highlighted;
+    //public Material normal, highlighted;
     private float flexibleLineLength;
     public bool linePointerOn;
     public bool objectHit = false;
@@ -47,10 +49,11 @@ public class CustomPointer : MonoBehaviour
     void Start()
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
+        xRInteractorLineVisual = GetComponent<XRInteractorLineVisual>();
         countdownTimer = 3f;
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
-        lineRenderer.SetPositions(startLinePositions);
-        lineRenderer.material = normal;
+        //lineRenderer.SetPositions(startLinePositions);
+        //lineRenderer.material = normal;
         linePointerOn = true;
         coroutineRunning = false;
 
@@ -145,13 +148,15 @@ public class CustomPointer : MonoBehaviour
 
         if (linePointerOn)
         {
-            lineRenderer.enabled = true;
+            xRInteractorLineVisual.enabled = true;
+
+            //lineRenderer.enabled = true;
             ActiveLineRenderer(transform.position, transform.forward, flexibleLineLength);
         }
         else
         {
-            lineRenderer.enabled = false;
-
+            xRInteractorLineVisual.enabled = false;
+            //lineRenderer.enabled = false;
         }
     }
 
@@ -177,7 +182,7 @@ public class CustomPointer : MonoBehaviour
                 {
                     currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
                     currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                    lineRenderer.material = highlighted;
+                    //lineRenderer.material = highlighted;
 
                     if (leftHand)
                     {
@@ -232,7 +237,7 @@ public class CustomPointer : MonoBehaviour
             {
                 currentHighlightedObjectName = pointObject.GetComponent<QuizButton>().thisGameObjectName;
                 currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                lineRenderer.material = highlighted;
+                //lineRenderer.material = highlighted;
 
                 for (int i = 0; i < quizButton.Length; i++)
                 {
@@ -268,7 +273,7 @@ public class CustomPointer : MonoBehaviour
             {
                 currentHighlightedObjectName = pointObject.GetComponent<LanguageButton>().thisGameObjectName;
                 currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                lineRenderer.material = highlighted;
+                //lineRenderer.material = highlighted;
 
                 for (int i = 0; i < languageButton.Length; i++)
                 {
@@ -295,13 +300,13 @@ public class CustomPointer : MonoBehaviour
 
                 currentHighlightedObjectName = null;
 
-                lineRenderer.material = normal;
+                //lineRenderer.material = normal;
             }
         }
 
 
-        lineRenderer.SetPosition(0, targetPosition);
-        lineRenderer.SetPosition(1, endPosition);
+        //lineRenderer.SetPosition(0, targetPosition);
+        //lineRenderer.SetPosition(1, endPosition);
     }
 
     public IEnumerator RestartApp()
