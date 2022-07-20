@@ -20,7 +20,6 @@ public class CustomPointer : MonoBehaviour
 
     [Header ("Pointer Specific")]
     public LineRenderer lineRenderer;
-    //public Material normal, highlighted;
     private float flexibleLineLength;
     public bool linePointerOn;
     public bool objectHit = false;
@@ -49,11 +48,8 @@ public class CustomPointer : MonoBehaviour
     void Start()
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
-        xRInteractorLineVisual = GetComponent<XRInteractorLineVisual>();
         countdownTimer = 3f;
         Vector3[] startLinePositions = new Vector3[2] { Vector3.zero, Vector3.zero };
-        //lineRenderer.SetPositions(startLinePositions);
-        //lineRenderer.material = normal;
         linePointerOn = true;
         coroutineRunning = false;
 
@@ -182,7 +178,6 @@ public class CustomPointer : MonoBehaviour
                 {
                     currentHighlightedObjectName = pointObject.GetComponent<SelectedObject>().thisGameObjectName;
                     currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                    //lineRenderer.material = highlighted;
 
                     if (leftHand)
                     {
@@ -255,7 +250,6 @@ public class CustomPointer : MonoBehaviour
                             quizButton[i].rightHandSelect = true;
                         }
                     }
-
                 }
                 if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
                 {
@@ -273,8 +267,6 @@ public class CustomPointer : MonoBehaviour
             {
                 currentHighlightedObjectName = pointObject.GetComponent<LanguageButton>().thisGameObjectName;
                 currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                //lineRenderer.material = highlighted;
-
                 for (int i = 0; i < languageButton.Length; i++)
                 {
                     if (languageButton[i].name == currentHighlightedObjectName)
@@ -299,14 +291,8 @@ public class CustomPointer : MonoBehaviour
                 }
 
                 currentHighlightedObjectName = null;
-
-                //lineRenderer.material = normal;
             }
         }
-
-
-        //lineRenderer.SetPosition(0, targetPosition);
-        //lineRenderer.SetPosition(1, endPosition);
     }
 
     public IEnumerator RestartApp()

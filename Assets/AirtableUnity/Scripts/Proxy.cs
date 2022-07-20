@@ -232,7 +232,7 @@ namespace AirtableUnity.PX
 
                     if (recordFound != null)
                         recordToReturn = recordFound;
-                    responseMessage = "Test record success.";
+                    responseMessage = "Successfully connected to Air Table.";
                     connectionSuccess = true;
                     Debug.LogError(responseMessage);
                 });

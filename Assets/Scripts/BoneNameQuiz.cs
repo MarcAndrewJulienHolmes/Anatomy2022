@@ -38,6 +38,12 @@ public class BoneNameQuiz : MonoBehaviour
     public bool timeRunOut = false;
 
 
+    private void Awake()
+    {
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {

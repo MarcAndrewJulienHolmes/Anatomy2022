@@ -71,7 +71,7 @@ public class AirtableRecord : MonoBehaviour
                                     "\"Muscle Testing Max Score\":\"" + sceneAndScoreManager.muscleTestingMaxScore + "\"" +
                                     "}}";
         createRecord.NewRecordJson = JSONString;
-        createRecord.CreateAirtableRecord();
+        AttemptConnect();
     }
 }
 
