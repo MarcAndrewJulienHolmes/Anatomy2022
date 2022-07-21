@@ -15,6 +15,14 @@ public class AnatomyKeyPrefs : MonoBehaviour
     public string appKeyStringPrevious;
     public string tableNameStringPrevious;
 
+    public float skeletalSceneTime;
+    public float muscleLearningSceneTime;
+    public float muscleTestingSceneTime;
+
+    public float skeletalSceneTimePrevious;
+    public float muscleLearningSceneTimePrevious;
+    public float muscleTestingSceneTimePrevious;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +60,21 @@ public class AnatomyKeyPrefs : MonoBehaviour
         tableNameStringPrevious = GetString("Table Name");
     }
 
+    public void SetTimes()
+    {
+        SetFloat("Skeletal Scene Time", skeletalSceneTime);
+        SetFloat("Muscle Learning Scene Time", muscleLearningSceneTime);
+        SetFloat("Muscle Testing Scene Time", muscleTestingSceneTime);
+    }
+
+    public void GetTimes()
+    {
+        skeletalSceneTimePrevious = GetFloat("Skeletal Scene Time");
+        muscleLearningSceneTimePrevious = GetFloat("Muscle Learning Scene Time");
+        muscleTestingSceneTimePrevious = GetFloat("Muscle Testing Scene Time");
+    }
+
+
     public void SetString(string KeyName, string Value)
     {
         PlayerPrefs.SetString(KeyName, Value);
@@ -60,5 +83,15 @@ public class AnatomyKeyPrefs : MonoBehaviour
     public string GetString(string KeyName)
     {
         return PlayerPrefs.GetString(KeyName);
+    }
+
+    public void SetFloat(string KeyName, float Value)
+    {
+        PlayerPrefs.SetFloat(KeyName, Value);
+    }
+
+    public float GetFloat(string KeyName)
+    {
+        return PlayerPrefs.GetFloat(KeyName);
     }
 }

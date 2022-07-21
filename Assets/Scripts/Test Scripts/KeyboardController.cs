@@ -14,8 +14,9 @@ public class KeyboardController : MonoBehaviour
     public CreateRecord createRecord;
     public AnatomyKeyPrefs anatomyKeyPrefs;
     public OVRScreenFade ovrScreenFade;
+    public SceneAndScoreManager sceneAndScoreManager;
 
-    public bool apiActive, appKeyActive, tableNameActive, stringsFilled, clearPlayerPrefs;
+    public bool apiActive, appKeyActive, tableNameActive, stringsFilled, clearPlayerPrefs, canvas1;
 
     public TMP_Text aPIKeyTMP;
     public TMP_Text appKeyTMP;
@@ -24,12 +25,26 @@ public class KeyboardController : MonoBehaviour
 
     public Button proceedToAppBTN;
 
+    public Slider skeletonSceneSlider, muscleLearningSceneSlider, muscleTestingSceneSlider;
+    public float skeletonSceneFloat, muscleLearningSceneFloat, muscleTestingSceneFloat;
+    public TMP_Text skeletonSceneTMP, muscleLearningSceneTMP, muscleTestingSceneTMP;
+
+    public Animator airTableAni, sliderBoardAni, keyboardAni;
+
+    public GameObject airTableCanvas, sliderCanvas, keyboardObject;
+
+    public bool setSlidersToPlayerPrefs = false;
+
+
     private void Awake()
     {
         anatomyKeyPrefs = GetComponent<AnatomyKeyPrefs>();
         anatomyKeyPrefs.RetrieveAppKeys();
+        anatomyKeyPrefs.GetTimes();
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
 
-        if(anatomyKeyPrefs.aPIKeyStringPrevious == "" && anatomyKeyPrefs.appKeyStringPrevious == "" && anatomyKeyPrefs.tableNameStringPrevious == "")
+
+        if (anatomyKeyPrefs.aPIKeyStringPrevious == "" && anatomyKeyPrefs.appKeyStringPrevious == "" && anatomyKeyPrefs.tableNameStringPrevious == "")
         {
 
         }
@@ -52,47 +67,99 @@ public class KeyboardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sliderCanvas.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (apiActive)
+        if (canvas1)
         {
-            aPIKeyTMP.text = keyboardManager.Input;
-            setEnvironment.ApiKey = keyboardManager.Input;
-            anatomyKeyPrefs.aPIKeyString = keyboardManager.Input;
-        }
+            if (apiActive)
+            {
+                aPIKeyTMP.text = keyboardManager.Input;
+                setEnvironment.ApiKey = keyboardManager.Input;
+                anatomyKeyPrefs.aPIKeyString = keyboardManager.Input;
+            }
 
-        if (appKeyActive)
-        {
-            appKeyTMP.text = keyboardManager.Input;
-            setEnvironment.AppKey = keyboardManager.Input;
-            anatomyKeyPrefs.appKeyString = keyboardManager.Input;
-        }
-        
-        if (tableNameActive)
-        {
-            tableNameTMP.text = keyboardManager.Input;
-            createRecord.TableName = keyboardManager.Input;
-            anatomyKeyPrefs.tableNameString = keyboardManager.Input;
-        }
+            if (appKeyActive)
+            {
+                appKeyTMP.text = keyboardManager.Input;
+                setEnvironment.AppKey = keyboardManager.Input;
+                anatomyKeyPrefs.appKeyString = keyboardManager.Input;
+            }
 
-        airTableResponseTMP.text = AirtableUnity.PX.Proxy.responseMessage;
+            if (tableNameActive)
+            {
+                tableNameTMP.text = keyboardManager.Input;
+                createRecord.TableName = keyboardManager.Input;
+                anatomyKeyPrefs.tableNameString = keyboardManager.Input;
+            }
 
-        if (AirtableUnity.PX.Proxy.connectionSuccess)
-        {
-            proceedToAppBTN.interactable = true;
+            airTableResponseTMP.text = AirtableUnity.PX.Proxy.responseMessage;
+
+            if (AirtableUnity.PX.Proxy.connectionSuccess)
+            {
+                proceedToAppBTN.interactable = true;
+            }
+
+            if (clearPlayerPrefs)
+            {
+                PlayerPrefs.DeleteAll();
+                Debug.LogError("Player prefs cleared");
+                clearPlayerPrefs = false;
+            }
         }
-
-        if (clearPlayerPrefs)
+        else
         {
-            PlayerPrefs.DeleteAll();
-            Debug.LogError("Player prefs cleared");
-            clearPlayerPrefs = false;
+            GetSliderValues();
+
         }
     }
+
+    public IEnumerator CanvasSwitch()
+    {
+        airTableAni.Play("AirTableInfoFadeOut");
+        keyboardAni.Play("KeyboardFadeOut");
+        yield return new WaitForSeconds(0.5f);
+        sliderCanvas.SetActive(true);
+        canvas1 = false;
+        airTableCanvas.SetActive(false);
+        keyboardObject.SetActive(false);
+    }
+
+    public void GetSliderValues()
+    {
+        if(anatomyKeyPrefs.skeletalSceneTimePrevious < 1)
+        {
+            skeletonSceneFloat = skeletonSceneSlider.value;
+            muscleLearningSceneFloat = muscleLearningSceneSlider.value;
+            muscleTestingSceneFloat = muscleTestingSceneSlider.value;
+
+            skeletonSceneTMP.text = "Skeletal Quiz Time: " + skeletonSceneFloat + " minutes";
+            muscleLearningSceneTMP.text = "Muscle Learning Time: " + muscleLearningSceneFloat + " minutes";
+            muscleTestingSceneTMP.text = "Muscle Testing Time: " + muscleTestingSceneFloat + " minutes";
+        }
+        else
+        {
+            if (!setSlidersToPlayerPrefs)
+            {
+                skeletonSceneSlider.value = anatomyKeyPrefs.skeletalSceneTimePrevious;
+                muscleLearningSceneSlider.value = anatomyKeyPrefs.muscleLearningSceneTimePrevious;
+                muscleTestingSceneSlider.value = anatomyKeyPrefs.muscleTestingSceneTimePrevious;
+                setSlidersToPlayerPrefs = true;
+            }
+
+            skeletonSceneFloat = skeletonSceneSlider.value;
+            muscleLearningSceneFloat = muscleLearningSceneSlider.value;
+            muscleTestingSceneFloat = muscleTestingSceneSlider.value;
+
+            skeletonSceneTMP.text = "Skeletal Quiz Time: " + skeletonSceneFloat + " minutes";
+            muscleLearningSceneTMP.text = "Muscle Learning Time: " + muscleLearningSceneFloat + " minutes";
+            muscleTestingSceneTMP.text = "Muscle Testing Time: " + muscleTestingSceneFloat + " minutes";
+        }
+    }
+
 
 
     public void EnterAPIKey()
@@ -131,8 +198,23 @@ public class KeyboardController : MonoBehaviour
         StartCoroutine(ChangeScene());
     }
 
+    public void ProceedToAppSettings()
+    {
+        StartCoroutine(CanvasSwitch());
+    }
+
     public IEnumerator ChangeScene()
     {
+        sceneAndScoreManager.boneSceneMaxTime = skeletonSceneFloat;
+        sceneAndScoreManager.muscleLearningMaxTime = muscleLearningSceneFloat;
+        sceneAndScoreManager.muscleTestingMaxTime = muscleTestingSceneFloat;
+
+        anatomyKeyPrefs.skeletalSceneTime = skeletonSceneFloat;
+        anatomyKeyPrefs.muscleLearningSceneTime = muscleLearningSceneFloat;
+        anatomyKeyPrefs.muscleTestingSceneTime = muscleTestingSceneFloat;
+
+        anatomyKeyPrefs.SetTimes();
+
         ovrScreenFade.FadeOut();
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("SportScienceSkeletal_EnglishVersion");

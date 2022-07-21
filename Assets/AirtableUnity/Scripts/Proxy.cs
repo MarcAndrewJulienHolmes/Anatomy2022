@@ -22,7 +22,7 @@ namespace AirtableUnity.PX
         #region Environment
         public static void SetEnvironment(string apiVersion, string appKey, string apiKey)
         {
-            
+            responseMessage = "Attempting Air Table Connection...";
 
             if(string.IsNullOrEmpty(apiVersion))
                 Debug.LogError("Airtable Unity - Api Version informed is null or empty");

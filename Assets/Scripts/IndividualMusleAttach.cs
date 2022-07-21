@@ -5,8 +5,9 @@ using UnityEngine;
 public class IndividualMusleAttach : MonoBehaviour
 {
     [Header("Scripts")]
-    public CustomPointer rightHandPointer;
-    public GameObject rightHand;
+    public CustomPointer rightHandPointer, leftHandPointer;
+    public GameObject rightHand, leftHand;
+
     public MuscleLearningScenarioSetup muscleLearningScenarioSetup;
 
     [Header("This Game Object")]
@@ -29,6 +30,9 @@ public class IndividualMusleAttach : MonoBehaviour
     {
         rightHand = GameObject.FindWithTag("PlayerRightHand");
         rightHandPointer = rightHand.GetComponent<CustomPointer>();
+        leftHand = GameObject.FindWithTag("PlayerLeftHand");
+        leftHandPointer = leftHand.GetComponent<CustomPointer>();
+
         muscleLearningScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleLearningScenarioSetup>();
 
         thisGameObject = transform.gameObject;
@@ -58,6 +62,8 @@ public class IndividualMusleAttach : MonoBehaviour
         muscleLearningScenarioSetup.LearningMuscleCount();
         rightHandPointer.holdingObject = false;
         rightHandPointer.linePointerOn = true;
+        leftHandPointer.holdingObject = false;
+        leftHandPointer.linePointerOn = true;
         thisGameObject.SetActive(false);
         audioSource.Play();
     }

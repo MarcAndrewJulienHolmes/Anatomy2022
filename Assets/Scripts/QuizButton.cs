@@ -12,6 +12,8 @@ public class QuizButton : MonoBehaviour
 
     public string thisGameObjectName;
 
+    public GameObject thisGameObject;
+
     public string thisButtonAnswer;
 
     public Animator thisButtonAnimator;
@@ -29,13 +31,14 @@ public class QuizButton : MonoBehaviour
         //thisButtonAnimator.Play("Start");
         thisCollider = GetComponent<Collider>();
         thisButton = GetComponent<Button>();
+        thisGameObject = transform.gameObject;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         thisGameObjectName = transform.gameObject.name;
-        thisButton.interactable = false;
+        thisGameObject.layer = 0;
         thisCollider.enabled = false;
     }
 
@@ -80,16 +83,15 @@ public class QuizButton : MonoBehaviour
     public void FadeOut()
     {
         thisButtonAnimator.Play("FadeOut");
+        thisGameObject.layer = 0;
         thisCollider.enabled = false;
-        thisButton.interactable = false;
 
     }
 
     public void FadeIn()
     {
         thisButtonAnimator.Play("FadeIn");
+        thisGameObject.layer = 9;
         thisCollider.enabled = true;
-        thisButton.interactable = true;
-
     }
 }

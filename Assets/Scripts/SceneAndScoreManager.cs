@@ -6,15 +6,15 @@ public class SceneAndScoreManager : MonoBehaviour
 {
     public float boneSceneScore, boneSceneMaxScore;
 
-    public float boneSceneTime;
+    public float boneSceneTime, boneSceneMaxTime;
 
     public int muscleLearningScore, muscleLearningMaxScore;
 
-    public float muscleLearningTime;
+    public float muscleLearningTime, muscleLearningMaxTime;
 
     public int muscleTestingScore, muscleTestingMaxScore;
 
-    public float muscleTestingTime;
+    public float muscleTestingTime, muscleTestingMaxTime;
 
 
     // Start is called before the first frame update
@@ -22,6 +22,8 @@ public class SceneAndScoreManager : MonoBehaviour
     {
         DontDestroyOnLoad(transform.gameObject);
     }
+
+
 
     public void ResetMasterScores()
     {

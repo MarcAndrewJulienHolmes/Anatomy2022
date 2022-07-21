@@ -24,6 +24,8 @@ namespace VRKeyboard.Utils
         [Header("Essentials")]
         public Transform keys;
 
+        public GameObject[] keysGO;
+
         #endregion
 
         #region Private Variables
@@ -47,6 +49,7 @@ namespace VRKeyboard.Utils
 
         void Start()
         {
+            MakeUninteractable();
             foreach (var key in keyList)
             {
                 key.OnKeyClicked += GenerateInput;
@@ -98,6 +101,23 @@ namespace VRKeyboard.Utils
         }
 
 
+
+        public void MakeInteractable()
+        {
+            for(int i = 0; i < keysGO.Length; i++)
+            {
+                keysGO[i].layer = 9;
+               
+            }
+        }
+
+        public void MakeUninteractable()
+        {
+            for (int i = 0; i < keysGO.Length; i++)
+            {
+                keysGO[i].layer = 0;
+            }
+        }
 
         public void GenerateInput(string s)
         {

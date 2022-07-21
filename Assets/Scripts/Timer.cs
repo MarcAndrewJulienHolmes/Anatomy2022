@@ -9,17 +9,41 @@ using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
+    public SceneAndScoreManager sceneAndScoreManager;
+
     bool timerActive = false;
     public float currentTime;
-    public int startMinutes;
+    public float startMinutes;
     public TMP_Text timerDisplay;
 
     public UnityEvent timerFinished;
 
+    public bool skeletalScene, muscleLearningScene, muscleTestingScene;
+
+    private void Awake()
+    {
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        if (skeletalScene)
+        {
+            startMinutes = sceneAndScoreManager.boneSceneMaxTime;
+        }
+        if (muscleLearningScene)
+        {
+            startMinutes = sceneAndScoreManager.muscleLearningMaxTime;
+        }
+        if (muscleTestingScene)
+        {
+            startMinutes = sceneAndScoreManager.muscleTestingMaxTime;
+        }
+
         currentTime = startMinutes * 60;
+
     }
 
     // Update is called once per frame

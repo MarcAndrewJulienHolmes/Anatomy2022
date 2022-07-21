@@ -58,6 +58,11 @@ public class CustomPointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (OVRInput.Get(OVRInput.Button.One))
+        {
+            handDeselect.Invoke();
+
+        }
 
         if (OVRInput.Get(OVRInput.Button.Two))
         {
@@ -65,12 +70,18 @@ public class CustomPointer : MonoBehaviour
             handDeselect.Invoke();
         }
 
-
-        if (OVRInput.Get(OVRInput.Button.One))
+        if (OVRInput.Get(OVRInput.Button.Three))
         {
             handDeselect.Invoke();
 
         }
+
+        if (OVRInput.Get(OVRInput.Button.Four))
+        {
+            handReturnOrigin.Invoke();
+            handDeselect.Invoke();
+        }
+
 
         if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp))
         {
@@ -181,18 +192,20 @@ public class CustomPointer : MonoBehaviour
 
                     if (leftHand)
                     {
-                        if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
-                        {
-                            if (!holdingObject)
-                            {
-                                currenHighlightedObject.GetComponent<SelectedObject>().leftHandSelect = true;
-                                currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
-                                holdingObject = true;
-                                handMoveTowards.Invoke();
-                            }
-                        }
-                        else if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
-                        {
+                        //if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+                        //{
+                        //    if (!holdingObject)
+                        //    {
+                        //        currenHighlightedObject.GetComponent<SelectedObject>().leftHandSelect = true;
+                        //        currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                        //        holdingObject = true;
+                        //        handMoveTowards.Invoke();
+                        //    }
+                        //}
+                        //else if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                        //{
+                        if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                        {                        
                             if (!holdingObject)
                             {
                                 currenHighlightedObject.GetComponent<SelectedObject>().leftHandSelect = true;
@@ -214,16 +227,16 @@ public class CustomPointer : MonoBehaviour
                                 handMoveTowards.Invoke();
                             }
                         }
-                        else if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
-                        {
-                            if (!holdingObject)
-                            {
-                                currenHighlightedObject.GetComponent<SelectedObject>().rightHandSelect = true;
-                                currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
-                                holdingObject = true;
-                                handMoveTowards.Invoke();
-                            }
-                        }
+                        //else if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                        //{
+                        //    if (!holdingObject)
+                        //    {
+                        //        currenHighlightedObject.GetComponent<SelectedObject>().rightHandSelect = true;
+                        //        currenHighlightedObject.GetComponent<SelectedObject>().ActivateSelect();
+                        //        holdingObject = true;
+                        //        handMoveTowards.Invoke();
+                        //    }
+                        //}
                     }
                 }
             }
