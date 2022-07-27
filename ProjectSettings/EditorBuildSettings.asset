@@ -8,21 +8,24 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test Scenes/MuscleTest.unity
     guid: 60161a6f2d09216439b63ca47f36acd1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceTrainerSetup_EnglishVersion.unity
     guid: e21ac7721167b3d498c5ff62f213daec
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceSkeletal_EnglishVersion.unity
     guid: 1f5a5c9fede245f43a2f237d4bf56bd8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleLearning_EnglishVersion.unity
     guid: 1e0463ab01001ec4a9f2d21b8be6ed0e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleTesting_EnglishVersion.unity
     guid: df3016e295879754a81ae3703c028706
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceScoreFeedback_EnglishVersion.unity
     guid: 51fc2a59bb51a064fb27c81c3ac0a90d
+  - enabled: 0
+    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceSkeletal_EnglishVersionCOLLIDERFIX.unity
+    guid: 433444ab6e5e61942928917bde27aee0
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ea3cfb22f9711ab429c03e4f4f17ed0c, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 48eab392cf2a78445b1bb45ab62b3419, type: 2}

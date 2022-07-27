@@ -6,6 +6,8 @@ public class MaleToFemaleColliderChecker : MonoBehaviour
 {
     public OrientatedObjectAttacher orientatedObjectAttacher;
 
+    public GameObject player;
+
     public string thisColliderName;
     public string receivingCollider;
     public Collider thisCollider;
@@ -14,16 +16,19 @@ public class MaleToFemaleColliderChecker : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         if (male)
         {
             thisCollider = GetComponent<Collider>();
             thisColliderName = transform.parent.name + transform.name;
-            receivingCollider = thisColliderName + "Receiver";
+            receivingCollider = transform.parent.name + " Female" + transform.name + "Receiver";
             orientatedObjectAttacher = transform.parent.GetComponent<OrientatedObjectAttacher>();
         }
 
         if (female)
         {
+            Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>());
             thisCollider = GetComponent<Collider>();
             thisColliderName = transform.parent.name + transform.name + "Receiver";
             transform.name = thisColliderName;

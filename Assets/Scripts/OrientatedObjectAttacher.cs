@@ -12,6 +12,8 @@ public class OrientatedObjectAttacher : MonoBehaviour
     public BoneNameQuiz boneNameQuiz;
     public OnboardingManager onboardingManager;
     public GameObject onboardingHolder;
+    public MuscleLearningScenarioSetup muscleLearningScenarioSetup;
+
 
     [Header("Scene Identifier")]
     public bool skeletalScene;
@@ -23,7 +25,7 @@ public class OrientatedObjectAttacher : MonoBehaviour
     public string thisGameObjectName;
     public bool startOfSequence, endOfSequence;
 
-    [Header("Main Skeleton")]
+    [Header("Skeletal Scene")]
     public GameObject skeletonAttachObject;
     public GameObject skeletonReplaceObject;
     public GameObject skeletonInvalidObject;
@@ -67,6 +69,11 @@ public class OrientatedObjectAttacher : MonoBehaviour
             skeletonReplaceObject.SetActive(false);
         }
 
+        if (muscleLearningScene)
+        {
+            muscleLearningScenarioSetup = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<MuscleLearningScenarioSetup>();
+        }
+
 
         audiosourceHolder = GameObject.FindGameObjectWithTag("AttachSFX");
         audioSource = audiosourceHolder.GetComponent<AudioSource>();
@@ -99,13 +106,13 @@ public class OrientatedObjectAttacher : MonoBehaviour
 
         if (currentEnteredCollidersInt == maleToFemaleColliderCheckers.Length)
         {
-            ConnectBoneToSkeleton();
+            ConnectMaleToFemale();
             Debug.LogError(thisGameObjectName + " all colliders detected");
         }
     }
 
 
-    public void ConnectBoneToSkeleton()
+    public void ConnectMaleToFemale()
     {
         rightCustomPointer.holdingObject = false;
         rightCustomPointer.linePointerOn = true;
@@ -114,24 +121,35 @@ public class OrientatedObjectAttacher : MonoBehaviour
         leftCustomPointer.linePointerOn = true;
 
         thisGameObject.SetActive(false);
-        skeletonAttachObject.SetActive(false);
-        skeletonReplaceObject.SetActive(true);
-        audioSource.Play();
-        boneNameQuiz.lastBoneConnected = thisGameObjectName;
-        boneNameQuiz.GenerateQuiz();
-        onboardingManager.attachBone = true;
-        onboardingManager.UpdateChecklist();
-        if (!endOfSequence)
-        {
-            for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
-            {
-                nextInSequenceSkeletonTurnOff[i].SetActive(false);
-            }
 
-            for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
+        audioSource.Play();
+
+
+        if (skeletalScene)
+        {
+            skeletonAttachObject.SetActive(false);
+            skeletonReplaceObject.SetActive(true);
+            boneNameQuiz.lastBoneConnected = thisGameObjectName;
+            boneNameQuiz.GenerateQuiz();
+            onboardingManager.attachBone = true;
+            onboardingManager.UpdateChecklist();
+            if (!endOfSequence)
             {
-                nextInSequenceSkeletonTurnOn[i].SetActive(true);
+                for (int i = 0; i < nextInSequenceSkeletonTurnOff.Length; i++)
+                {
+                    nextInSequenceSkeletonTurnOff[i].SetActive(false);
+                }
+
+                for (int i = 0; i < nextInSequenceSkeletonTurnOn.Length; i++)
+                {
+                    nextInSequenceSkeletonTurnOn[i].SetActive(true);
+                }
             }
+        }
+
+        if (muscleLearningScene)
+        {
+            muscleLearningScenarioSetup.LearningMuscleCount();
         }
     }
 }
