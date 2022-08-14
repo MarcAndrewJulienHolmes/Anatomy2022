@@ -54,7 +54,6 @@ public class SelectedObject : MonoBehaviour
         thisGameObject = transform.gameObject;
         thisGameObjectName = transform.gameObject.name;
 
-
         outline = thisGameObject.GetComponentInChildren<Outline>();
 
         originalRotation = thisGameObject.transform.rotation;
@@ -100,6 +99,7 @@ public class SelectedObject : MonoBehaviour
         outline.OutlineMode = Outline.Mode.OutlineAll;
         outline.OutlineColor = new Color(0f, 255f, 250f);
         outline.OutlineWidth = 0f;
+
     }
 
 
@@ -111,6 +111,7 @@ public class SelectedObject : MonoBehaviour
             onboardingManager.UpdateChecklist();
         }
         outline.OutlineWidth = 5;
+
         selected = true;
         rightCustomPointer.linePointerOn = false;
         leftCustomPointer.linePointerOn = false;
@@ -191,7 +192,5 @@ public class SelectedObject : MonoBehaviour
             atOriginPoint = false;
         }
     }
-
-
 }
 
