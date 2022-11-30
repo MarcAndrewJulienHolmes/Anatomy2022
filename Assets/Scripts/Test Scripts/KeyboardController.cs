@@ -183,6 +183,7 @@ public class KeyboardController : MonoBehaviour
     public void EnterTableName()
     {
         keyboardManager.Input = tableNameTMP.text.ToString();
+        createRecord.TableName = keyboardManager.Input;
         apiActive = false;
         appKeyActive = false;
         tableNameActive = true;
