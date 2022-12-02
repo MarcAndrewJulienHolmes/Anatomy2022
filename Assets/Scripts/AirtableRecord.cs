@@ -9,7 +9,7 @@ public class AirtableRecord : MonoBehaviour
     public SetEnvironment setEnvironment;
     public CreateRecord createRecord;
 
-    public bool recordData;
+    public bool recordData, studentNumberTest;
 
     public string dateTime;
 
@@ -37,6 +37,15 @@ public class AirtableRecord : MonoBehaviour
             if (recordData)
             {
                 recordData = false;
+            }
+        }
+
+        if (studentNumberTest)
+        {
+            SendStudentNumberTestToAirtable();
+            if (studentNumberTest)
+            {
+                studentNumberTest = false;
             }
         }
     }
@@ -73,5 +82,20 @@ public class AirtableRecord : MonoBehaviour
         createRecord.NewRecordJson = JSONString;
         AttemptConnect();
     }
+
+    public void SendStudentNumberTestToAirtable()
+    {
+        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
+
+        JSONString = "{\"fields\": {" +
+                                    "\"Date and Time\":\"" + dateTime + "\", " +
+                                    "\"Student Number\":\"" + "9999999" + "\", " +
+                                    "\"Test Time\":\"" + 123456 + "\"" +
+                                    "}}";
+        createRecord.NewRecordJson = JSONString;
+        AttemptConnect();
+    }
+
+
 }
 

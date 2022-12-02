@@ -9,6 +9,7 @@ public class CreateRecord : MonoBehaviour
 {
     [Header("Table Name")] 
     public string TableName;
+
     [TextArea(0,10)]
     public string NewRecordJson;
 
