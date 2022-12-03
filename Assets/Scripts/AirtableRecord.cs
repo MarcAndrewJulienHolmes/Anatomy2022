@@ -6,12 +6,13 @@ using UnityEngine;
 public class AirtableRecord : MonoBehaviour
 {
     public SceneAndScoreManager sceneAndScoreManager;
+    public LoadAirtableSettings loadAirtableSettings;
     public SetEnvironment setEnvironment;
     public CreateRecord createRecord;
 
-    public bool recordData, studentNumberTest;
+    public bool recordData, studentNumberTest, connectionTest;
 
-    public string dateTime;
+    public string dateTime, studentNumber;
 
     public string JSONString;
 
@@ -48,6 +49,16 @@ public class AirtableRecord : MonoBehaviour
                 studentNumberTest = false;
             }
         }
+
+        if (connectionTest)
+        {
+            TestAirtableConnection();
+            if (connectionTest)
+            {
+                connectionTest = false;
+            }
+        }
+
     }
 #endif
 
@@ -89,13 +100,34 @@ public class AirtableRecord : MonoBehaviour
 
         JSONString = "{\"fields\": {" +
                                     "\"Date and Time\":\"" + dateTime + "\", " +
-                                    "\"Student Number\":\"" + "9999999" + "\", " +
+                                    "\"Student Number\":\"" + studentNumber + "\", " +
                                     "\"Test Time\":\"" + 123456 + "\"" +
                                     "}}";
         createRecord.NewRecordJson = JSONString;
         AttemptConnect();
     }
 
+    public void TestAirtableConnection()
+    {
+        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
 
+        JSONString = "{\"fields\": {" +
+                                    "\"Date and Time\":\"" + dateTime + "\", " +
+                                    "\"Student Number\":\"" + studentNumber + "\", " +
+                                    "\"Test Check\":\"" + "Test Connection Success" + "\"" +
+                                    "}}";
+        createRecord.NewRecordJson = JSONString;
+        StartCoroutine(TestAirtableConnectionRoutine());
+    }
+
+    public IEnumerator TestAirtableConnectionRoutine()
+    {
+        createRecord.TableName = "ConnectionTester_DO_NOT_DELETE";
+        setEnvironment.PrepareEnvironment();
+        yield return new WaitForSeconds(0.5f);
+        createRecord.CreateAirtableRecord();
+        yield return new WaitForSeconds(0.5f);
+        createRecord.TableName = loadAirtableSettings.airtableTitle;
+    }
 }
 

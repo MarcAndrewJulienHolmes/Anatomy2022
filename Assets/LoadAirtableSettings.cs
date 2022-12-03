@@ -24,10 +24,10 @@ public class LoadAirtableSettings : MonoBehaviour
     public void SetAirtableTitle()
     {
         airtableTitle = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/AirtableTitle.txt");
-        Debug.LogError(airtableTitle);
+        Debug.Log(airtableTitle);
         if (airtableTitle == "")
         {
-            Debug.LogError("AirtableTitle.txt is empty or does not exsist!!");
+            Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
 
         }
         else
@@ -40,10 +40,10 @@ public class LoadAirtableSettings : MonoBehaviour
     public void SetSceneTimes()
     {
         skeletalTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/SkeletalSceneTime.txt");
-        Debug.LogError(skeletalTime);
+        Debug.Log(skeletalTime);
         if (skeletalTime == "")
         {
-            Debug.LogError("SkeletalSceneTime.txt is empty or does not exsist!!");
+            Debug.LogWarning("SkeletalSceneTime.txt is empty or does not exsist!!");
         }
         else
         {
@@ -55,10 +55,10 @@ public class LoadAirtableSettings : MonoBehaviour
 
 
         muscleLearningTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleLearningTime.txt");
-        Debug.LogError(muscleLearningTime);
+        Debug.Log(muscleLearningTime);
         if (muscleLearningTime == "")
         {
-            Debug.LogError("MuscleLearningTime.txt is empty or does not exsist!!");
+            Debug.LogWarning("MuscleLearningTime.txt is empty or does not exsist!!");
         }
         else
         {
@@ -69,10 +69,10 @@ public class LoadAirtableSettings : MonoBehaviour
         }
 
         muscleTestingTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleTestingTime.txt");
-        Debug.LogError(muscleTestingTime);
+        Debug.Log(muscleTestingTime);
         if (muscleTestingTime == "")
         {
-            Debug.LogError("MuscleTestingTime.txt is empty or does not exsist!!");
+            Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
         }
         else
         {
