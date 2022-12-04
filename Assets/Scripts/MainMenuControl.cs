@@ -19,36 +19,38 @@ public class MainMenuControl : MonoBehaviour
 
     public void LoadSkeletalScene()
     {
+        mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         sceneToLoad = "SportScienceSkeletal_EnglishVersion";
         StartCoroutine(SceneLoader());
     }
 
     public void LoadMuscleTrainingScene()
     {
+        mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         sceneToLoad = "SportScienceMuscleLearning_EnglishVersion";
         StartCoroutine(SceneLoader());
     }
 
-    public void LoadMuscleTestingScene()
+    public void LoadStudentNumberInput()
     {
-
+        mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         StartCoroutine(LoadMuscleTestingMenu());
-        //sceneToLoad = "SportScienceMuscleTesting_EnglishVersion";
-        //StartCoroutine(SceneLoader());
     }
 
-    public void SettingsMenu()
+    public void LoadMuscleTestingScene()
     {
+        studentNumberCanvasAni.Play("AirTableInfoFadeOut");
+        keyboardAni.Play("KeyboardFadeOut");
+        sceneToLoad = "SportScienceMuscleTesting_EnglishVersion";
+        StartCoroutine(SceneLoader());
     }
 
     public IEnumerator SceneLoader()
     {
-        mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         yield return new WaitForSeconds(1f);
         ovrScreenFade.FadeOut();
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(sceneToLoad);
-
     }
 
     public IEnumerator LoadMuscleTestingMenu()
@@ -56,9 +58,12 @@ public class MainMenuControl : MonoBehaviour
         mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         yield return new WaitForSeconds(0.5f);
         mainMenuCanvas.SetActive(false);
-        keyboardCanvas.SetActive(true);
         studentNumberCanvas.SetActive(true);
-        //studentNumberCanvasAni.Play("AirTableInfoFadeIn");
+    }
+
+    public void OpenKeyboard()
+    {
+        keyboardCanvas.SetActive(true);
     }
 
     public void Update()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
 
 
 public class LoadAirtableSettings : MonoBehaviour
@@ -11,6 +12,8 @@ public class LoadAirtableSettings : MonoBehaviour
     public SceneAndScoreManager sceneAndScoreManager;
 
     public string airtableTitle, skeletalTime, muscleLearningTime, muscleTestingTime;
+
+    public TMP_Text  airtableTMP, skeletalTMP, muscleLearningTMP, muscleTestTMP;
 
     private void Awake()
     {
@@ -23,63 +26,112 @@ public class LoadAirtableSettings : MonoBehaviour
 
     public void SetAirtableTitle()
     {
-        airtableTitle = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/AirtableTitle.txt");
-        Debug.Log(airtableTitle);
-        if (airtableTitle == "")
+        if(File.Exists(@Application.persistentDataPath + "/CustomAppSettingsFolder/AirtableTitle.txt"))
         {
-            Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
+            airtableTitle = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/AirtableTitle.txt");
+            Debug.Log(airtableTitle);
+            if (airtableTitle == "")
+            {
+                airtableTMP.text = "Airtable: No airtable set - Default in use";
+                createRecord.TableName = "Default Table";
+                Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
 
+            }
+            else
+            {
+                createRecord.TableName = airtableTitle;
+                airtableTMP.text = "Airtable: " + airtableTitle;
+                Debug.Log("Airtable title set succesfully");
+            }
         }
         else
         {
-            createRecord.TableName = airtableTitle;
-            Debug.Log("Airtable title set succesfully");
+            airtableTMP.text = "No custom settings found - Default Table in use";
+            createRecord.TableName = "Default Table";
+            Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
         }
+
     }
 
     public void SetSceneTimes()
     {
-        skeletalTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/SkeletalSceneTime.txt");
-        Debug.Log(skeletalTime);
-        if (skeletalTime == "")
+        if(File.Exists(@Application.persistentDataPath + "/CustomAppSettingsFolder/SkeletalSceneTime.txt"))
         {
+            skeletalTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/SkeletalSceneTime.txt");
+            Debug.Log(skeletalTime);
+            if (skeletalTime == "")
+            {
+                skeletalTMP.text = "Skeletal Scene Time: 5 minutes.";
+                sceneAndScoreManager.boneSceneMaxTime = 5;
+                Debug.LogWarning("SkeletalSceneTime.txt is empty or does not exsist!!");
+            }
+            else
+            {
+                if (float.TryParse(skeletalTime, out sceneAndScoreManager.boneSceneMaxTime))
+                {
+                    skeletalTMP.text = "Skeletal Scene Time: " + skeletalTime + " minutes."; ;
+                    Debug.Log("Skeletal time set succesfully");
+                }
+            }
+        }
+        else
+        {
+            skeletalTMP.text = "No custom settings found - Defaults in use - Skeletal Time: 5 minutes.";
+            sceneAndScoreManager.boneSceneMaxTime = 5;
             Debug.LogWarning("SkeletalSceneTime.txt is empty or does not exsist!!");
         }
-        else
+
+
+        if(File.Exists(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleLearningTime.txt"))
         {
-            if(float.TryParse(skeletalTime, out sceneAndScoreManager.boneSceneMaxTime))
+            muscleLearningTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleLearningTime.txt");
+            Debug.Log(muscleLearningTime);
+            if (muscleLearningTime == "")
             {
-                Debug.Log("Skeletal time set succesfully");
+                muscleLearningTMP.text = "Muscle Learning Time: 5 minutes";
+                sceneAndScoreManager.muscleLearningMaxTime = 5;
+                Debug.LogWarning("MuscleLearningTime.txt is empty or does not exsist!!");
+            }
+            else
+            {
+                if (float.TryParse(muscleLearningTime, out sceneAndScoreManager.muscleLearningMaxTime))
+                {
+                    muscleLearningTMP.text = "Muscle Learning Time: " + muscleLearningTime + " minutes.";
+                    Debug.Log("Muscle learning time set succesfully");
+                }
             }
         }
-
-
-        muscleLearningTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleLearningTime.txt");
-        Debug.Log(muscleLearningTime);
-        if (muscleLearningTime == "")
+        else
         {
+            muscleLearningTMP.text = "No custom settings found - Defaults in use - Muscle Learning Time: 5 minutes";
+            sceneAndScoreManager.muscleLearningMaxTime = 5;
             Debug.LogWarning("MuscleLearningTime.txt is empty or does not exsist!!");
         }
-        else
-        {
-            if (float.TryParse(muscleLearningTime, out sceneAndScoreManager.muscleLearningMaxTime))
-            {
-                Debug.Log("Muscle learning time set succesfully");
-            }
-        }
 
-        muscleTestingTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleTestingTime.txt");
-        Debug.Log(muscleTestingTime);
-        if (muscleTestingTime == "")
+        if(File.Exists(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleTestingTime.txt"))
         {
-            Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
+            muscleTestingTime = System.IO.File.ReadAllText(@Application.persistentDataPath + "/CustomAppSettingsFolder/MuscleTestingTime.txt");
+            Debug.Log(muscleTestingTime);
+            if (muscleTestingTime == "")
+            {
+                muscleTestTMP.text = "Muscle Test Time: 5 minutes.";
+                sceneAndScoreManager.muscleTestingMaxTime = 5;
+                Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
+            }
+            else
+            {
+                if (float.TryParse(muscleTestingTime, out sceneAndScoreManager.muscleTestingMaxTime))
+                {
+                    muscleTestTMP.text = "Muscle Test Time: " + muscleTestingTime + " minutes.";
+                    Debug.Log("Muscle testing time set succesfully");
+                }
+            }
         }
         else
         {
-            if (float.TryParse(muscleTestingTime, out sceneAndScoreManager.muscleTestingMaxTime))
-            {
-                Debug.Log("Muscle testing time set succesfully");
-            }
+            muscleTestTMP.text = "No custom settings found - Defaults in use - Muscle Test Time: 5 minutes.";
+            sceneAndScoreManager.muscleTestingMaxTime = 5;
+            Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
         }
     }
 }

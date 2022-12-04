@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRKeyboard.Utils;
 
 
 public class AirtableRecord : MonoBehaviour
 {
+    public KeyboardManager keyboardManager;
     public SceneAndScoreManager sceneAndScoreManager;
     public LoadAirtableSettings loadAirtableSettings;
     public SetEnvironment setEnvironment;
@@ -128,6 +130,12 @@ public class AirtableRecord : MonoBehaviour
         createRecord.CreateAirtableRecord();
         yield return new WaitForSeconds(0.5f);
         createRecord.TableName = loadAirtableSettings.airtableTitle;
+    }
+
+    public void ClearStudentNumber()
+    {
+        keyboardManager.Input = "";
+        studentNumber = "";
     }
 }
 

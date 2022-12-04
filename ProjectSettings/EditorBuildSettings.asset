@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMainMenu_EnglishVersion.unity
+    guid: db8ed3732d2b0b7408871a3cbf9a230d
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceTrainerSetup_EnglishVersion.unity
     guid: e21ac7721167b3d498c5ff62f213daec
   - enabled: 1
@@ -17,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleTesting_EnglishVersion.unity
     guid: df3016e295879754a81ae3703c028706
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceScoreFeedback_EnglishVersion.unity
     guid: 51fc2a59bb51a064fb27c81c3ac0a90d
   m_configObjects:
