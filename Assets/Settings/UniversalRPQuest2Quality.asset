@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Cascade4Split: {x: 0.06733333, y: 0.2, z: 0.46666667}
   m_ShadowDepthBias: 6.46
   m_ShadowNormalBias: 0
-  m_SoftShadowsSupported: 1
+  m_SoftShadowsSupported: 0
   m_UseSRPBatcher: 1
   m_SupportsDynamicBatching: 0
   m_MixedLightingSupported: 1

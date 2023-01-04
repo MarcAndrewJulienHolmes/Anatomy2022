@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleTesting_EnglishVersion.unity
     guid: df3016e295879754a81ae3703c028706
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceScoreFeedback_EnglishVersion.unity
     guid: 51fc2a59bb51a064fb27c81c3ac0a90d
   m_configObjects:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRKeyboard.Utils;
+using TMPro;
 
 
 public class AirtableRecord : MonoBehaviour
@@ -12,17 +13,23 @@ public class AirtableRecord : MonoBehaviour
     public SetEnvironment setEnvironment;
     public CreateRecord createRecord;
 
-    public bool recordData, studentNumberTest, connectionTest;
+    public bool recordData, studentNumberTest, connectionTest, extraTime;
 
-    public string dateTime, studentNumber;
+    public string dateTime, studentNumber, testScore, testTime;
+    public string extraTimeString;
+
 
     public string JSONString;
+
+    public TMP_Text extraTimeButtonTMP;
 
     private void Awake()
     {
         sceneAndScoreManager = GetComponent<SceneAndScoreManager>();
         setEnvironment = GetComponent<SetEnvironment>();
         createRecord = GetComponent<CreateRecord>();
+        extraTime = false;
+        extraTimeString = "No";
     }
 
     private void Start()
@@ -45,7 +52,7 @@ public class AirtableRecord : MonoBehaviour
 
         if (studentNumberTest)
         {
-            SendStudentNumberTestToAirtable();
+            SendResultsToAirtable();
             if (studentNumberTest)
             {
                 studentNumberTest = false;
@@ -109,6 +116,21 @@ public class AirtableRecord : MonoBehaviour
         AttemptConnect();
     }
 
+    public void SendResultsToAirtable()
+    {
+        dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
+
+        JSONString = "{\"fields\": {" +
+                                    "\"Date and Time\":\"" + dateTime + "\", " +
+                                    "\"Student Number\":\"" + studentNumber + "\", " +
+                                    "\"Test Score\":\"" + testScore + "\", " +
+                                    "\"Time Remaining\":\"" + testTime + "\", " +
+                                    "\"Extra Time Added\":\"" + extraTimeString + "\"" +
+                                    "}}";
+        createRecord.NewRecordJson = JSONString;
+        AttemptConnect();
+    }
+
     public void TestAirtableConnection()
     {
         dateTime = System.DateTime.Now.ToString("dd.MM.yyyy HH.mm");
@@ -136,6 +158,24 @@ public class AirtableRecord : MonoBehaviour
     {
         keyboardManager.Input = "";
         studentNumber = "";
+    }
+
+    public void ExtraTime()
+    {
+        if (!extraTime)
+        {
+            extraTime = true;
+            extraTimeButtonTMP.text = "Remove Extra Time";
+            sceneAndScoreManager.muscleTestingMaxTime = 12.5f;
+            extraTimeString = "Yes";
+        }
+        else
+        {
+            extraTime = false;
+            extraTimeButtonTMP.text = "Add Extra Time";
+            sceneAndScoreManager.muscleTestingMaxTime = 10;
+            extraTimeString = "No";
+        }
     }
 }
 

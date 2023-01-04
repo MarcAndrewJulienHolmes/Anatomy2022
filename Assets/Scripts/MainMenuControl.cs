@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using VRKeyboard.Utils;
+using UnityEngine.UI;
 
 
 public class MainMenuControl : MonoBehaviour
@@ -15,6 +16,8 @@ public class MainMenuControl : MonoBehaviour
     public Animator mainMenuCanvasAni, studentNumberCanvasAni, keyboardAni;
     public string sceneToLoad;
     public TMP_Text studentNumberTMP;
+
+    public Button loadTestSceneButton;
 
 
     public void LoadSkeletalScene()
@@ -29,6 +32,8 @@ public class MainMenuControl : MonoBehaviour
         mainMenuCanvasAni.Play("AirTableInfoFadeOut");
         sceneToLoad = "SportScienceMuscleLearning_EnglishVersion";
         StartCoroutine(SceneLoader());
+        
+
     }
 
     public void LoadStudentNumberInput()
@@ -70,5 +75,17 @@ public class MainMenuControl : MonoBehaviour
     {
         studentNumberTMP.text = keyboardManager.Input;
         airtableRecord.studentNumber = studentNumberTMP.text.ToString();
+
+        if (studentNumberCanvas.activeSelf)
+        {
+            if (studentNumberTMP.text.Length <= 5)
+            {
+                loadTestSceneButton.enabled = false;
+            }
+            else
+            {
+                loadTestSceneButton.enabled = true;
+            }
+        }
     }
 }

@@ -33,7 +33,7 @@ public class LoadAirtableSettings : MonoBehaviour
             if (airtableTitle == "")
             {
                 airtableTMP.text = "Airtable: No airtable set - Default in use";
-                createRecord.TableName = "Default Table";
+                createRecord.TableName = "Anatomy Assessment 2022 Swansea";
                 Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
 
             }
@@ -46,8 +46,8 @@ public class LoadAirtableSettings : MonoBehaviour
         }
         else
         {
-            airtableTMP.text = "No custom settings found - Default Table in use";
-            createRecord.TableName = "Default Table";
+            airtableTMP.text = "No custom settings found - Anatomy Assessment 2022 Swansea Table in use";
+            createRecord.TableName = "Anatomy Assessment 2022 Swansea";
             Debug.LogWarning("AirtableTitle.txt is empty or does not exsist!!");
         }
 
@@ -61,8 +61,8 @@ public class LoadAirtableSettings : MonoBehaviour
             Debug.Log(skeletalTime);
             if (skeletalTime == "")
             {
-                skeletalTMP.text = "Skeletal Scene Time: 5 minutes.";
-                sceneAndScoreManager.boneSceneMaxTime = 5;
+                skeletalTMP.text = "Skeletal Scene Time: 10 minutes.";
+                sceneAndScoreManager.boneSceneMaxTime = 10;
                 Debug.LogWarning("SkeletalSceneTime.txt is empty or does not exsist!!");
             }
             else
@@ -76,8 +76,8 @@ public class LoadAirtableSettings : MonoBehaviour
         }
         else
         {
-            skeletalTMP.text = "No custom settings found - Defaults in use - Skeletal Time: 5 minutes.";
-            sceneAndScoreManager.boneSceneMaxTime = 5;
+            skeletalTMP.text = "No custom settings found - Defaults in use - Skeletal Time: 10 minutes.";
+            sceneAndScoreManager.boneSceneMaxTime = 10;
             Debug.LogWarning("SkeletalSceneTime.txt is empty or does not exsist!!");
         }
 
@@ -88,8 +88,8 @@ public class LoadAirtableSettings : MonoBehaviour
             Debug.Log(muscleLearningTime);
             if (muscleLearningTime == "")
             {
-                muscleLearningTMP.text = "Muscle Learning Time: 5 minutes";
-                sceneAndScoreManager.muscleLearningMaxTime = 5;
+                muscleLearningTMP.text = "Muscle Learning Time: 10 minutes";
+                sceneAndScoreManager.muscleLearningMaxTime = 10;
                 Debug.LogWarning("MuscleLearningTime.txt is empty or does not exsist!!");
             }
             else
@@ -103,8 +103,8 @@ public class LoadAirtableSettings : MonoBehaviour
         }
         else
         {
-            muscleLearningTMP.text = "No custom settings found - Defaults in use - Muscle Learning Time: 5 minutes";
-            sceneAndScoreManager.muscleLearningMaxTime = 5;
+            muscleLearningTMP.text = "No custom settings found - Defaults in use - Muscle Learning Time: 10 minutes";
+            sceneAndScoreManager.muscleLearningMaxTime =10;
             Debug.LogWarning("MuscleLearningTime.txt is empty or does not exsist!!");
         }
 
@@ -114,8 +114,8 @@ public class LoadAirtableSettings : MonoBehaviour
             Debug.Log(muscleTestingTime);
             if (muscleTestingTime == "")
             {
-                muscleTestTMP.text = "Muscle Test Time: 5 minutes.";
-                sceneAndScoreManager.muscleTestingMaxTime = 5;
+                muscleTestTMP.text = "Muscle Test Time: 10 minutes.";
+                sceneAndScoreManager.muscleTestingMaxTime = 10;
                 Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
             }
             else
@@ -129,8 +129,8 @@ public class LoadAirtableSettings : MonoBehaviour
         }
         else
         {
-            muscleTestTMP.text = "No custom settings found - Defaults in use - Muscle Test Time: 5 minutes.";
-            sceneAndScoreManager.muscleTestingMaxTime = 5;
+            muscleTestTMP.text = "No custom settings found - Defaults in use - Muscle Test Time: 10 minutes.";
+            sceneAndScoreManager.muscleTestingMaxTime = 10;
             Debug.LogWarning("MuscleTestingTime.txt is empty or does not exsist!!");
         }
     }

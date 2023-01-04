@@ -2,24 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FeedbackSceneControl : MonoBehaviour
 {
     public SceneAndScoreManager sceneAndScoreManager;
     public ToTextSave toTextSave;
-    public AirtableRecord airtableRecord;
+    //public AirtableRecord airtableRecord;
 
 
     public TMP_Text boneSceneFeedbackText;
     public TMP_Text muscleLearningSceneFeedbackText;
     public TMP_Text muscleTestingSceneFeedbackText;
 
+    public GameObject sceneAndScoreObject;
+
+    public OVRScreenFade ovrScreenFade;
+
 
     void Awake()
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
         toTextSave = GetComponent<ToTextSave>();
-        airtableRecord = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<AirtableRecord>();
+        //airtableRecord = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<AirtableRecord>();
+        sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
 
         RoundTimeValues();       
     }
@@ -56,10 +62,18 @@ public class FeedbackSceneControl : MonoBehaviour
 
     public void DisplayFeedback()
     {
-        boneSceneFeedbackText.text = "Bone Scene Score: " + sceneAndScoreManager.boneSceneScore + " of " + sceneAndScoreManager.boneSceneMaxScore + " bones attached.\nBone Scene Time Remaining: " + sceneAndScoreManager.boneSceneTime + " seconds.";
-        muscleLearningSceneFeedbackText.text = "Muscle Learning Scene Score: " + sceneAndScoreManager.muscleLearningScore + " of " + sceneAndScoreManager.muscleLearningMaxScore + " muscle groups applied.\nMuscle Learning Time Remaining: " + sceneAndScoreManager.muscleLearningTime + " seconds.";
-        muscleTestingSceneFeedbackText.text = "Muscle Testing Scene Score: " + sceneAndScoreManager.muscleTestingScore + " of " + sceneAndScoreManager.muscleTestingMaxScore + " points given for accuracy.\nMuscle Testing Scene Time Remaining: " + sceneAndScoreManager.muscleTestingTime + " seconds.";
-
+        if (sceneAndScoreManager.skeletalScene)
+        {
+            boneSceneFeedbackText.text = "Bone Scene Score: " + sceneAndScoreManager.boneSceneScore + " of " + sceneAndScoreManager.boneSceneMaxScore + " bones attached.\nBone Scene Time Remaining: " + sceneAndScoreManager.boneSceneTime + " minutes.";
+        }
+        if (sceneAndScoreManager.muscleLearningScene)
+        {
+            muscleLearningSceneFeedbackText.text = "Muscle Learning Scene Score: " + sceneAndScoreManager.muscleLearningScore + " of " + sceneAndScoreManager.muscleLearningMaxScore + " muscle groups applied.\nMuscle Learning Time Remaining: " + sceneAndScoreManager.muscleLearningTime + " minutes.";
+        }
+        if (sceneAndScoreManager.muscleTestingScene)
+        {
+            muscleTestingSceneFeedbackText.text = "Muscle Testing Scene Score: " + sceneAndScoreManager.muscleTestingScore + " of " + sceneAndScoreManager.muscleTestingMaxScore + " points given for accuracy.\nMuscle Testing Scene Time Remaining: " + sceneAndScoreManager.muscleTestingTime + " minutes.";
+        }
     }
 
     public void SaveFeedback()
@@ -71,7 +85,20 @@ public class FeedbackSceneControl : MonoBehaviour
         toTextSave.CreateTextFile();
         toTextSave.CreateCSVFile();
 
-        airtableRecord.SendToAirtable();
+        //airtableRecord.SendToAirtable();
+    }
+
+    public void GoToMainMenu()
+    {
+        StartCoroutine(GoToMainMenuRoutine());
+    }
+
+    public IEnumerator GoToMainMenuRoutine()
+    {
+        ovrScreenFade.FadeOut();
+        yield return new WaitForSeconds(2f);
+        Destroy(sceneAndScoreObject);
+        SceneManager.LoadScene("SportScienceScoreFeedback_EnglishVersion");
     }
 
 

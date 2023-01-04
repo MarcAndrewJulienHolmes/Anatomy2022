@@ -23,7 +23,6 @@ public class Timer : MonoBehaviour
     private void Awake()
     {
         sceneAndScoreManager = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<SceneAndScoreManager>();
-
     }
 
     // Start is called before the first frame update
@@ -32,14 +31,17 @@ public class Timer : MonoBehaviour
         if (skeletalScene)
         {
             startMinutes = sceneAndScoreManager.boneSceneMaxTime;
+            sceneAndScoreManager.skeletalScene = true;
         }
         if (muscleLearningScene)
         {
             startMinutes = sceneAndScoreManager.muscleLearningMaxTime;
+            sceneAndScoreManager.muscleLearningScene = true;
         }
         if (muscleTestingScene)
         {
             startMinutes = sceneAndScoreManager.muscleTestingMaxTime;
+            sceneAndScoreManager.muscleTestingScene = true;
         }
 
         currentTime = startMinutes * 60;

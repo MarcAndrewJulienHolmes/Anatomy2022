@@ -16,11 +16,16 @@ public class SceneAndScoreManager : MonoBehaviour
 
     public float muscleTestingTime, muscleTestingMaxTime;
 
+    public bool skeletalScene, muscleLearningScene, muscleTestingScene;
+
 
     // Start is called before the first frame update
     void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
+        //skeletalScene = false;
+        //muscleLearningScene = false;
+        //muscleTestingScene = false;
     }
 
 

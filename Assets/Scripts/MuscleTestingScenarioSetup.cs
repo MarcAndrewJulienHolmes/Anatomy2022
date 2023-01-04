@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class MuscleTestingScenarioSetup : MonoBehaviour
@@ -11,9 +12,11 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
     public SceneAndScoreManager sceneAndScoreManager;
     public Timer timer;
     public OVRScreenFade ovrScreenFade;
+    public AirtableRecord airtableRecord;
 
     [Header("Origin Setup")]
     public GameObject[] muscleGroup;
+    public GameObject sceneAndScoreObject;
     public List<string> muscleGroupList = new List<string>();
     public List<int> usedMuscleGroupsIntList = new List<int>();
     public List<string> usedMuscleGroupsStringList = new List<string>();
@@ -24,6 +27,7 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
     public int muscleTestingMaxScore;
     public int muscleTestingScore;
     public TMP_Text scoringText;
+    public Button completeButton;
 
     [Header("Celebration")]
     public ParticleSystem[] confetti;
@@ -35,6 +39,8 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
         //muscleOriginCounter = 0;
         GatherAllMuscleGroups();
         timer = GameObject.FindGameObjectWithTag("Scriptholder").GetComponent<Timer>();
+        airtableRecord = GameObject.FindGameObjectWithTag("SceneAndScoreManager").GetComponent<AirtableRecord>();
+        sceneAndScoreObject = GameObject.FindGameObjectWithTag("SceneAndScoreManager");
     }
 
     // Start is called before the first frame update
@@ -97,6 +103,7 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
 
     public IEnumerator QuizComplete()
     {
+        completeButton.enabled = false;
         timer.StopTimer();
 
         for(int i = 0; i < usedMuscleGroupsStringList.Count; i++)
@@ -108,6 +115,9 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Celebration();
         SetMasterScore();
+        airtableRecord.testScore = sceneAndScoreManager.muscleTestingScore.ToString();
+        airtableRecord.testTime = sceneAndScoreManager.muscleTestingTime.ToString();
+        airtableRecord.SendResultsToAirtable();
         yield return new WaitForSeconds(10f);
         ovrScreenFade.FadeOut();
         yield return new WaitForSeconds(2f);
@@ -131,6 +141,15 @@ public class MuscleTestingScenarioSetup : MonoBehaviour
     {
         sceneAndScoreManager.muscleTestingMaxScore = muscleTestingMaxScore;
         sceneAndScoreManager.muscleTestingScore = muscleTestingScore;
-        sceneAndScoreManager.muscleTestingTime = timer.currentTime;
+        sceneAndScoreManager.muscleTestingTime = timer.currentTime/60;
+    }
+
+    public void CompleteQuizAndSendToAirtable()
+    {
+        GatherScores();
+        airtableRecord.testScore = sceneAndScoreManager.muscleTestingScore.ToString();
+        airtableRecord.testTime = sceneAndScoreManager.muscleTestingTime.ToString();
+        airtableRecord.SendResultsToAirtable();
+
     }
 }
