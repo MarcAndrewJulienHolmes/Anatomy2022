@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+
 
 public class LanguageButton : MonoBehaviour
 {
-    public LanguageSelect languageSelect;
+    public OVRScreenFade ovrScreenFade;
 
-    public bool rightHandRay;
+    public Button[] buttons;
+
+    public string languageToSelect;
 
     public string thisGameObjectName;
 
@@ -20,10 +26,28 @@ public class LanguageButton : MonoBehaviour
 
     }
 
-    public void ButtonSelect()
+    public void GoToDemo()
     {
-        languageSelect.activate = true;
-        languageSelect.languageToSelect = thisGameObjectName;
+        languageToSelect = thisGameObjectName;
+        StartCoroutine(SceneChange());
+    }
 
+    public IEnumerator SceneChange()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].enabled = false;
+        }
+        ovrScreenFade.FadeOut();
+        yield return new WaitForSeconds(2f);
+        if (languageToSelect == "Welsh")
+        {
+            SceneManager.LoadScene("Urdd_WelshVersion");
+        }
+        if (languageToSelect == "English")
+        {
+            SceneManager.LoadScene("Urdd_EnglishVersion");
+
+        }
     }
 }

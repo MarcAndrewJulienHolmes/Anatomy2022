@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ReturnToMainMenu : MonoBehaviour
 {
+    public bool demoMode;
+
     public OVRScreenFade ovrScreenFade;
 
     private void Awake()
@@ -21,6 +23,15 @@ public class ReturnToMainMenu : MonoBehaviour
     {
         ovrScreenFade.FadeOut();
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("SportScienceMainMenu_EnglishVersion");
+        if (demoMode)
+        {
+            SceneManager.LoadScene("Urdd_LanguageSelect");
+
+        }
+        else
+        {
+            SceneManager.LoadScene("SportScienceMainMenu_EnglishVersion");
+
+        }
     }
 }

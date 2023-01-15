@@ -11,6 +11,8 @@ public class Timer : MonoBehaviour
 {
     public SceneAndScoreManager sceneAndScoreManager;
 
+    public bool welshLanguage;
+
     bool timerActive = false;
     public float currentTime;
     public float startMinutes;
@@ -63,7 +65,14 @@ public class Timer : MonoBehaviour
         }
 
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        timerDisplay.text = "Time Remaing: " + time.ToString(@"mm\:ss");  // + ":" + time.Seconds.ToString(@"ss");
+        if (welshLanguage)
+        {
+            timerDisplay.text = "Amser yn weddill: " + time.ToString(@"mm\:ss");  // + ":" + time.Seconds.ToString(@"ss");
+        }
+        else
+        {
+            timerDisplay.text = "Time Remaing: " + time.ToString(@"mm\:ss");  // + ":" + time.Seconds.ToString(@"ss");
+        }
     }
 
     public void StartTimer()

@@ -30,7 +30,7 @@ public class CustomPointer : MonoBehaviour
     public Vector3 endPosition;
 
 
-    [Header ("Buttons, Quiz and Timer")]
+    [Header("Buttons, Quiz and Timer")]
     public QuizButton[] quizButton;
     public LanguageButton[] languageButton;        
     public float countdownTimer;
@@ -276,23 +276,23 @@ public class CustomPointer : MonoBehaviour
             }
 
 
-            else if (pointObject.GetComponent<LanguageButton>())
-            {
-                currentHighlightedObjectName = pointObject.GetComponent<LanguageButton>().thisGameObjectName;
-                currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
-                for (int i = 0; i < languageButton.Length; i++)
-                {
-                    if (languageButton[i].name == currentHighlightedObjectName)
-                    {
-                        languageButton[i].rightHandRay = true;
-                    }
-                }
+            //else if (pointObject.GetComponent<LanguageButton>())
+            //{
+            //    currentHighlightedObjectName = pointObject.GetComponent<LanguageButton>().thisGameObjectName;
+            //    currenHighlightedObject = GameObject.Find(currentHighlightedObjectName);
+            //    for (int i = 0; i < languageButton.Length; i++)
+            //    {
+            //        if (languageButton[i].name == currentHighlightedObjectName)
+            //        {
+            //            languageButton[i].rightHandRay = true;
+            //        }
+            //    }
 
-                if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
-                {
-                    pointObject.GetComponent<LanguageButton>().ButtonSelect();
-                }
-            }
+            //    if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+            //    {
+            //        pointObject.GetComponent<LanguageButton>().ButtonSelect();
+            //    }
+            //}
 
             else if (!pointObject.GetComponent<QuizButton>() && !pointObject.GetComponent<SelectedObject>() && !pointObject.GetComponent<LanguageButton>())
             {
@@ -313,7 +313,7 @@ public class CustomPointer : MonoBehaviour
         coroutineRunning = true;
         ovrScreenFade.FadeOut();
         sceneAndScoreManager.ResetMasterScores();
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("SportScienceSkeletal_EnglishVersion");
+        yield return new WaitForSeconds(2f);    
+        SceneManager.LoadScene(0);
     }
 }

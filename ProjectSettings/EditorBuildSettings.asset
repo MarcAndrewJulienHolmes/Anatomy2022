@@ -5,24 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMainMenu_EnglishVersion.unity
-    guid: db8ed3732d2b0b7408871a3cbf9a230d
   - enabled: 0
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceTrainerSetup_EnglishVersion.unity
-    guid: e21ac7721167b3d498c5ff62f213daec
+    path: Assets/Scenes/DemonstrationBuild/Urdd_LanguageSelect.unity
+    guid: ad91b0b9910f91c42b2184f90ae3881d
+  - enabled: 0
+    path: Assets/Scenes/DemonstrationBuild/Urdd_EnglishVersion.unity
+    guid: 8304224a4188ba7449af3550b61a5a78
+  - enabled: 0
+    path: Assets/Scenes/DemonstrationBuild/Urdd_WelshVersion.unity
+    guid: c5298058e72cc844abd32c904ee833a7
   - enabled: 1
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceSkeletal_EnglishVersion.unity
-    guid: 433444ab6e5e61942928917bde27aee0
+    path: Assets/Scenes/ExaminationBuild/SportScienceMainMenu_EnglishVersion.unity
+    guid: b6ea2ca88b9389e4290fe07c5cefbf16
   - enabled: 1
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleLearning_EnglishVersion.unity
-    guid: 67d40ea03e9526e4f875e7d505edb657
+    path: Assets/Scenes/ExaminationBuild/SportScienceMuscleTesting_EnglishVersion.unity
+    guid: aac15afa79db299458d1e9d1a9a77343
   - enabled: 1
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceMuscleTesting_EnglishVersion.unity
-    guid: df3016e295879754a81ae3703c028706
-  - enabled: 1
-    path: Assets/Scenes/SwanseaAndCanberraScenes/SportScienceScoreFeedback_EnglishVersion.unity
-    guid: 51fc2a59bb51a064fb27c81c3ac0a90d
+    path: Assets/Scenes/ExaminationBuild/SportScienceScoreFeedback_EnglishVersion.unity
+    guid: a2d77a797c64f13418b74fc9d563934b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: ea3cfb22f9711ab429c03e4f4f17ed0c, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 48eab392cf2a78445b1bb45ab62b3419, type: 2}

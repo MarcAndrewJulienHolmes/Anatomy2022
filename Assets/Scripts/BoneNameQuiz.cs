@@ -13,17 +13,26 @@ public class BoneNameQuiz : MonoBehaviour
     public OnboardingManager onboardingManager;
     public OVRScreenFade ovrScreenFade;
 
+
+    [Header("Language")]
+    public bool welshLanguage;
+    public bool demoMode;
+
     [Header("Celebration")]
     public ParticleSystem[] confetti;
     public AudioSource[] celebrateSFX;
 
     [Header("Quiz Canvas Elements")]
+    public GameObject quizBoardCanvas;
     public QuizButton[] quizButton;
     public Animator quizBoardAnimator;
     public AudioSource negativeTone, positiveTone;
     public TMP_Text quizQuestionTextMeshPro, quizScoreFeedbackTextMeshPro, introTextMeshPro;
     public TMP_Text[] quizAnswerTextMeshPro;
     public string answerSelected, correctAnswer;
+    public AudioSource quizActiveAudio;
+    public Animator quizActiveAni;
+    //public Vector3 quizBoardOrigin, quizBoardQuizActive;
 
     [Header("Quiz Logic")]
     public GameObject[] allBones;
@@ -49,6 +58,8 @@ public class BoneNameQuiz : MonoBehaviour
     {
         SetAllBonesList();
         maxScore = allBones.Length;
+        //quizBoardOrigin = quizBoardCanvas.transform.position;
+        //quizBoardQuizActive = new Vector3(0f,1.5f,2f);
 
     }
 
@@ -69,20 +80,29 @@ public class BoneNameQuiz : MonoBehaviour
                 IncorrectAnswer();
             }
         }
-
     }
 
     public void CorrectAnswer()
     {
         if (!timeRunOut)
         {
+            quizActiveAudio.Stop();
+            quizActiveAni.Play("Normal");
             currentQuizScore++;
             positiveTone.Play();
             quizBoardAnimator.Play("CorrectAnswer");
             scorePercent = currentQuizScore / runningMaxScore * 100;
             var scorePercentRounded = System.Math.Round(scorePercent, 1);
-            quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer. \n \n Find and add the next bone in the sequence.";
-            quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+            if (welshLanguage)
+            {
+                quizQuestionTextMeshPro.text = "Gwych, " + correctAnswer + " yw’r ateb cywir. \n \n Darganfyddwch ac ychwanegwch yr asgwrn nesaf yn y dilyniant.";
+                quizScoreFeedbackTextMeshPro.text = "Eich sgȏr ar hyn o bryd yw " + scorePercentRounded + "%.";
+            }
+            else
+            {
+                quizQuestionTextMeshPro.text = "Excellent, " + correctAnswer + " is the correct answer. \n \n Find and add the next bone in the sequence.";
+                quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+            }
             quizAvailable = false;
             for (int i = 0; i < quizButton.Length; i++)
             {
@@ -101,12 +121,22 @@ public class BoneNameQuiz : MonoBehaviour
     {
         if (!timeRunOut)
         {
+            quizActiveAudio.Stop();
+            quizActiveAni.Play("Normal");
             negativeTone.Play();
             quizBoardAnimator.Play("IncorrectAnswer");
             scorePercent = currentQuizScore / runningMaxScore * 100;
             var scorePercentRounded = System.Math.Round(scorePercent, 1);
-            quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
-            quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+            if (welshLanguage)
+            {
+                quizQuestionTextMeshPro.text = "Yn anffodus, nid dyna’r ateb cywir. Yr ateb cywir yw " + correctAnswer + ".";
+                quizScoreFeedbackTextMeshPro.text = "Eich sgȏr ar hyn o bryd yw " + scorePercentRounded + "%.";
+            }
+            else
+            {
+                quizQuestionTextMeshPro.text = "Unfortunately, that is not the right answer. The correct answer was " + correctAnswer + ".";
+                quizScoreFeedbackTextMeshPro.text = "Your current score is " + scorePercentRounded + "%.";
+            }
             quizAvailable = false;
             for (int i = 0; i < quizButton.Length; i++)
             {
@@ -126,7 +156,16 @@ public class BoneNameQuiz : MonoBehaviour
         {
             timer.StartTimer();
             introTextMeshPro.text = "";
-            quizQuestionTextMeshPro.text = "Select the correct bone name from the options below.";
+            if (welshLanguage)
+            {
+                quizQuestionTextMeshPro.text = "Dewiswch yr enw asgwrn cywir o'r opsiynau isod.";
+            }
+            else
+            {
+                quizQuestionTextMeshPro.text = "Select the correct bone name from the options below.";
+            }
+            quizActiveAudio.PlayDelayed(0.75f);
+            quizActiveAni.Play("QuizActive");
             quizAvailable = true;
             SetAllBonesList();
             ResetQuizEntries();
@@ -159,7 +198,6 @@ public class BoneNameQuiz : MonoBehaviour
                 quizButton[i].FadeIn();
             }
         }
-
     }
 
     public static void GenerateQuizAnswers()
@@ -218,9 +256,18 @@ public class BoneNameQuiz : MonoBehaviour
     {
         scorePercent = currentQuizScore / maxScore * 100;
         var scorePercentRounded = System.Math.Round(scorePercent, 1);
+        if (welshLanguage)
+        {
+            quizQuestionTextMeshPro.text = "Da iawn, eich sgȏr yw " + scorePercentRounded + " %!!";
+            quizScoreFeedbackTextMeshPro.text = "Fe wnaethoch chi gyflawni " + currentQuizScore + " allan o " + maxScore + " correct.";
 
-        quizQuestionTextMeshPro.text = "Well done, overall you scored " + scorePercentRounded + " %!!";
-        quizScoreFeedbackTextMeshPro.text = "Well done, you got " + currentQuizScore + " out of " + maxScore + " correct.";
+        }
+        else
+        {
+            quizQuestionTextMeshPro.text = "Well done, overall you scored " + scorePercentRounded + " %!!";
+            quizScoreFeedbackTextMeshPro.text = "Well done, you got " + currentQuizScore + " out of " + maxScore + " correct.";
+
+        }
 
         for (int i = 0; i < celebrateSFX.Length; i++)
         {
@@ -268,7 +315,13 @@ public class BoneNameQuiz : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        SceneManager.LoadScene("SportScienceMuscleLearning_EnglishVersion");
-
+        if (demoMode)
+        {
+            SceneManager.LoadScene("Urdd_LanguageSelect");
+        }
+        else
+        {
+            SceneManager.LoadScene("SportScienceMuscleLearning_EnglishVersion");
+        }
     }
 }

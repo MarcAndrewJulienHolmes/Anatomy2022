@@ -13,13 +13,19 @@ public class LanguageSelect : MonoBehaviour
     public bool activate, coroutineRunning;
 
 
-    // Update is called once per frame
-    void Update()
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (activate == true && !coroutineRunning)
+    //    {
+    //        StartCoroutine(SceneChange());
+    //    }
+    //}
+
+
+    public void GoToDemo()
     {
-        if (activate == true && !coroutineRunning)
-        {
-            StartCoroutine(SceneChange());
-        }
+        StartCoroutine(SceneChange());
     }
 
     public IEnumerator SceneChange()
